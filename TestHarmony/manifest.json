@@ -1,0 +1,10 @@
+{
+  "Name": "TestHarmony",
+  "Author": "Phrasefable",
+  "Version": "0.0.1",
+  "Description": "Testing Harmony Stuff",
+  "UniqueID": "Phrasefable.TestHarmony",
+  "EntryDll": "TestHarmony.dll",
+  "MinimumApiVersion": "2.10.0",
+  "UpdateKeys": []
+}

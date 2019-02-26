@@ -1,0 +1,10 @@
+{
+  "Name": "Aggressive Acorns",
+  "Author": "Phrasefable",
+  "Version": "0.0.1",
+  "Description": "Tree seeds will override grass, and are not cut by the scythe.",
+  "UniqueID": "Phrasefable.AggressiveAcorns",
+  "EntryDll": "AggressiveAcorns.dll",
+  "MinimumApiVersion": "2.10.0",
+  "UpdateKeys": []
+}
