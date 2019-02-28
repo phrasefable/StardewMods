@@ -46,6 +46,7 @@
         <Compile Include="HarmonyPatch.cs" />
         <Compile Include="ModConfig.cs" />
         <Compile Include="Patch_Tree_DayUpdate.cs" />
+        <Compile Include="Patch_Tree_IsPassible.cs" />
         <Compile Include="Patch_Tree_PerformToolAction.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

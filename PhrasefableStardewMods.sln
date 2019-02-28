@@ -17,6 +17,5 @@ Global
 		{26C2F3E9-6F56-4F8A-896B-A5FD78911CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26C2F3E9-6F56-4F8A-896B-A5FD78911CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26C2F3E9-6F56-4F8A-896B-A5FD78911CE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26C2F3E9-6F56-4F8A-896B-A5FD78911CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

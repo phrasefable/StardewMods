@@ -30,6 +30,11 @@ namespace AggressiveAcorns
             {
                 _patches.Add(new Patch_Tree_PerformToolAction());
             }
+
+            if (_config.iMaxPassibleGrowthStage != 0)
+            {
+                _patches.Add(new Patch_Tree_IsPassible(_config.iMaxPassibleGrowthStage));
+            }
         }
 
         private void ApplyPatches(HarmonyInstance harmony)
