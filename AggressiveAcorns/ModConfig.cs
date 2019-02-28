@@ -1,6 +1,6 @@
 namespace AggressiveAcorns
 {
-    internal interface IModConfig
+    public interface IModConfig
     {
         bool bPreventScythe { get; }
 
@@ -23,6 +23,12 @@ namespace AggressiveAcorns
         bool bDoTappedSpread { get; }
 
         bool bDoMushroomTreesHibernate { get; }
+        
+        bool bDoMushroomTreesRegrow { get; }
+        
+        double fDailySeedChance { get; }
+        
+        double fDailySpreadChance { get; }
     }
 
     public class ModConfig : IModConfig
@@ -33,7 +39,7 @@ namespace AggressiveAcorns
 
         public int iMaxShadedGrowthStage { get; set; } = 4;
 
-        public int iMaxPassibleGrowthStage { get; set; } = 1;
+        public int iMaxPassibleGrowthStage { get; set; } = 0;
 
         public bool bDoGrowInWinter { get; set; } = false;
 
@@ -48,5 +54,11 @@ namespace AggressiveAcorns
         public bool bDoTappedSpread { get; set; } = true;
 
         public bool bDoMushroomTreesHibernate { get; set; } = true;
+
+        public bool bDoMushroomTreesRegrow { get; set; } = true;
+
+        public double fDailySeedChance { get; set; } = 0.05;
+
+        public double fDailySpreadChance { get; set; } = 0.15;
     }
 }
