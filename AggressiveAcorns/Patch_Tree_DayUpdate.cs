@@ -13,7 +13,7 @@ namespace AggressiveAcorns
 {
     public class Patch_Tree_DayUpdate : PrefixPatch
     {
-        private static IModConfig _config;
+        private static ModConfig _config;
 
         protected override Type TargetType => typeof(Tree);
 
@@ -25,7 +25,7 @@ namespace AggressiveAcorns
             typeof(Vector2)
         };
 
-        public Patch_Tree_DayUpdate(IModConfig config)
+        public Patch_Tree_DayUpdate(ModConfig config)
         {
             _config = config;
         }
@@ -62,15 +62,15 @@ namespace AggressiveAcorns
         private static void TryIncreaseStage(Tree tree, GameLocation environment, Vector2 tile)
         {
             if (tree.growthStage.Value >= Tree.treeStage ||
-                (tree.growthStage.Value >= _config.iMaxShadedGrowthStage && IsShaded(environment, tile)) ||
-                (tree.treeType.Value == Tree.mushroomTree && _config.bDoMushroomTreesHibernate) ||
+                (tree.growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded(environment, tile)) ||
+                (tree.treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate) ||
                 !IsGrowthSeason(environment)) return;
 
-            if (_config.bDoGrowInstantly)
+            if (_config.DoGrowInstantly)
             {
                 tree.growthStage.Value = Tree.treeStage;
             }
-            else if (Game1.random.NextDouble() < _config.fDailyGrowthChance)
+            else if (Game1.random.NextDouble() < _config.DailyGrowthChance)
             {
                 tree.growthStage.Value += 1;
             }
@@ -82,7 +82,7 @@ namespace AggressiveAcorns
             if (tree.treeType.Value != Tree.mushroomTree) return;
 
             var isWinter = Game1.currentSeason.Equals("winter");
-            if (_config.bDoMushroomTreesHibernate)
+            if (_config.DoMushroomTreesHibernate)
             {
                 if (isWinter)
                 {
@@ -95,8 +95,8 @@ namespace AggressiveAcorns
                 }
             }
 
-            if (_config.bDoMushroomTreesRegrow && !isWinter && tree.stump.Value &&
-                (_config.bDoGrowInstantly || Game1.random.NextDouble() < _config.fDailyGrowthChance / 2))
+            if (_config.DoMushroomTreesRegrow && !isWinter && tree.stump.Value &&
+                (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyGrowthChance / 2))
             {
                 tree.stump.Value = false;
                 tree.health.Value = Tree.startingHealth;
@@ -107,15 +107,15 @@ namespace AggressiveAcorns
         {
             if (!(environment is Farm) ||
                 tree.growthStage.Value >= Tree.treeStage ||
-                (Game1.currentSeason.Equals("winter") && !_config.bDoSpreadInWinter) ||
-                (tree.tapped.Value && !_config.bDoTappedSpread) ||
+                (Game1.currentSeason.Equals("winter") && !_config.DoSpreadInWinter) ||
+                (tree.tapped.Value && !_config.DoTappedSpread) ||
                 tree.stump.Value) return;
 
             foreach (var seedPos in GetSpreadLocation(tile))
             {
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
-                if (_config.bSeedsReplaceGrass && environment.terrainFeatures.TryGetValue(seedPos, out var feature) &&
+                if (_config.SeedsReplaceGrass && environment.terrainFeatures.TryGetValue(seedPos, out var feature) &&
                     feature is Grass)
                 {
                     environment.terrainFeatures[seedPos] = new Tree(tree.treeType.Value, 0);
@@ -136,7 +136,7 @@ namespace AggressiveAcorns
         {
 //            return Utility.getSurroundingTileLocationsArray(tile);
             // pick random tile within +-3 x/y.
-            if (Game1.random.NextDouble() < _config.fDailySpreadChance)
+            if (Game1.random.NextDouble() < _config.DailySpreadChance)
             {
                 var tileX = Game1.random.Next(-3, 4) + (int) tile.X;
                 var tileY = Game1.random.Next(-3, 4) + (int) tile.Y;
@@ -149,12 +149,12 @@ namespace AggressiveAcorns
         {
             if (tree.growthStage.Value < Tree.treeStage || tree.stump.Value) return;
 
-            if (!_config.bDoSeedsPersist)
+            if (!_config.DoSeedsPersist)
             {
                 tree.hasSeed.Value = false;
             }
 
-            if (Game1.random.NextDouble() < _config.fDailySeedChance)
+            if (Game1.random.NextDouble() < _config.DailySeedChance)
             {
                 tree.hasSeed.Value = true;
             }
@@ -177,7 +177,7 @@ namespace AggressiveAcorns
         {
             return
                 !Game1.currentSeason.Equals("winter")
-                || _config.bDoGrowInWinter
+                || _config.DoGrowInWinter
                 // Covers greenhouse
                 || !environment.IsOutdoors
                 // If palm trees elsewhere (mod?), they will follow normal tree rules.
@@ -192,7 +192,7 @@ namespace AggressiveAcorns
             {
                 if (environment.terrainFeatures.ContainsKey(adjacentTile)
                     && environment.terrainFeatures[adjacentTile] is Tree adjTree
-                    && adjTree.growthStage.Value > _config.iMaxShadedGrowthStage)
+                    && adjTree.growthStage.Value > _config.MaxShadedGrowthStage)
                 {
                     return true;
                 }

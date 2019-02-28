@@ -6,7 +6,7 @@ namespace AggressiveAcorns
 {
     public class AggressiveAcorns : PatchingMod
     {
-        private IModConfig _config;
+        private ModConfig _config;
 
         public override void Entry(IModHelper helper)
         {
@@ -19,14 +19,14 @@ namespace AggressiveAcorns
             var patches = new List<IHarmonyPatch>();
 
             patches.Add(new Patch_Tree_DayUpdate(_config));
-            if (_config.bPreventScythe)
+            if (_config.PreventScythe)
             {
                 patches.Add(new Patch_Tree_PerformToolAction());
             }
 
-            if (_config.iMaxPassibleGrowthStage != 0)
+            if (_config.MaxPassibleGrowthStage != 0)
             {
-                patches.Add(new Patch_Tree_IsPassible(_config.iMaxPassibleGrowthStage));
+                patches.Add(new Patch_Tree_IsPassible(_config.MaxPassibleGrowthStage));
             }
 
             return patches;
