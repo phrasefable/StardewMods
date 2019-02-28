@@ -43,7 +43,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AggressiveAcorns.cs" />
-        <Compile Include="HarmonyPatch.cs" />
         <Compile Include="ModConfig.cs" />
         <Compile Include="Patch_Tree_DayUpdate.cs" />
         <Compile Include="Patch_Tree_IsPassible.cs" />
@@ -58,6 +57,12 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="manifest.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\PhraseLib\PhraseLib.csproj">
+            <Project>{1eebf25b-ce6d-4388-ba95-9a54426b9d93}</Project>
+            <Name>PhraseLib</Name>
+        </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="..\packages\Pathoschild.Stardew.ModBuildConfig.2.2.0\build\Pathoschild.Stardew.ModBuildConfig.targets" Condition="Exists('..\packages\Pathoschild.Stardew.ModBuildConfig.2.2.0\build\Pathoschild.Stardew.ModBuildConfig.targets')" />

@@ -1,6 +1,7 @@
 using System;
 using Harmony;
 using Microsoft.Xna.Framework;
+using PhraseLib;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;

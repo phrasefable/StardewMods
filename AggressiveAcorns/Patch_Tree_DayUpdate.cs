@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Harmony;
 using Microsoft.Xna.Framework;
 using Netcode;
+using PhraseLib;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;

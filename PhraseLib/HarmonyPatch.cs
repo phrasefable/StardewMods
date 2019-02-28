@@ -3,16 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Harmony;
 
-namespace AggressiveAcorns
+namespace PhraseLib
 {
-    
-    public interface IHarmonyPatch
-    {
-        void ApplyPatch(HarmonyInstance harmony);
-        bool IsValid(HarmonyInstance harmony, out string errors);
-    }
-    
-    
     public abstract class HarmonyPatch : IHarmonyPatch
     {
         public abstract void ApplyPatch(HarmonyInstance harmony);
@@ -34,35 +26,16 @@ namespace AggressiveAcorns
             overlaps = null;
             return true;
         }
-        
+
         protected abstract Type TargetType { get; }
-        
+
         protected abstract string TargetName { get; }
-        
+
         protected abstract Type[] TargetParameters { get; }
-        
+
         protected MethodInfo GetTargetMethod()
         {
             return TargetType.GetMethod(TargetName, TargetParameters);
-        }
-    }
-    
-
-    public abstract class PrefixPatch : HarmonyPatch
-    {
-
-        private const BindingFlags PatchBindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
-
-        protected abstract string PatchMethod { get; }
-
-        public sealed override void ApplyPatch(HarmonyInstance harmony)
-        {
-            harmony.Patch(GetTargetMethod(), GetPatch());
-        }
-        
-        private HarmonyMethod GetPatch()
-        {
-            return new HarmonyMethod(GetType().GetMethod(PatchMethod, PatchBindingFlags));
         }
     }
 }
