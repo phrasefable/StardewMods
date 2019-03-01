@@ -13,7 +13,7 @@ namespace AggressiveAcorns
 {
     public class Patch_Tree_DayUpdate : PrefixPatch
     {
-        private static ModConfig _config;
+        private static IModConfig _config;
 
         protected override Type TargetType => typeof(Tree);
 
@@ -25,7 +25,7 @@ namespace AggressiveAcorns
             typeof(Vector2)
         };
 
-        public Patch_Tree_DayUpdate(ModConfig config)
+        public Patch_Tree_DayUpdate(IModConfig config)
         {
             _config = config;
         }

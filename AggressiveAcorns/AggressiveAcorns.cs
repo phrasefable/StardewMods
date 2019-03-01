@@ -6,7 +6,7 @@ namespace AggressiveAcorns
 {
     public class AggressiveAcorns : PatchingMod
     {
-        private ModConfig _config;
+        private IModConfig _config;
 
         public override void Entry(IModHelper helper)
         {

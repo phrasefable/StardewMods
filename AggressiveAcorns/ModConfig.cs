@@ -1,33 +1,51 @@
 namespace AggressiveAcorns
 {
-    public class ModConfig
+    public interface IModConfig
     {
-        public bool PreventScythe { get; } = false;
+        bool PreventScythe { get; }
+        bool SeedsReplaceGrass { get; }
+        int MaxShadedGrowthStage { get; }
+        int MaxPassibleGrowthStage { get; }
+        double DailyGrowthChance { get; }
+        bool DoGrowInWinter { get; }
+        double DailySpreadChance { get; }
+        bool DoTappedSpread { get; }
+        bool DoSpreadInWinter { get; }
+        bool DoGrowInstantly { get; }
+        bool DoSeedsPersist { get; }
+        double DailySeedChance { get; }
+        bool DoMushroomTreesHibernate { get; }
+        bool DoMushroomTreesRegrow { get; }
+    }
 
-        public bool SeedsReplaceGrass { get; } = false;
+    public class ModConfig : IModConfig
+    {
+        public bool PreventScythe { get; set; } = false;
 
-        public int MaxShadedGrowthStage { get; } = 4;
+        public bool SeedsReplaceGrass { get; set; } = false;
 
-        public int MaxPassibleGrowthStage { get; } = 0;
+        public int MaxShadedGrowthStage { get; set; } = 4;
 
-        public double DailyGrowthChance { get; } = 0.20;
+        public int MaxPassibleGrowthStage { get; set; } = 0;
 
-        public bool DoGrowInWinter { get; } = false;
+        public double DailyGrowthChance { get; set; } = 0.20;
 
-        public double DailySpreadChance { get; } = 0.15;
+        public bool DoGrowInWinter { get; set; } = false;
 
-        public bool DoTappedSpread { get; } = true;
+        public double DailySpreadChance { get; set; } = 0.15;
 
-        public bool DoSpreadInWinter { get; } = true;
+        public bool DoTappedSpread { get; set; } = true;
 
-        public bool DoGrowInstantly { get; } = false;
+        public bool DoSpreadInWinter { get; set; } = true;
 
-        public bool DoSeedsPersist { get; } = false;
+        public bool DoGrowInstantly { get; set; } = false;
 
-        public double DailySeedChance { get; } = 0.05;
+        public bool DoSeedsPersist { get; set; } = false;
 
-        public bool DoMushroomTreesHibernate { get; } = true;
+        public double DailySeedChance { get; set; } = 0.05;
 
-        public bool DoMushroomTreesRegrow { get; } = false;
+        public bool DoMushroomTreesHibernate { get; set; } = true;
+
+        public bool DoMushroomTreesRegrow { get; set; } = false;
     }
 }
