@@ -57,6 +57,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="manifest.json" />
+        <Content Include="README.md"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\PhraseLib\PhraseLib.csproj">
