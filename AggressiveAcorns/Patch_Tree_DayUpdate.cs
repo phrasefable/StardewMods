@@ -111,7 +111,7 @@ namespace AggressiveAcorns
                 (tree.tapped.Value && !_config.DoTappedSpread) ||
                 tree.stump.Value) return;
 
-            foreach (var seedPos in GetSpreadLocation(tile))
+            foreach (var seedPos in GetSpreadLocations(tile))
             {
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
@@ -122,7 +122,7 @@ namespace AggressiveAcorns
                     tree.hasSeed.Value = false;
                 }
                 else if (environment.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
-                         && !environment.isTileOccupied(seedPos, "")
+                         && !environment.isTileOccupied(seedPos)
                          && environment.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
                          && environment.isTileOnMap(seedPos))
                 {
@@ -132,7 +132,7 @@ namespace AggressiveAcorns
             }
         }
 
-        private static IEnumerable<Vector2> GetSpreadLocation(Vector2 tile)
+        private static IEnumerable<Vector2> GetSpreadLocations(Vector2 tile)
         {
 //            return Utility.getSurroundingTileLocationsArray(tile);
             // pick random tile within +-3 x/y.
@@ -192,7 +192,7 @@ namespace AggressiveAcorns
             {
                 if (environment.terrainFeatures.ContainsKey(adjacentTile)
                     && environment.terrainFeatures[adjacentTile] is Tree adjTree
-                    && adjTree.growthStage.Value > _config.MaxShadedGrowthStage)
+                    && adjTree.growthStage.Value >= Tree.treeStage)
                 {
                     return true;
                 }
