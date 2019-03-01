@@ -50,7 +50,8 @@ namespace AggressiveAcorns
                 if (treeCanGrow)
                 {
                     TryIncreaseStage(__instance, environment, tileLocation);
-                    ManageHibernation(__instance, environment, tileLocation);
+                    ManageHibernation(__instance, environment);
+                    TryRegrow(__instance, environment);
                     TrySpread(__instance, environment, tileLocation);
                     PopulateSeed(__instance);
                 }
@@ -64,7 +65,7 @@ namespace AggressiveAcorns
             if (tree.growthStage.Value >= Tree.treeStage ||
                 (tree.growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded(environment, tile)) ||
                 (tree.treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate) ||
-                !IsGrowthSeason(environment)) return;
+                (!_config.DoGrowInWinter && CountsAsWinter(environment))) return;
 
             if (_config.DoGrowInstantly)
             {
@@ -76,15 +77,14 @@ namespace AggressiveAcorns
             }
         }
 
-        private static void ManageHibernation(Tree tree, GameLocation environment, Vector2 tile)
+        private static void ManageHibernation(Tree tree, GameLocation environment)
         {
-            // rn, only mushroom trees will hibernate
-            if (tree.treeType.Value != Tree.mushroomTree) return;
+            // only mushroom trees will hibernate and iff it gets cold enough
+            if (tree.treeType.Value != Tree.mushroomTree || !ExperiencesWinter(environment)) return;
 
-            var isWinter = Game1.currentSeason.Equals("winter");
             if (_config.DoMushroomTreesHibernate)
             {
-                if (isWinter)
+                if (Game1.currentSeason.Equals("winter"))
                 {
                     tree.stump.Value = true;
                 }
@@ -94,13 +94,19 @@ namespace AggressiveAcorns
                     tree.health.Value = Tree.startingHealth;
                 }
             }
+        }
 
-            if (_config.DoMushroomTreesRegrow && !isWinter && tree.stump.Value &&
-                (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyGrowthChance / 2))
-            {
-                tree.stump.Value = false;
-                tree.health.Value = Tree.startingHealth;
-            }
+        private static void TryRegrow(Tree tree, GameLocation environment)
+        {
+            if (tree.treeType.Value != Tree.mushroomTree ||
+                !_config.DoMushroomTreesRegrow ||
+                !tree.stump.Value ||
+                (CountsAsWinter(environment) && (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) ||
+                (!_config.DoGrowInstantly && Game1.random.NextDouble() >= _config.DailyGrowthChance / 2)) return;
+
+
+            tree.stump.Value = false;
+            tree.health.Value = Tree.startingHealth;
         }
 
         private static void TrySpread(Tree tree, GameLocation environment, Vector2 tile)
@@ -173,16 +179,14 @@ namespace AggressiveAcorns
             return str == null || !(str.Equals("All") || str.Equals("Tree") || str.Equals("True"));
         }
 
-        private static bool IsGrowthSeason(GameLocation environment)
+        private static bool CountsAsWinter(GameLocation environment)
         {
-            return
-                !Game1.currentSeason.Equals("winter")
-                || _config.DoGrowInWinter
-                // Covers greenhouse
-                || !environment.IsOutdoors
-                // If palm trees elsewhere (mod?), they will follow normal tree rules.
-                // If normal trees in desert (hoe), they will grow through winter.
-                || environment is Desert;
+            return Game1.currentSeason.Equals("winter") && ExperiencesWinter(environment);
+        }
+
+        private static bool ExperiencesWinter(GameLocation environment)
+        {
+            return environment.IsOutdoors && !(environment is Desert);
         }
 
         private static bool IsShaded(GameLocation environment, Vector2 tile)
