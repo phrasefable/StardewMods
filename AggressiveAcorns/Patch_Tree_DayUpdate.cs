@@ -191,12 +191,12 @@ namespace AggressiveAcorns
 
         private static bool IsShaded(GameLocation environment, Vector2 tile)
         {
-            var surrounds = Utility.getSurroundingTileLocationsArray(tile);
-            foreach (var adjacentTile in surrounds)
+            foreach (var adjacentTile in Utility.getSurroundingTileLocationsArray(tile))
             {
-                if (environment.terrainFeatures.ContainsKey(adjacentTile)
-                    && environment.terrainFeatures[adjacentTile] is Tree adjTree
-                    && adjTree.growthStage.Value >= Tree.treeStage)
+                if (environment.terrainFeatures.TryGetValue(adjacentTile, out var feature)
+                    && feature is Tree adjTree
+                    && adjTree.growthStage.Value >= Tree.treeStage
+                    && !adjTree.stump.Value)
                 {
                     return true;
                 }
