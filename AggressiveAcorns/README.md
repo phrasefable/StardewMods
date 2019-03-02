@@ -3,8 +3,10 @@
 __Aggressive Acorns__ allow high customisation of tree behavior.
 The main features are to allow spreading trees to replace long grass, and to prevent immature trees from being destroyed with the scythe and other melee weapons.
 
+Also fixes some of vanilla's "alternate features" such as stumps shading adjacent saplings, stumps spreading seeds, and mushroom stumps turning into sideways trees come Spring 1st if you cut them down since loading the save.
+
 ## Installation
-Compatible with version 1.3.33 of Stardew Valley.
+Compatible with version 1.3.36 of Stardew Valley.
 
 For the latest compatibility information visit https://smapi.io/compat#aggressive_acorns
 
@@ -14,38 +16,44 @@ For the latest compatibility information visit https://smapi.io/compat#aggressiv
 4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
 
 ## Features
-All configurable features default to vanilla options. Be sure to enable them if you want them.
+Features are classified as either:
+* :icecream: adding configuration to an existing vanilla value (like 'chance' or 'stage')
+* :seedling: configurable new feature
+* :lock: unconfigurable new feature or change (mainly smaller or fixes)
 
-#### Prevent destruction with melee tools (optional).
-* **Immature trees will no longer be destroyed by the scythe** or melee weapons. This is great for when you are growing hay in your timber plantation.
+Set probability-based features to zero to disable them.
 
+#### General
+* :seedling: **Immature trees will no longer be destroyed by the scythe** or melee weapons. This is great for when you are growing hay in your timber plantation.
+* :lock: **Winter has no effect on trees in the desert or indoors.** This is changed from vanilla, where winter had no effect in the greenhouse or on palm trees. This means that palm trees can be effected by winter outside the desert, all trees will escape the winter in the desert, and mushroom trees will never hibernate indoors or in the desert.
+* :icecream: In vanilla, only seeds can be walked over. This can be configured to any stage of tree, but has graphical errors in-game.
 
+#### Held (Shakeable) Seeds
+*  :icecream: As per vanilla, trees can hold a seed each day, but the chance is now configurable.
+* :seedling: The seed is kept from one day to the next if unused.
 
-#### Seeds
-* As in vanilla, each day, every tree on the farm has a certain chance to (try to) place a seed around it. (If the chosen location is invalid there is no second chance.)
-* Stumps (and therefore hibernating mushroom trees) no longer do this.
-* Seed spread uses the held seed (from if the tree wasn't shaken), but *does not require one*.
-* :wrench: If a tree wasn't shaken, it looses its held seed overnight anyway (vanilla behaviour). Can retain them (OP).
-* :wrench: The chance for a tree to hold (gain) a shakeable seed is configurable.
-* :wrench: Daily spread chance is configurable. (Set this to `0` to disable spread)
-* :wrench: **Seeds can replace long grass** (doesn't effect manually planting tree seeds).
-* :wrench: Spread can be disabled during winter.
-* :wrench: Spread can be disabled for tapped trees.
+#### Spread via Seeds
+* :icecream: As in vanilla, each day, every tree on the farm has a certain chance to *try to* place a seed around it. (If the seed can't be placed on the first attempt there is no second chance). The chance is now configurable.
+* :lock: Spreading now consumes, *but does not require*, a held seed.
+* :lock: **Stumps (and therefore hibernating mushroom trees) no longer spread.**
+* :seedling: **Seeds will replace long grass** (the kind that gives hay) (no effect when planting manually).
+* :seedling: Spread can be disabled during winter.
+* :seedling: **Spread can be disabled for tapped trees.** Useful in keeping your sap plantations tidy.
 
 #### Growth
-* By default, growth follows vanilla settings.
-* :wrench: The daily growth chance is configurable.
-* :wrench: By default, tree growth stops during winter. Trees indoors and in the desert will always grow year round (unlike vanilla, where it is only palm trees and the greenhouse. This means palm trees won't grow in winter outside the desert or indoors. This also means that normal trees in the desert will grow during winter). There is an option to allow year round growth for all trees.
-* :wrench: Immature trees in the shade of mature trees will not grow into trees (vanilla). The highest stage of growth for shaded trees is configurable. By setting the cap to mature, trees will grow fully right next to each other, but it may look bad.
-* :wrench: There is an option to allow immature trees (of any stage) to mature instantly.
-* :wrench: By default, only seeds can be walked over. This can be configured to any stage of tree, but has graphical errors in-game.
+* :icecream: Each day tree has a chance to grow one stage. The daily growth chance is configurable.
+* :icecream: The highest stage that immature trees will grow when next to a mature one is now configurable. I do not recommend using higher than the vanilla setting of 4.
+* :lock: Stumps no longer count towards preventing the growth of adjacent trees.
+* :seedling: Tree growth during winter can be enabled. See above for the changed rules of where winter applies at all.
+* :seedling: Instant tree growth can be enabled.
 
 #### Mushroom Trees
 
-* :wrench: The vanilla hibernation of mushroom trees can be disabled. This also disables the regeneration of mushroom stumps on Spring 1st.
-* While hibernating, growth and spread do not occur.
-* Even if hibernation is disabled, mushroom trees still respect the normal winter growth rules (ie. won't grow/spread in winter unless they are enabled).
-* :wrench: **Mushroom stumps can have a chance to regrow each day**. When enabled, it is half the normal growth chance, or always if instant growth is enabled. It will not occur during hibernation or when normal growth would not occur.
+* :seedling: The vanilla hibernation of mushroom trees can be disabled. This also disables the regeneration of mushroom stumps on Spring 1st.
+* :wrench: **Mushroom stumps can have a chance to regrow each day**. When enabled, it is half the normal growth chance. It will not occur when normal growth would not occur (ie. hibernation).
+* While hibernating, growth and spread do not occur. Even if hibernation is disabled, mushroom trees still respect the normal winter growth rules (ie. won't grow/spread in winter unless they are enabled).
+* Mushroom stumps will always respect the setting for max shaded growth, whether regrowing from hibernation on Spring 1st or using the daily regrowth feature. This means that if a normal tree grows next to a hibernating stump, it would block the regrowth on Spring 1st.
+* In vanilla, there is an error if a mushroom tree is chopped down, then regrows on Spring 1st, without exiting/reopening the save. The (non-serialized) rotation value is not reset after the falling animation, so the top of the tree reappears fallen over. This has been fixed.
 
 ## Configuration
 
@@ -53,18 +61,18 @@ All configurable features default to vanilla options. Be sure to enable them if 
 | -------- | -------- | ------- | --------------- |
 |`PreventScythe`| boolean (`true`, `false`) | `false` | Whether immature trees are destroyed by melee weapons. |
 |`SeedsReplaceGrass`| boolean | `false` | Whether trees are able to replace long grass when they spread by dropping seeds. |
-|`MaxShadedGrowthStage`| integer (`0` - `4`)| `4` | The highest stage of growth for trees next to any mature tree. |
+|`MaxShadedGrowthStage`| integer (`0` - `4`)| `4` | The highest stage of growth for trees next to any mature tree. Also effect the regrowth of stumps. |
 |`MaxPassibleGrowthStage`| integer (`0` - `4`) | `0` | The highest stage of growth without collision. **Visually broken**|
 |`DailyGrowthChance`| float (`0.0` - `1.0`) | `0.20` | Daily chance for a tree to mature by one stage. |
 |`DoGrowInWinter`| boolean | `false` | Whether trees grow normally in winter. |
-|`DailySpreadChance`| float (`0.0` - `1.0`) | `0.15` | Daily chance (to attempt) to plant a seed nearby. (Does not try again if the position is invalid.) |
-|`DoTappedSpread`| boolean | `true` | Whether tapped trees will spread by dropping seeds. |
-|`DoSpreadInWinter`| boolean | `true` | Whether trees will spread through dropping seeds in winter |
+|`DailySpreadChance`| float (`0.0` - `1.0`) | `0.15` | Daily chance to plant a seed nearby. |
+|`DoTappedSpread`| boolean | `true` | Whether tapped trees will spread. |
+|`DoSpreadInWinter`| boolean | `true` | Whether trees will spread in winter |
 |`DoGrowInstantly`| boolean | `false` | Whether immature trees (of any stage) grow to full maturity overnight. |
-|`DoSeedsPersist`| boolean | `false` | Whether a tree keeps its seed if not shaken. |
-|`DailySeedChance`| float (`0.0` - `1.0`) | `0.15` | Daily chance for a tree to gain a seed. (Does not effect spread chance.) |
-|`DoMushroomTreesHibernate`| boolean | `true` | Whether mushroom trees will hibernate over winter. Hibernation also prevents growth of immature trees and mature ones from spreading. |
-|`DoMushroomTreesRegrow`| boolean | `false` | Whether mushroom tree stumps will regrow if not hibernating. Daily regrow chance is half the daily growth chance. |
+|`DoSeedsPersist`| boolean | `false` | Whether a tree keeps its seed if not shaken the previous day. |
+|`DailySeedChance`| float (`0.0` - `1.0`) | `0.15` | Daily chance for a tree to gain a seed. |
+|`DoMushroomTreesHibernate`| boolean | `true` | Whether mushroom trees will hibernate over winter. |
+|`DoMushroomTreesRegrow`| boolean | `false` | Whether mushroom tree stumps will regrow. Daily regrowth chance is half the daily growth chance. |
 
 #### Growth stages
 | **Index** | Description| **[Stage as per wiki](https://stardewvalleywiki.com/Trees#Maple_Tree)** |
@@ -95,3 +103,10 @@ All configurable features default to vanilla options. Be sure to enable them if 
   "DailySpreadChance": 0.15
 }
 ```
+
+## Future plans and features I'm considering:
+ * move fix for rotation value on restoration of fallen stump from current location in stump-restoring code to the falling animation code, so that it works if other mods try to regrow stumps.
+ * Fix graphical errors when walking over &gt; stage-0 trees.
+ * Mushrooms spread by root-like systems right? Maybe revert the stumps-spread-seeds fix but only for mushroom stumps?
+ * Do fruit trees shade normal trees? Should they?
+ * Make companion mod for fruit trees. Include random-er fruit tree growth.
