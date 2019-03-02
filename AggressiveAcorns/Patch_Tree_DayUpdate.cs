@@ -112,7 +112,7 @@ namespace AggressiveAcorns
         private static void TrySpread(Tree tree, GameLocation environment, Vector2 tile)
         {
             if (!(environment is Farm) ||
-                tree.growthStage.Value >= Tree.treeStage ||
+                tree.growthStage.Value < Tree.treeStage ||
                 (Game1.currentSeason.Equals("winter") && !_config.DoSpreadInWinter) ||
                 (tree.tapped.Value && !_config.DoTappedSpread) ||
                 tree.stump.Value) return;
@@ -140,7 +140,6 @@ namespace AggressiveAcorns
 
         private static IEnumerable<Vector2> GetSpreadLocations(Vector2 tile)
         {
-//            return Utility.getSurroundingTileLocationsArray(tile);
             // pick random tile within +-3 x/y.
             if (Game1.random.NextDouble() < _config.DailySpreadChance)
             {
