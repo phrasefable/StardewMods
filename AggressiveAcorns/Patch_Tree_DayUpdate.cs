@@ -38,7 +38,7 @@ namespace AggressiveAcorns
         }
 
         private static bool TreeDayUpdate(Tree __instance, GameLocation environment, Vector2 tileLocation,
-            NetBool ___destroy)
+            NetBool ___destroy, ref float ___shakeRotation)
         {
             if (__instance.health.Value <= -100)
             {
@@ -50,8 +50,8 @@ namespace AggressiveAcorns
                 if (treeCanGrow)
                 {
                     TryIncreaseStage(__instance, environment, tileLocation);
-                    ManageHibernation(__instance, environment);
-                    TryRegrow(__instance, environment);
+                    ManageHibernation(__instance, environment, tileLocation, ref ___shakeRotation);
+                    TryRegrow(__instance, environment, tileLocation, ref ___shakeRotation);
                     TrySpread(__instance, environment, tileLocation);
                     PopulateSeed(__instance);
                 }
@@ -77,7 +77,7 @@ namespace AggressiveAcorns
             }
         }
 
-        private static void ManageHibernation(Tree tree, GameLocation environment)
+        private static void ManageHibernation(Tree tree, GameLocation environment, Vector2 tile, ref float rotation)
         {
             // only mushroom trees will hibernate and iff it gets cold enough
             if (tree.treeType.Value != Tree.mushroomTree || !ExperiencesWinter(environment)) return;
@@ -87,26 +87,35 @@ namespace AggressiveAcorns
                 if (Game1.currentSeason.Equals("winter"))
                 {
                     tree.stump.Value = true;
+                    tree.health.Value = 5;
                 }
                 else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1)
                 {
-                    tree.stump.Value = false;
-                    tree.health.Value = Tree.startingHealth;
+                    RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
                 }
             }
         }
 
-        private static void TryRegrow(Tree tree, GameLocation environment)
+        private static void TryRegrow(Tree tree, GameLocation environment, Vector2 tile, ref float rotation)
         {
-            if (tree.treeType.Value != Tree.mushroomTree ||
-                !_config.DoMushroomTreesRegrow ||
-                !tree.stump.Value ||
-                (CountsAsWinter(environment) && (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) ||
-                (!_config.DoGrowInstantly && Game1.random.NextDouble() >= _config.DailyGrowthChance / 2)) return;
+            if (tree.treeType.Value == Tree.mushroomTree &&
+                _config.DoMushroomTreesRegrow &&
+                tree.stump.Value &&
+                (!CountsAsWinter(environment) || (!_config.DoMushroomTreesHibernate && _config.DoGrowInWinter)) &&
+                (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyGrowthChance / 2))
+            {
+                RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
+            }
+        }
 
+        private static void RegrowStumpIfNotShaded(Tree tree, GameLocation environment, Vector2 tile,
+            ref float rotation)
+        {
+            if (IsShaded(environment, tile)) return;
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
+            rotation = 0;
         }
 
         private static void TrySpread(Tree tree, GameLocation environment, Vector2 tile)
