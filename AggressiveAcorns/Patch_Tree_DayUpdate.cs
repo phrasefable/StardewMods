@@ -63,9 +63,12 @@ namespace AggressiveAcorns
         private static void TryIncreaseStage(Tree tree, GameLocation environment, Vector2 tile)
         {
             if (tree.growthStage.Value >= Tree.treeStage ||
-                (tree.growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded(environment, tile)) ||
-                (tree.treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate) ||
-                (!_config.DoGrowInWinter && CountsAsWinter(environment))) return;
+                (tree.growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded(environment, tile))) return;
+
+            if (CountsAsWinter(environment)
+                && (!_config.DoGrowInWinter ||
+                    (tree.treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate))
+            ) return;
 
             if (_config.DoGrowInstantly)
             {
