@@ -1,19 +1,31 @@
 # Aggressive Acorns
 
 __Aggressive Acorns__ allow high customisation of tree behavior.
-The main features are to allow spreading trees to replace long grass, and to prevent immature trees from being destroyed with the scythe and other melee weapons.
+The main features are that spreading trees can replace long grass, and that immature trees cannot be destroyed by melee weapons.
 
-Also fixes some of vanilla's "alternate features" such as stumps shading adjacent saplings, stumps spreading seeds, and mushroom stumps turning into sideways trees come Spring 1st if you cut them down since loading the save.
+Also fixes some of vanilla's oversights such as stumps shading adjacent saplings, stumps spreading seeds, and a graphical error that affects mushroom stumps that were cut then regrew within the same game session.
+
 
 ## Installation
 Compatible with version 1.3.36 of Stardew Valley.
 
-For the latest compatibility information visit https://smapi.io/compat#aggressive_acorns
+For the latest compatibility information visit https://smapi.io/compat
+
 
 1. Install [SMAPI](https://smapi.io/)
 2. Get this mod from Nexus Mods.
 3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
 4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
+
+#### Compatibility
+This mod completely re-writes the vanilla trees daily update function, so will likely conflict with other that make similar changes.
+
+To try to resolve a conflict you have several choices:
+* Disable the conflicting features in the other mod, relinquishing control over those features to Aggressive Acorns;
+* Or, disable them in Aggressive acorns and allow the other mod to control them;
+* Or, live with the conflict;
+* Or, chose only one of the mods;
+* Or, leave a post/message for me, detailing the conflict, and I may be able to solve it.
 
 ## Features
 Features are classified as either:
@@ -25,8 +37,8 @@ Set probability-based features to zero to disable them.
 
 #### General
 * :seedling: **Immature trees will no longer be destroyed by the scythe** or melee weapons. This is great for when you are growing hay in your timber plantation.
-* :lock: **Winter has no effect on trees in the desert or indoors.** This is changed from vanilla, where winter had no effect in the greenhouse or on palm trees. This means that palm trees can be effected by winter outside the desert, all trees will escape the winter in the desert, and mushroom trees will never hibernate indoors or in the desert.
-* :icecream: In vanilla, only seeds can be walked over. This can be configured to any stage of tree, but has graphical errors in-game.
+* :lock: **Winter has no effect on trees in the desert or indoors.** This is changed from vanilla, where winter had no effect in the greenhouse or on palm trees. This means that palm trees can be effected by winter outside the desert, that all trees will escape the winter in the desert, and that mushroom trees will never hibernate indoors or in the desert.
+* :icecream: In vanilla, the highest growth stage that can be walked over is seeds. While this can be changed, it has graphical errors in-game. I am working on a fix for these.
 
 #### Held (Shakeable) Seeds
 *  :icecream: As per vanilla, trees can hold a seed each day, but the chance is now configurable.
@@ -41,16 +53,16 @@ Set probability-based features to zero to disable them.
 * :seedling: **Spread can be disabled for tapped trees.** Useful in keeping your sap plantations tidy.
 
 #### Growth
-* :icecream: Each day tree has a chance to grow one stage. The daily growth chance is configurable.
-* :icecream: The highest stage that immature trees will grow when next to a mature one is now configurable. I do not recommend using higher than the vanilla setting of 4.
-* :lock: Stumps no longer count towards preventing the growth of adjacent trees.
+* :icecream: Each day immature trees have a chance to grow one stage. The daily growth chance is configurable.
+* :icecream: In vanilla, an immature tree will not grow fully if it is adjacent to a fully grown tree (is shaded). The maximum stage of a shaded tree is now configurable.
+* :lock: Stumps no longer shade adjacent trees.
 * :seedling: Tree growth during winter can be enabled. See above for the changed rules of where winter applies at all.
-* :seedling: Instant tree growth can be enabled.
+* :seedling: Instant growth can be enabled. Immature trees of any stage will mature overnight if they are able to grow (not hibernating, not shaded, not effected by winter).
 
 #### Mushroom Trees
 
 * :seedling: The vanilla hibernation of mushroom trees can be disabled. This also disables the regeneration of mushroom stumps on Spring 1st.
-* :wrench: **Mushroom stumps can have a chance to regrow each day**. When enabled, it is half the normal growth chance. It will not occur when normal growth would not occur (ie. hibernation).
+* :wrench: **Mushroom stumps can have a chance to regrow each day**. When enabled, it occurs at half the normal growth chance, or always if instant growth is enabled. It will not occur when normal growth would not occur (ie. hibernation).
 * While hibernating, growth and spread do not occur. Even if hibernation is disabled, mushroom trees still respect the normal winter growth rules (ie. won't grow/spread in winter unless they are enabled).
 * Mushroom stumps will always respect the setting for max shaded growth, whether regrowing from hibernation on Spring 1st or using the daily regrowth feature. This means that if a normal tree grows next to a hibernating stump, it would block the regrowth on Spring 1st.
 * In vanilla, there is an error if a mushroom tree is chopped down, then regrows on Spring 1st, without exiting/reopening the save. The (non-serialized) rotation value is not reset after the falling animation, so the top of the tree reappears fallen over. This has been fixed.
