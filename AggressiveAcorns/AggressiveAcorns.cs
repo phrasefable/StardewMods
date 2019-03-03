@@ -16,20 +16,16 @@ namespace AggressiveAcorns
 
         protected override IEnumerable<IHarmonyPatch> LoadPatches()
         {
-            var patches = new List<IHarmonyPatch>();
-
-            patches.Add(new Patch_Tree_DayUpdate(_config));
+            yield return new Patch_Tree_DayUpdate(_config);
             if (_config.PreventScythe)
             {
-                patches.Add(new Patch_Tree_PerformToolAction());
+                yield return new Patch_Tree_PerformToolAction();
             }
 
             if (_config.MaxPassibleGrowthStage != 0)
             {
-                patches.Add(new Patch_Tree_IsPassible(_config.MaxPassibleGrowthStage));
+                yield return new Patch_Tree_IsPassible(_config.MaxPassibleGrowthStage);
             }
-
-            return patches;
         }
     }
 }

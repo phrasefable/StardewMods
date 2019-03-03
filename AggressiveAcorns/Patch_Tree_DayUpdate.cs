@@ -46,8 +46,7 @@ namespace AggressiveAcorns
             }
             else
             {
-                var treeCanGrow = TreeCanGrow(__instance, environment, tileLocation);
-                if (treeCanGrow)
+                if (TreeCanGrow(__instance, environment, tileLocation))
                 {
                     TryIncreaseStage(__instance, environment, tileLocation);
                     ManageHibernation(__instance, environment, tileLocation, ref ___shakeRotation);
@@ -82,20 +81,18 @@ namespace AggressiveAcorns
 
         private static void ManageHibernation(Tree tree, GameLocation environment, Vector2 tile, ref float rotation)
         {
-            // only mushroom trees will hibernate and iff it gets cold enough
-            if (tree.treeType.Value != Tree.mushroomTree || !ExperiencesWinter(environment)) return;
+            if (tree.treeType.Value != Tree.mushroomTree
+                || !_config.DoMushroomTreesHibernate
+                || !ExperiencesWinter(environment)) return;
 
-            if (_config.DoMushroomTreesHibernate)
+            if (Game1.currentSeason.Equals("winter"))
             {
-                if (Game1.currentSeason.Equals("winter"))
-                {
-                    tree.stump.Value = true;
-                    tree.health.Value = 5;
-                }
-                else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1)
-                {
-                    RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
-                }
+                tree.stump.Value = true;
+                tree.health.Value = 5;
+            }
+            else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1)
+            {
+                RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
             }
         }
 
@@ -179,15 +176,10 @@ namespace AggressiveAcorns
 
         private static bool TreeCanGrow(Tree tree, GameLocation environment, Vector2 location)
         {
-            var canSpawn = TileCanSpawnTree(environment, location);
+            var prop = environment.doesTileHaveProperty((int) location.X, (int) location.Y, "NoSpawn", "Back");
+            var tileCanSpawnTree = prop == null || !(prop.Equals("All") || prop.Equals("Tree") || prop.Equals("True"));
             var isBlockedSeed = tree.growthStage.Value == 0 && environment.objects.ContainsKey(location);
-            return canSpawn && !isBlockedSeed;
-        }
-
-        private static bool TileCanSpawnTree(GameLocation environment, Vector2 location)
-        {
-            var str = environment.doesTileHaveProperty((int) location.X, (int) location.Y, "NoSpawn", "Back");
-            return str == null || !(str.Equals("All") || str.Equals("Tree") || str.Equals("True"));
+            return tileCanSpawnTree && !isBlockedSeed;
         }
 
         private static bool CountsAsWinter(GameLocation environment)

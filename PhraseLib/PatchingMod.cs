@@ -5,6 +5,9 @@ using StardewModdingAPI.Events;
 
 namespace PhraseLib
 {
+    /// <summary>
+    /// Mod that loads patches, then runs some verification checks on GameLoop.GameLaunched
+    /// </summary>
     public abstract class PatchingMod : Mod
     {
         private IEnumerable<IHarmonyPatch> _patches = new List<IHarmonyPatch>();

@@ -43,7 +43,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="HarmonyPatch.cs"/>
-        <Compile Include="IHarmonyPatch.cs"/>
         <Compile Include="PatchingMod.cs"/>
         <Compile Include="PrefixPatch.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
