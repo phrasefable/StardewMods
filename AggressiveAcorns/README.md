@@ -19,7 +19,7 @@ Features are classified as either:
 * :seedling: configurable new feature
 * :lock: unconfigurable new feature or change (mainly smaller or fixes)
 
-Set probability-based features to zero to disable them.
+**All configurable features default to vanilla settings**. Set probability-based features to zero to disable them.
 
 #### General
 * :seedling: **Immature trees will no longer be destroyed by the scythe** or melee weapons. This is great for when you are growing hay in your timber plantation.
