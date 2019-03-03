@@ -5,27 +5,13 @@ The main features are that spreading trees can replace long grass, and that imma
 
 Also fixes some of vanilla's oversights such as stumps shading adjacent saplings, stumps spreading seeds, and a graphical error that affects mushroom stumps that were cut then regrew within the same game session.
 
+[TOC]: #
 
-## Installation
-Compatible with version 1.3.36 of Stardew Valley.
-
-For the latest compatibility information visit https://smapi.io/compat
-
-
-1. Install [SMAPI](https://smapi.io/)
-2. Get this mod from Nexus Mods.
-3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
-4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
-
-#### Compatibility
-This mod completely re-writes the vanilla trees daily update function, so will likely conflict with other that make similar changes.
-
-To try to resolve a conflict you have several choices:
-* Disable the conflicting features in the other mod, relinquishing control over those features to Aggressive Acorns;
-* Or, disable them in Aggressive acorns and allow the other mod to control them;
-* Or, live with the conflict;
-* Or, chose only one of the mods;
-* Or, leave a post/message for me, detailing the conflict, and I may be able to solve it.
+# Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Future plans](#future)
 
 ## Features
 Features are classified as either:
@@ -66,6 +52,28 @@ Set probability-based features to zero to disable them.
 * While hibernating, growth and spread do not occur. Even if hibernation is disabled, mushroom trees still respect the normal winter growth rules (ie. won't grow/spread in winter unless they are enabled).
 * Mushroom stumps will always respect the setting for max shaded growth, whether regrowing from hibernation on Spring 1st or using the daily regrowth feature. This means that if a normal tree grows next to a hibernating stump, it would block the regrowth on Spring 1st.
 * In vanilla, there is an error if a mushroom tree is chopped down, then regrows on Spring 1st, without exiting/reopening the save. The (non-serialized) rotation value is not reset after the falling animation, so the top of the tree reappears fallen over. This has been fixed.
+
+## Installation
+Compatible with version 1.3.36 of Stardew Valley.
+
+For the latest compatibility information visit https://smapi.io/compat
+
+
+1. Install [SMAPI](https://smapi.io/)
+2. Get this mod from Nexus Mods.
+3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
+4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
+
+#### Compatibility
+This mod completely re-writes the vanilla trees daily update function, so will likely conflict with other that make similar changes.
+
+To try to resolve a conflict you have several choices:
+* Disable the conflicting features in the other mod, relinquishing control over those features to Aggressive Acorns;
+* Or, disable them in Aggressive acorns and allow the other mod to control them;
+* Or, live with the conflict;
+* Or, chose only one of the mods;
+* Or, leave a post/message for me, detailing the conflict, and I may be able to solve it.
+
 
 ## Configuration
 
@@ -116,7 +124,9 @@ Set probability-based features to zero to disable them.
 }
 ```
 
-## Future plans and features I'm considering:
+## Future
+
+Future plans and features I'm considering:
  * move fix for rotation value on restoration of fallen stump from current location in stump-restoring code to the falling animation code, so that it works if other mods try to regrow stumps.
  * Fix graphical errors when walking over &gt; stage-0 trees.
  * Mushrooms spread by root-like systems right? Maybe revert the stumps-spread-seeds fix but only for mushroom stumps?
