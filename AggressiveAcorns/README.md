@@ -104,26 +104,6 @@ To try to resolve a conflict you have several choices:
 | &ge;`5` | Mature | 5 |
 | *Must use these<br>values in config* | | |
 
-#### Default Config
-```json
-{
-  "PreventScythe": true,
-  "SeedsReplaceGrass": true,
-  "MaxShadedGrowthStage": 4,
-  "MaxPassibleGrowthStage": 0,
-  "DoGrowInWinter": false,
-  "DoSpreadInWinter": true,
-  "DailyGrowthChance": 0.2,
-  "DoGrowInstantly": false,
-  "DoSeedsPersist": true,
-  "DoTappedSpread": true,
-  "DoMushroomTreesHibernate": true,
-  "DoMushroomTreesRegrow": true,
-  "DailySeedChance": 0.05,
-  "DailySpreadChance": 0.15
-}
-```
-
 ## Future
 
 Future plans and features I'm considering:
