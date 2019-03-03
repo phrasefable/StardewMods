@@ -8,11 +8,11 @@ namespace AggressiveAcorns
 {
     public class Patch_Tree_IsPassible : PrefixPatch
     {
-        public static int MaxPassibleGrowthStage;
+        private static int _maxPassibleGrowthStage;
 
         public Patch_Tree_IsPassible(int maxPassibleGrowthStage)
         {
-            MaxPassibleGrowthStage = maxPassibleGrowthStage;
+            _maxPassibleGrowthStage = maxPassibleGrowthStage;
         }
 
         public override bool IsValid(HarmonyInstance harmony, out string errors)
@@ -25,9 +25,10 @@ namespace AggressiveAcorns
         protected override Type[] TargetParameters => new[] {typeof(Character)};
         protected override string PatchMethod => nameof(IsPassible);
 
+        // ReSharper disable once RedundantAssignment
         private static bool IsPassible(Tree __instance, ref bool __result)
         {
-            __result = __instance.health.Value <= -99 || __instance.growthStage.Value <= MaxPassibleGrowthStage;
+            __result = __instance.health.Value <= -99 || __instance.growthStage.Value <= _maxPassibleGrowthStage;
 
             return false;
         }

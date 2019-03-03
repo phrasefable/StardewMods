@@ -4,6 +4,7 @@ using StardewModdingAPI;
 
 namespace AggressiveAcorns
 {
+    // ReSharper disable once UnusedMember.Global
     public class AggressiveAcorns : PatchingMod
     {
         private IModConfig _config;

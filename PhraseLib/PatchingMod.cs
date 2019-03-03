@@ -5,6 +5,7 @@ using StardewModdingAPI.Events;
 
 namespace PhraseLib
 {
+    /// <inheritdoc />
     /// <summary>
     /// Mod that loads patches, then runs some verification checks on GameLoop.GameLaunched
     /// </summary>

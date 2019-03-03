@@ -32,7 +32,7 @@ namespace PhraseLib
 
             if (conflicts.Any())
             {
-                overlaps = $"Patch of method {TargetName} in {this.GetType().Name} is not exclusive. " +
+                overlaps = $"Patch of method {TargetName} in {GetType().Name} is not exclusive. " +
                            $"Method also patched in: {string.Join(", ", conflicts)}";
                 return false;
             }

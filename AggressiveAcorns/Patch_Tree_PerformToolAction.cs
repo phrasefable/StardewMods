@@ -31,13 +31,10 @@ namespace AggressiveAcorns
 
         private static bool Prefix(Tool t, ref bool __result)
         {
-            if (t is MeleeWeapon)
-            {
-                __result = false;
-                return false;
-            }
+            if (!(t is MeleeWeapon)) return true;
 
-            return true;
+            __result = false;
+            return false;
         }
     }
 }
