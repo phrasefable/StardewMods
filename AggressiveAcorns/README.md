@@ -62,7 +62,7 @@ Set probability-based features to zero to disable them.
 #### Mushroom Trees
 
 * :seedling: The vanilla hibernation of mushroom trees can be disabled. This also disables the regeneration of mushroom stumps on Spring 1st.
-* :wrench: **Mushroom stumps can have a chance to regrow each day**. When enabled, it occurs at half the normal growth chance, or always if instant growth is enabled. It will not occur when normal growth would not occur (ie. hibernation).
+* :seedling: **Mushroom stumps can have a chance to regrow each day**. When enabled, it occurs at half the normal growth chance, or always if instant growth is enabled. It will not occur when normal growth would not occur (ie. hibernation).
 * While hibernating, growth and spread do not occur. Even if hibernation is disabled, mushroom trees still respect the normal winter growth rules (ie. won't grow/spread in winter unless they are enabled).
 * Mushroom stumps will always respect the setting for max shaded growth, whether regrowing from hibernation on Spring 1st or using the daily regrowth feature. This means that if a normal tree grows next to a hibernating stump, it would block the regrowth on Spring 1st.
 * In vanilla, there is an error if a mushroom tree is chopped down, then regrows on Spring 1st, without exiting/reopening the save. The (non-serialized) rotation value is not reset after the falling animation, so the top of the tree reappears fallen over. This has been fixed.
