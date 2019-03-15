@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>377ddc5f-a1b7-46fd-85a2-6057e0880046</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>PhraseLib</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatchingMod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PrefixPatch.cs" />
+  </ItemGroup>
+</Project>
