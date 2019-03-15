@@ -9,45 +9,42 @@ using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
 
-namespace AggressiveAcorns
-{
-    public class Patch_Tree_DayUpdate : PrefixPatch
-    {
+namespace AggressiveAcorns {
+
+    public class Patch_Tree_DayUpdate : PrefixPatch {
         private static IModConfig _config;
 
         protected override Type TargetType => typeof(Tree);
 
         protected override string TargetName => nameof(Tree.dayUpdate);
 
-        protected override Type[] TargetParameters => new[]
-        {
+        protected override Type[] TargetParameters => new[] {
             typeof(GameLocation),
             typeof(Vector2)
         };
 
-        public Patch_Tree_DayUpdate(IModConfig config)
-        {
+
+        public Patch_Tree_DayUpdate(IModConfig config) {
             _config = config;
         }
 
+
         protected override string PatchMethod => nameof(TreeDayUpdate);
 
-        public override bool IsValid(HarmonyInstance harmony, out string errors)
-        {
+
+        public override bool IsValid(HarmonyInstance harmony, out string errors) {
             return IsExclusivePatch(harmony, out errors);
         }
 
-        private static bool TreeDayUpdate(Tree __instance, GameLocation environment, Vector2 tileLocation,
-            NetBool ___destroy, ref float ___shakeRotation)
-        {
-            if (__instance.health.Value <= -100)
-            {
+
+        private static bool TreeDayUpdate(
+            Tree __instance, GameLocation environment, Vector2 tileLocation,
+            NetBool ___destroy, ref float ___shakeRotation) {
+            if (__instance.health.Value <= -100) {
                 ___destroy.Value = true;
             }
-            else
-            {
-                if (TreeCanGrow(__instance, environment, tileLocation))
-                {
+            else {
+                if (TreeCanGrow(__instance, environment, tileLocation)) {
                     TryIncreaseStage(__instance, environment, tileLocation);
                     ManageHibernation(__instance, environment, tileLocation, ref ___shakeRotation);
                     TryRegrow(__instance, environment, tileLocation, ref ___shakeRotation);
@@ -59,8 +56,8 @@ namespace AggressiveAcorns
             return false;
         }
 
-        private static void TryIncreaseStage(Tree tree, GameLocation environment, Vector2 tile)
-        {
+
+        private static void TryIncreaseStage(Tree tree, GameLocation environment, Vector2 tile) {
             if (tree.growthStage.Value >= Tree.treeStage ||
                 (tree.growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded(environment, tile))) return;
 
@@ -69,48 +66,44 @@ namespace AggressiveAcorns
                     (tree.treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate))
             ) return;
 
-            if (_config.DoGrowInstantly)
-            {
+            if (_config.DoGrowInstantly) {
                 tree.growthStage.Value = Tree.treeStage;
             }
-            else if (Game1.random.NextDouble() < _config.DailyGrowthChance)
-            {
+            else if (Game1.random.NextDouble() < _config.DailyGrowthChance) {
                 tree.growthStage.Value += 1;
             }
         }
 
-        private static void ManageHibernation(Tree tree, GameLocation environment, Vector2 tile, ref float rotation)
-        {
+
+        private static void ManageHibernation(Tree tree, GameLocation environment, Vector2 tile, ref float rotation) {
             if (tree.treeType.Value != Tree.mushroomTree
                 || !_config.DoMushroomTreesHibernate
                 || !ExperiencesWinter(environment)) return;
 
-            if (Game1.currentSeason.Equals("winter"))
-            {
+            if (Game1.currentSeason.Equals("winter")) {
                 tree.stump.Value = true;
                 tree.health.Value = 5;
             }
-            else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1)
-            {
+            else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1) {
                 RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
             }
         }
 
-        private static void TryRegrow(Tree tree, GameLocation environment, Vector2 tile, ref float rotation)
-        {
+
+        private static void TryRegrow(Tree tree, GameLocation environment, Vector2 tile, ref float rotation) {
             if (tree.treeType.Value == Tree.mushroomTree &&
                 _config.DoMushroomTreesRegrow &&
                 tree.stump.Value &&
                 (!CountsAsWinter(environment) || (!_config.DoMushroomTreesHibernate && _config.DoGrowInWinter)) &&
-                (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyGrowthChance / 2))
-            {
+                (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyGrowthChance / 2)) {
                 RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
             }
         }
 
-        private static void RegrowStumpIfNotShaded(Tree tree, GameLocation environment, Vector2 tile,
-            ref float rotation)
-        {
+
+        private static void RegrowStumpIfNotShaded(
+            Tree tree, GameLocation environment, Vector2 tile,
+            ref float rotation) {
             if (IsShaded(environment, tile)) return;
 
             tree.stump.Value = false;
@@ -118,40 +111,36 @@ namespace AggressiveAcorns
             rotation = 0;
         }
 
-        private static void TrySpread(Tree tree, GameLocation environment, Vector2 tile)
-        {
+
+        private static void TrySpread(Tree tree, GameLocation environment, Vector2 tile) {
             if (!(environment is Farm) ||
                 tree.growthStage.Value < Tree.treeStage ||
                 (Game1.currentSeason.Equals("winter") && !_config.DoSpreadInWinter) ||
                 (tree.tapped.Value && !_config.DoTappedSpread) ||
                 tree.stump.Value) return;
 
-            foreach (var seedPos in GetSpreadLocations(tile))
-            {
+            foreach (var seedPos in GetSpreadLocations(tile)) {
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
                 if (_config.SeedsReplaceGrass && environment.terrainFeatures.TryGetValue(seedPos, out var feature) &&
-                    feature is Grass)
-                {
+                    feature is Grass) {
                     environment.terrainFeatures[seedPos] = new Tree(tree.treeType.Value, 0);
                     tree.hasSeed.Value = false;
                 }
                 else if (environment.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
                          && !environment.isTileOccupied(seedPos)
                          && environment.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
-                         && environment.isTileOnMap(seedPos))
-                {
+                         && environment.isTileOnMap(seedPos)) {
                     environment.terrainFeatures.Add(seedPos, new Tree(tree.treeType.Value, 0));
                     tree.hasSeed.Value = false;
                 }
             }
         }
 
-        private static IEnumerable<Vector2> GetSpreadLocations(Vector2 tile)
-        {
+
+        private static IEnumerable<Vector2> GetSpreadLocations(Vector2 tile) {
             // pick random tile within +-3 x/y.
-            if (Game1.random.NextDouble() < _config.DailySpreadChance)
-            {
+            if (Game1.random.NextDouble() < _config.DailySpreadChance) {
                 var tileX = Game1.random.Next(-3, 4) + (int) tile.X;
                 var tileY = Game1.random.Next(-3, 4) + (int) tile.Y;
                 var seedPos = new Vector2(tileX, tileY);
@@ -159,48 +148,44 @@ namespace AggressiveAcorns
             }
         }
 
-        private static void PopulateSeed(Tree tree)
-        {
+
+        private static void PopulateSeed(Tree tree) {
             if (tree.growthStage.Value < Tree.treeStage || tree.stump.Value) return;
 
-            if (!_config.DoSeedsPersist)
-            {
+            if (!_config.DoSeedsPersist) {
                 tree.hasSeed.Value = false;
             }
 
-            if (Game1.random.NextDouble() < _config.DailySeedChance)
-            {
+            if (Game1.random.NextDouble() < _config.DailySeedChance) {
                 tree.hasSeed.Value = true;
             }
         }
 
-        private static bool TreeCanGrow(Tree tree, GameLocation environment, Vector2 location)
-        {
+
+        private static bool TreeCanGrow(Tree tree, GameLocation environment, Vector2 location) {
             var prop = environment.doesTileHaveProperty((int) location.X, (int) location.Y, "NoSpawn", "Back");
             var tileCanSpawnTree = prop == null || !(prop.Equals("All") || prop.Equals("Tree") || prop.Equals("True"));
             var isBlockedSeed = tree.growthStage.Value == 0 && environment.objects.ContainsKey(location);
             return tileCanSpawnTree && !isBlockedSeed;
         }
 
-        private static bool CountsAsWinter(GameLocation environment)
-        {
+
+        private static bool CountsAsWinter(GameLocation environment) {
             return Game1.currentSeason.Equals("winter") && ExperiencesWinter(environment);
         }
 
-        private static bool ExperiencesWinter(GameLocation environment)
-        {
+
+        private static bool ExperiencesWinter(GameLocation environment) {
             return environment.IsOutdoors && !(environment is Desert);
         }
 
-        private static bool IsShaded(GameLocation environment, Vector2 tile)
-        {
-            foreach (var adjacentTile in Utility.getSurroundingTileLocationsArray(tile))
-            {
+
+        private static bool IsShaded(GameLocation environment, Vector2 tile) {
+            foreach (var adjacentTile in Utility.getSurroundingTileLocationsArray(tile)) {
                 if (environment.terrainFeatures.TryGetValue(adjacentTile, out var feature)
                     && feature is Tree adjTree
                     && adjTree.growthStage.Value >= Tree.treeStage
-                    && !adjTree.stump.Value)
-                {
+                    && !adjTree.stump.Value) {
                     return true;
                 }
             }
@@ -208,4 +193,5 @@ namespace AggressiveAcorns
             return false;
         }
     }
+
 }

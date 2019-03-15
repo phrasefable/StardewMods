@@ -1,9 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace AggressiveAcorns
-{
-    public interface IModConfig
-    {
+namespace AggressiveAcorns {
+
+    public interface IModConfig {
         bool PreventScythe { get; }
 
         bool SeedsReplaceGrass { get; }
@@ -33,9 +32,9 @@ namespace AggressiveAcorns
         bool DoMushroomTreesRegrow { get; }
     }
 
+
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
-    public class ModConfig : IModConfig
-    {
+    public class ModConfig : IModConfig {
         public bool PreventScythe { get; set; } = false;
 
         public bool SeedsReplaceGrass { get; set; } = false;
@@ -64,4 +63,5 @@ namespace AggressiveAcorns
 
         public bool DoMushroomTreesRegrow { get; set; } = false;
     }
+
 }
