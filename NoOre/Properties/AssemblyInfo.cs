@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PhraseLib")]
+[assembly: AssemblyTitle("NoOre")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PhraseLib")]
+[assembly: AssemblyProduct("NoOre")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1EEBF25B-CE6D-4388-BA95-9A54426B9D93")]
+[assembly: Guid("E0AE1E6A-7805-4668-B46E-871CA8A0A656")]
 
 // Version information for an assembly consists of the following four values:
 //

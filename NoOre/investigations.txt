@@ -1,0 +1,44 @@
+StardewValley.Object
+    cat = 0
+    name = "Stone"
+    type = "asdf"/"Basic"
+    psi = 450
+    
+    stone 668 38
+
+StardewValley.Locations.Mineshaft
+    name = "UndergroundMine1"
+    mineLevel = 1
+
+spring objects:
+    diamond ore 2
+    ruby 4
+    jade 6
+    amethyst 8
+    topaz 10
+    emerald 12
+    turquoise 14
+    
+    brown: 32 38
+    grey: 34 36 
+    reddish: 40 42
+    cold: 48 50 52 54
+    red: 56 58
+    
+    gem node: 44
+    mystic: 46
+    
+    geode: 75
+    icy: 76
+    magma: 77
+    
+    farm rock: 343 450
+    
+    rock rock: 668 670
+    
+    dark: 760 762
+    
+    copper: 751
+    iron: 290
+    gold: 764
+    iridium: 765
