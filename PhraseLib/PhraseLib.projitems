@@ -11,6 +11,5 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PatchingMod.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PrefixPatch.cs" />
   </ItemGroup>
 </Project>

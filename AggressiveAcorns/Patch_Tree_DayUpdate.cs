@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Harmony;
 using Microsoft.Xna.Framework;
 using Netcode;
-using PhraseLib;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
+using HarmonyPatch = PhraseLib.HarmonyPatch;
 
 namespace AggressiveAcorns {
 
-    public class Patch_Tree_DayUpdate : PrefixPatch {
+    internal class Patch_Tree_DayUpdate : HarmonyPatch {
         private static IModConfig _config;
 
         protected override Type TargetType => typeof(Tree);
@@ -29,7 +29,7 @@ namespace AggressiveAcorns {
         }
 
 
-        protected override string PatchMethod => nameof(TreeDayUpdate);
+        protected string PatchMethod => nameof(TreeDayUpdate);
 
 
         public override bool IsValid(HarmonyInstance harmony, out string errors) {
@@ -42,8 +42,7 @@ namespace AggressiveAcorns {
             NetBool ___destroy, ref float ___shakeRotation) {
             if (__instance.health.Value <= -100) {
                 ___destroy.Value = true;
-            }
-            else {
+            } else {
                 if (TreeCanGrow(__instance, environment, tileLocation)) {
                     TryIncreaseStage(__instance, environment, tileLocation);
                     ManageHibernation(__instance, environment, tileLocation, ref ___shakeRotation);
@@ -68,8 +67,7 @@ namespace AggressiveAcorns {
 
             if (_config.DoGrowInstantly) {
                 tree.growthStage.Value = Tree.treeStage;
-            }
-            else if (Game1.random.NextDouble() < _config.DailyGrowthChance) {
+            } else if (Game1.random.NextDouble() < _config.DailyGrowthChance) {
                 tree.growthStage.Value += 1;
             }
         }
@@ -83,8 +81,7 @@ namespace AggressiveAcorns {
             if (Game1.currentSeason.Equals("winter")) {
                 tree.stump.Value = true;
                 tree.health.Value = 5;
-            }
-            else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1) {
+            } else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1) {
                 RegrowStumpIfNotShaded(tree, environment, tile, ref rotation);
             }
         }
@@ -126,11 +123,10 @@ namespace AggressiveAcorns {
                     feature is Grass) {
                     environment.terrainFeatures[seedPos] = new Tree(tree.treeType.Value, 0);
                     tree.hasSeed.Value = false;
-                }
-                else if (environment.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
-                         && !environment.isTileOccupied(seedPos)
-                         && environment.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
-                         && environment.isTileOnMap(seedPos)) {
+                } else if (environment.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
+                           && !environment.isTileOccupied(seedPos)
+                           && environment.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
+                           && environment.isTileOnMap(seedPos)) {
                     environment.terrainFeatures.Add(seedPos, new Tree(tree.treeType.Value, 0));
                     tree.hasSeed.Value = false;
                 }
