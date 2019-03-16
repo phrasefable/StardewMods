@@ -64,16 +64,6 @@ For the latest compatibility information visit https://smapi.io/compat
 3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
 4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
 
-#### Compatibility
-This mod completely re-writes the vanilla trees daily update function, so will likely conflict with other that make similar changes.
-
-To try to resolve a conflict you have several choices:
-* Disable the conflicting features in the other mod, relinquishing control over those features to Aggressive Acorns;
-* Or, disable them in Aggressive acorns and allow the other mod to control them;
-* Or, live with the conflict;
-* Or, chose only one of the mods;
-* Or, leave a post/message for me, detailing the conflict, and I may be able to solve it.
-
 
 ## Configuration
 
@@ -107,8 +97,8 @@ To try to resolve a conflict you have several choices:
 ## Future
 
 Future plans and features I'm considering:
- * move fix for rotation value on restoration of fallen stump from current location in stump-restoring code to the falling animation code, so that it works if other mods try to regrow stumps.
  * Fix graphical errors when walking over &gt; stage-0 trees.
  * Mushrooms spread by root-like systems right? Maybe revert the stumps-spread-seeds fix but only for mushroom stumps?
  * Do fruit trees shade normal trees? Should they?
  * Make companion mod for fruit trees. Include random-er fruit tree growth.
+ * Look at fix growth for trees (emulating vanilla fruit tree growth) - look at SMAPI data API.

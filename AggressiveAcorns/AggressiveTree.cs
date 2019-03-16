@@ -11,7 +11,7 @@ using xTile.Dimensions;
 
 namespace AggressiveAcorns {
 
-    public class AggressiveTree : Tree {
+    internal class AggressiveTree : Tree {
 
         private GameLocation _location;
         private Vector2 _position;

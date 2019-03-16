@@ -14,23 +14,13 @@ namespace AggressiveAcorns {
     [UsedImplicitly]
     public class Mod : BaseMod {
 
-        // internal static IModConfig Config;
-
 
         public override void Entry([NotNull] IModHelper helper) {
             ModConfig.Instance = helper.ReadConfig<ModConfig>();
+
             helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             helper.Events.GameLoop.Saving += OnSaving;
             helper.Events.GameLoop.Saved += OnSaved;
-
-
-            // helper.ConsoleCommands.Add("tf", "gets terrain features near the mouse cursor", (s, strings) => {
-            //     foreach (var tile in Utility.getSurroundingTileLocationsArray(helper.Input.GetCursorPosition().Tile)) {
-            //         Game1.currentLocation.terrainFeatures.TryGetValue(tile, out var feature);
-            //         var msg = (feature == null ? "    no tf" : $"    tf {feature.GetType().FullName}") + $" at {tile}";
-            //         Monitor.Log(msg);
-            //     }
-            // });
         }
 
 
