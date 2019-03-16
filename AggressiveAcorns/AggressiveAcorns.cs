@@ -7,12 +7,11 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-using BaseMod = StardewModdingAPI.Mod;
 
 namespace AggressiveAcorns {
 
     [UsedImplicitly]
-    public class Mod : BaseMod {
+    public class AggressiveAcorns : Mod {
 
 
         public override void Entry([NotNull] IModHelper helper) {
@@ -73,7 +72,9 @@ namespace AggressiveAcorns {
                     count++;
                 }
 
-                Monitor.Log($"{location.Name} - replaced {count} {typeof(TOriginal).Name}(s).", LogLevel.Trace);
+                if (count > 0) {
+                    Monitor.Log($"{location.Name} - replaced {count} {typeof(TOriginal).Name}(s).", LogLevel.Trace);
+                }
             }
         }
 
