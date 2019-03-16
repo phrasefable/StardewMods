@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns", "Aggress
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoOre", "NoOre\NoOre.csproj", "{E0AE1E6A-7805-4668-B46E-871CA8A0A656}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PhraseLib", "PhraseLib\PhraseLib.shproj", "{377DDC5F-A1B7-46FD-85A2-6057E0880046}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4

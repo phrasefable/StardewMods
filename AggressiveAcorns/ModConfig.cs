@@ -37,6 +37,8 @@ namespace AggressiveAcorns {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class ModConfig : IModConfig {
 
+        public static ModConfig Instance;
+
         public bool PreventScythe { get; set; } = false;
 
         public bool SeedsReplaceGrass { get; set; } = false;
