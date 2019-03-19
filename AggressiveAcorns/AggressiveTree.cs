@@ -81,12 +81,6 @@ namespace AggressiveAcorns {
         }
 
 
-        private void SyncField<T>(object origin, object target, string name) {
-            var value = AggressiveAcorns.ReflectionHelper.GetField<T>(origin, name).GetValue();
-            AggressiveAcorns.ReflectionHelper.GetField<T>(target, name).SetValue(value);
-        }
-
-
         private void SyncField<TNetField, T>(object origin, object target, string name)
                 where TNetField : NetField<T, TNetField> {
             var value = AggressiveAcorns.ReflectionHelper.GetField<TNetField>(origin, name).GetValue().Value;
@@ -94,23 +88,8 @@ namespace AggressiveAcorns {
         }
 
 
-        private void SyncFieldToTree<T>(Tree tree, string name) {
-            SyncField<T>(this, tree, name);
-        }
-
-
-        private void SyncFieldFromTree<T>(Tree tree, string name) {
-            SyncField<T>(tree, this, name);
-        }
-
-
         private void SyncFieldToTree<TNetField, T>(Tree tree, string name) where TNetField : NetField<T, TNetField> {
             SyncField<TNetField, T>(this, tree, name);
-        }
-
-
-        private void SyncFieldFromTree<TNetField, T>(Tree tree, string name) where TNetField : NetField<T, TNetField> {
-            SyncField<TNetField, T>(tree, this, name);
         }
 
 
