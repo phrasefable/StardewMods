@@ -24,6 +24,13 @@ namespace AggressiveAcorns {
             helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             helper.Events.GameLoop.Saving += OnSaving;
             helper.Events.GameLoop.Saved += OnSaved;
+
+            // TODO catch seeds when fist planted - world.terrainfeaturelistchanged event
+            //  does this fire during the save loop?
+            //  will it catch other areas - eg deep woods levels?
+
+            // TODO catch multiplayer locations loading
+            // if i use locationlistchanged will this double up with the current loading
         }
 
 
