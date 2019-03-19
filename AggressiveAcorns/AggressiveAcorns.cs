@@ -13,9 +13,13 @@ namespace AggressiveAcorns {
     [UsedImplicitly]
     public class AggressiveAcorns : Mod {
 
+        internal static IReflectionHelper ReflectionHelper;
+        internal static IModConfig Config;
+
 
         public override void Entry([NotNull] IModHelper helper) {
-            ModConfig.Instance = helper.ReadConfig<ModConfig>();
+            Config = helper.ReadConfig<ModConfig>();
+            ReflectionHelper = helper.Reflection;
 
             helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             helper.Events.GameLoop.Saving += OnSaving;
@@ -55,11 +59,11 @@ namespace AggressiveAcorns {
 
 
         private void ReplaceTerrainFeature<TOriginal, TReplacement>(
-            [NotNull] IEnumerable<GameLocation> locations,
-            Func<TOriginal, TReplacement> converter) where TReplacement : TerrainFeature where TOriginal : class {
+                [NotNull] IEnumerable<GameLocation> locations,
+                Func<TOriginal, TReplacement> converter) where TReplacement : TerrainFeature where TOriginal : class {
 
             Monitor.Log($"Replacing terrain features: {typeof(TOriginal).FullName} -> {typeof(TReplacement).FullName}",
-                LogLevel.Trace);
+                    LogLevel.Trace);
 
             foreach (var location in locations) {
                 var oldFeatures = location.terrainFeatures.Pairs.Where(kvp => kvp.Value.GetType() == typeof(TOriginal));
@@ -85,10 +89,10 @@ namespace AggressiveAcorns {
         private static IEnumerable<GameLocation> GetLocations() {
             return Game1.locations
                         .Concat(
-                            from location in Game1.locations.OfType<BuildableGameLocation>()
-                            from building in location.buildings
-                            where building.indoors.Value != null
-                            select building.indoors.Value
+                                from location in Game1.locations.OfType<BuildableGameLocation>()
+                                from building in location.buildings
+                                where building.indoors.Value != null
+                                select building.indoors.Value
                         );
         }
     }
