@@ -13,7 +13,7 @@
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>x86</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
@@ -23,7 +23,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>x86</PlatformTarget>
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
         <OutputPath>bin\Release\</OutputPath>
@@ -42,8 +42,11 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="PhrasefableModdingTools.cs"/>
+        <Compile Include="PMT_Events.cs"/>
+        <Compile Include="PMT_Ground.cs"/>
+        <Compile Include="PMT_Main.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="PMT_TallyObjects.cs"/>
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config"/>
