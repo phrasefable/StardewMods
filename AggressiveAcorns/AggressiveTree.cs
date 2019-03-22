@@ -17,6 +17,10 @@ namespace AggressiveAcorns {
         private readonly IModConfig _config = AggressiveAcorns.Config;
 
 
+        [UsedImplicitly]
+        public AggressiveTree() { }
+
+
         public AggressiveTree([NotNull] Tree tree) {
             growthStage.Value = tree.growthStage.Value;
             treeType.Value = tree.treeType.Value;
@@ -82,7 +86,7 @@ namespace AggressiveAcorns {
 
 
         private void SyncField<TNetField, T>(object origin, object target, string name)
-                where TNetField : NetField<T, TNetField> {
+            where TNetField : NetField<T, TNetField> {
             var value = AggressiveAcorns.ReflectionHelper.GetField<TNetField>(origin, name).GetValue().Value;
             AggressiveAcorns.ReflectionHelper.GetField<TNetField>(target, name).GetValue().Value = value;
         }
@@ -149,7 +153,7 @@ namespace AggressiveAcorns {
              *  serialization (ie. new objects created so rotation is reset).
              *  If this changes (ie. Aggressive Tree cached over save or otherwise reused), must re-enable below code.
              */
-            // SetPrivateField("rotation", 0);
+            // AggressiveAcorns.ReflectionHelper.GetField<float>(this, "shakeRotation").SetValue(0);
         }
 
 
