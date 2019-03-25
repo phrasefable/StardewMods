@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
 namespace AggressiveAcorns {
@@ -42,7 +41,7 @@ namespace AggressiveAcorns {
 
         private void OnDayStarted(object sender, DayStartedEventArgs e) {
             Monitor.Log("Enraging trees in all available areas.", LogLevel.Trace);
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, GetLocations());
+            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Common.Utilities.GetLocations(Helper));
             ManageTrees = true;
         }
 
@@ -50,7 +49,7 @@ namespace AggressiveAcorns {
         private void OnSaving(object sender, SavingEventArgs e) {
             ManageTrees = false;
             Monitor.Log("Calming trees in all available areas.", LogLevel.Trace);
-            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, GetLocations());
+            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Common.Utilities.GetLocations(Helper));
         }
 
 
@@ -122,23 +121,6 @@ namespace AggressiveAcorns {
             Monitor.Log(
                 $"{location.Name} - replaced {terrainFeatures.Count} {typeof(TOriginal).Name} with {typeof(TReplacement).Name}.",
                 LogLevel.Trace);
-        }
-
-
-        [NotNull]
-        private IEnumerable<GameLocation> GetLocations() {
-            if (Context.IsMainPlayer) {
-                // From https://stardewvalleywiki.com/Modding:Common_tasks#Get_all_locations on 2019/03/16
-                return Game1.locations.Concat(
-                    from location in Game1.locations.OfType<BuildableGameLocation>()
-                    from building in location.buildings
-                    where building.indoors.Value != null
-                    select building.indoors.Value
-                );
-            }
-
-            return Helper.Multiplayer.GetActiveLocations();
-
         }
     }
 
