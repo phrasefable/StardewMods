@@ -66,11 +66,11 @@ namespace AggressiveAcorns {
             if (health.Value <= -100) {
                 SetField<NetBool, bool>("destroy", true);
             } else if (!_skipUpdate && TreeCanGrow()) {
+                PopulateSeed();
                 TrySpread();
                 TryIncreaseStage();
                 ManageHibernation();
                 TryRegrow();
-                PopulateSeed();
             } else {
                 _skipUpdate = false;
             }
@@ -180,23 +180,22 @@ namespace AggressiveAcorns {
                 var tileY = (int) seedPos.Y;
                 if (_config.SeedsReplaceGrass && _location.terrainFeatures.TryGetValue(seedPos, out var feature) &&
                     feature is Grass) {
-                    _location.terrainFeatures[seedPos] = new Tree(treeType.Value, 0);
-                    hasSeed.Value = false;
+                    PlaceOffspring(seedPos);
                 } else if (_location.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
                            && !_location.isTileOccupied(seedPos)
                            && _location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
                            && _location.isTileOnMap(seedPos)) {
-                    _location.terrainFeatures.Add(seedPos, BuildOffspring());
-                    hasSeed.Value = false;
+                    PlaceOffspring(seedPos);
                 }
             }
         }
 
 
-        [NotNull]
-        private Tree BuildOffspring() {
+        private void PlaceOffspring(Vector2 position) {
+            hasSeed.Value = false;
+
             var tree = new AggressiveTree(treeType.Value, 0, true);
-            return tree;
+            _location.terrainFeatures[position] = tree;
         }
 
 
