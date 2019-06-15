@@ -1,13 +1,11 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using StardewModdingAPI;
 
-namespace Phrasefable_Modding_Tools
-{
+namespace Phrasefable_Modding_Tools {
+
     [UsedImplicitly]
-    public partial class PhrasefableModdingTools : Mod
-    {
-        public override void Entry([NotNull] IModHelper helper)
-        {
+    public partial class PhrasefableModdingTools : Mod {
+        public override void Entry([NotNull] IModHelper helper) {
 
             SetUp_Ground();
 
@@ -17,4 +15,5 @@ namespace Phrasefable_Modding_Tools
 
         }
     }
+
 }

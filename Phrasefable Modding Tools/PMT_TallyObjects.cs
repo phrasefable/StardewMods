@@ -5,15 +5,13 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace Phrasefable_Modding_Tools
-{
-    public partial class PhrasefableModdingTools
-    {
+namespace Phrasefable_Modding_Tools {
+
+    public partial class PhrasefableModdingTools {
         private ToggleableEventHandler<WarpedEventArgs> _tallyHandler;
 
 
-        private void SetUp_Tally()
-        {
+        private void SetUp_Tally() {
             _tallyHandler = new ToggleableEventHandler<WarpedEventArgs>(Tally);
             Helper.Events.Player.Warped += _tallyHandler.OnEvent;
 
@@ -27,20 +25,16 @@ namespace Phrasefable_Modding_Tools
         }
 
 
-        private void Tally(object sender, [NotNull] WarpedEventArgs e)
-        {
+        private void Tally(object sender, [NotNull] WarpedEventArgs e) {
             if (e.IsLocalPlayer) CountObjects(e.NewLocation);
         }
 
 
-        private void TallyObjectCommand(string command, [NotNull] string[] args)
-        {
-            if (args.Length == 0)
-            {
+        private void TallyObjectCommand(string command, [NotNull] string[] args) {
+            if (args.Length == 0) {
                 CountObjects();
             } else
-                switch (args[0])
-                {
+                switch (args[0]) {
                     case "start":
                         _tallyHandler.Set(ToggleAction.Enable);
                         break;
@@ -57,65 +51,54 @@ namespace Phrasefable_Modding_Tools
         }
 
 
-        private void CountTerrainFeatures(string arg1, string[] arg2)
-        {
-            if (Context.IsWorldReady)
-            {
+        private void CountTerrainFeatures(string arg1, string[] arg2) {
+            if (Context.IsWorldReady) {
                 CountTerrainFeatures(Game1.currentLocation);
-            } else
-            {
+            } else {
                 Monitor.Log("World not ready", LogLevel.Info);
             }
         }
 
 
-        private void CountObjects(bool allLocations = false)
-        {
-            if (!Context.IsWorldReady)
-            {
+        private void CountObjects(bool allLocations = false) {
+            if (!Context.IsWorldReady) {
                 Monitor.Log("World not ready", LogLevel.Info);
                 return;
             }
 
-            if (allLocations)
-            {
+            if (allLocations) {
                 foreach (var location in Common.Utilities.GetLocations(Helper)) CountObjects(location);
-            } else
-            {
+            } else {
                 CountObjects(Game1.currentLocation);
             }
         }
 
 
-        private void CountObjects([NotNull] GameLocation location)
-        {
+        private void CountObjects([NotNull] GameLocation location) {
 
             var results = from obj in location.objects.Values
-                group obj by obj.ParentSheetIndex
-                into grouping
-                orderby grouping.Key
-                select grouping.ToList();
+                          group obj by obj.ParentSheetIndex
+                          into grouping
+                          orderby grouping.Key
+                          select grouping.ToList();
 
             Monitor.Log($"Counted objects in {location.Name}:", LogLevel.Info);
-            foreach (var objects in results)
-            {
+            foreach (var objects in results) {
                 var first = objects.First();
                 Monitor.Log($"    {first.ParentSheetIndex} {first.DisplayName} - {objects.Count}", LogLevel.Info);
             }
         }
 
 
-        private void CountTerrainFeatures([NotNull] GameLocation location)
-        {
+        private void CountTerrainFeatures([NotNull] GameLocation location) {
             var results = from feat in location.terrainFeatures.Values
-                group feat by feat.GetType()
-                into grouping
-                orderby grouping.Key.Name
-                select new {grouping.Key.Name, Count = grouping.Count()};
+                          group feat by feat.GetType()
+                          into grouping
+                          orderby grouping.Key.Name
+                          select new {grouping.Key.Name, Count = grouping.Count()};
 
             Monitor.Log($"Counted terrain features in {location.Name}", LogLevel.Info);
-            foreach (var result in results)
-            {
+            foreach (var result in results) {
                 Monitor.Log($"    {result.Name} - {result.Count}");
             }
         }
@@ -124,4 +107,5 @@ namespace Phrasefable_Modding_Tools
         // todo make some sort of command that will rapidly warp through all mine floors.
         // todo add name filter?
     }
+
 }
