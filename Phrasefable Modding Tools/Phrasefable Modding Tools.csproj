@@ -42,6 +42,7 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="PMT_Clear.cs"/>
         <Compile Include="PMT_Events.cs"/>
         <Compile Include="PMT_Ground.cs"/>
         <Compile Include="PMT_Main.cs"/>
@@ -68,11 +69,10 @@
     </Target>
     <Import Project="..\Common\Common.projitems" Label="Shared"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
-
+           Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+      -->
 </Project>

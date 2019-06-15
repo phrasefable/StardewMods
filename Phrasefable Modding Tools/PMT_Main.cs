@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using StardewModdingAPI;
 
 namespace Phrasefable_Modding_Tools {
@@ -13,6 +13,7 @@ namespace Phrasefable_Modding_Tools {
 
             SetUp_EventLogging();
 
+            SetUp_Clear();
         }
     }
 
