@@ -59,7 +59,7 @@ namespace AggressiveAcorns {
         }
 
 
-        public override void dayUpdate(GameLocation environment, Vector2 tileLocation) {
+        public override void dayUpdate([NotNull] GameLocation environment, Vector2 tileLocation) {
             _location = environment;
             _position = tileLocation;
 
@@ -74,6 +74,11 @@ namespace AggressiveAcorns {
             } else {
                 _skipUpdate = false;
             }
+
+            // Revert to vanilla type early to prevent serialization issues in mods that serialize during the Saving event.
+            // Relies on the fact that Terrain Feature iteration means that dayUpdate only won't be called again for the
+            //   same tileLocation.
+            environment.terrainFeatures[tileLocation] = ToTree();
         }
 
 
