@@ -117,7 +117,7 @@ namespace AggressiveAcorns {
             ) return;
 
             if (_config.DoGrowInstantly) {
-                growthStage.Value = treeStage;
+                growthStage.Value = IsShaded() ? _config.MaxShadedGrowthStage : treeStage;
             } else if (Game1.random.NextDouble() < _config.DailyGrowthChance) {
                 growthStage.Value += 1;
             }
