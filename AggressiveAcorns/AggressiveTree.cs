@@ -14,6 +14,7 @@ namespace AggressiveAcorns {
 
         private GameLocation _location;
         private Vector2 _position;
+        private bool _skipUpdate;
         private readonly IModConfig _config = AggressiveAcorns.Config;
 
 
@@ -31,7 +32,10 @@ namespace AggressiveAcorns {
         }
 
 
-        private AggressiveTree(int treeType, int growthStage) : base(treeType, growthStage) { }
+        private AggressiveTree(int treeType, int growthStage, bool skipFirstUpdate = false)
+            : base(treeType, growthStage) {
+            _skipUpdate = skipFirstUpdate;
+        }
 
 
         [NotNull]
@@ -61,12 +65,14 @@ namespace AggressiveAcorns {
 
             if (health.Value <= -100) {
                 SetField<NetBool, bool>("destroy", true);
-            } else if (TreeCanGrow()) {
+            } else if (!_skipUpdate && TreeCanGrow()) {
+                TrySpread();
                 TryIncreaseStage();
                 ManageHibernation();
                 TryRegrow();
-                TrySpread();
                 PopulateSeed();
+            } else {
+                _skipUpdate = false;
             }
         }
 
@@ -183,8 +189,8 @@ namespace AggressiveAcorns {
 
 
         [NotNull]
-        private AggressiveTree BuildOffspring() {
-            var tree = new AggressiveTree(treeType.Value, 0);
+        private Tree BuildOffspring() {
+            var tree = new AggressiveTree(treeType.Value, 0, true);
             return tree;
         }
 
