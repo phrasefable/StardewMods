@@ -14,8 +14,14 @@ namespace AggressiveAcorns {
 
         private GameLocation _location;
         private Vector2 _position;
-        private bool _skipUpdate;
         private readonly IModConfig _config = AggressiveAcorns.Config;
+
+        /// <summary>
+        /// Flag to skip first update, used to prevent spread seeds from updating the night they are created.
+        /// As spread seeds are not guaranteed to be hit in the update loop of the night they are planted, clearing this
+        /// flag currently relies on the AggressiveTree -> Tree -> AggressiveTree conversion around serialization.
+        /// </summary>
+        private bool _skipUpdate;
 
 
         [UsedImplicitly]
