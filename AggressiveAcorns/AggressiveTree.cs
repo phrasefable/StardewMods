@@ -35,6 +35,7 @@ namespace AggressiveAcorns {
             flipped.Value = tree.flipped.Value;
             stump.Value = tree.stump.Value;
             tapped.Value = tree.tapped.Value;
+            hasSeed.Value = tree.hasSeed.Value;
         }
 
 
@@ -53,6 +54,7 @@ namespace AggressiveAcorns {
             tree.flipped.Value = flipped.Value;
             tree.stump.Value = stump.Value;
             tree.tapped.Value = tapped.Value;
+            tree.hasSeed.Value = hasSeed.Value;
 
             SyncFieldToTree<NetBool, bool>(tree, "destroy");
 
@@ -83,7 +85,7 @@ namespace AggressiveAcorns {
 
             // Revert to vanilla type early to prevent serialization issues in mods that serialize during the Saving event.
             // Relies on the fact that Terrain Feature iteration means that dayUpdate only won't be called again for the
-            //   same tileLocation.
+            // same tileLocation.
             environment.terrainFeatures[tileLocation] = ToTree();
         }
 
