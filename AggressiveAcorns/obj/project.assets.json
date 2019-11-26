@@ -1,0 +1,122 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.5.2": {
+      "JetBrains.Annotations/2019.1.3": {
+        "type": "package",
+        "compile": {
+          "lib/net20/JetBrains.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/net20/JetBrains.Annotations.dll": {}
+        }
+      },
+      "Pathoschild.Stardew.ModBuildConfig/3.0.0-beta.8": {
+        "type": "package",
+        "build": {
+          "build/Pathoschild.Stardew.ModBuildConfig.targets": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "JetBrains.Annotations/2019.1.3": {
+      "sha512": "E0x48BwZJKoNMNCekWGKsV4saQS89lf58ydT2szseV44CMYIbaHXjc7+305WLw6up3ibZN9yH6QdGSZo5tQhLg==",
+      "type": "package",
+      "path": "jetbrains.annotations/2019.1.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jetbrains.annotations.2019.1.3.nupkg.sha512",
+        "jetbrains.annotations.nuspec",
+        "lib/net20/JetBrains.Annotations.dll",
+        "lib/net20/JetBrains.Annotations.xml",
+        "lib/netstandard1.0/JetBrains.Annotations.deps.json",
+        "lib/netstandard1.0/JetBrains.Annotations.dll",
+        "lib/netstandard1.0/JetBrains.Annotations.xml",
+        "lib/netstandard2.0/JetBrains.Annotations.deps.json",
+        "lib/netstandard2.0/JetBrains.Annotations.dll",
+        "lib/netstandard2.0/JetBrains.Annotations.xml",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/JetBrains.Annotations.dll",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/JetBrains.Annotations.xml"
+      ]
+    },
+    "Pathoschild.Stardew.ModBuildConfig/3.0.0-beta.8": {
+      "sha512": "RyWIyJB/xuOghPnzUneiSkkwzY8O6uac5CA8jHFoRijYLgG84s70QKh2PA9rqer4HtiEHT516G58Qdt9NoEBfQ==",
+      "type": "package",
+      "path": "pathoschild.stardew.modbuildconfig/3.0.0-beta.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/SMAPI.ModBuildConfig.Analyzer.dll",
+        "build/Newtonsoft.Json.dll",
+        "build/Pathoschild.Stardew.ModBuildConfig.targets",
+        "build/SMAPI.ModBuildConfig.dll",
+        "build/SMAPI.Toolkit.CoreInterfaces.dll",
+        "build/SMAPI.Toolkit.dll",
+        "build/find-game-folder.targets",
+        "pathoschild.stardew.modbuildconfig.3.0.0-beta.8.nupkg.sha512",
+        "pathoschild.stardew.modbuildconfig.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.5.2": [
+      "JetBrains.Annotations >= 2019.1.3",
+      "Pathoschild.Stardew.ModBuildConfig >= 3.0.0-beta.8"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Courtney\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.2.2-beta.1-minervamaga",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Courtney\\Documents\\Stardew\\Modding\\Mod Tools\\StardewMods-master-AgressiveAcorns\\StardewMods-master\\AggressiveAcorns\\AggressiveAcorns.csproj",
+      "projectName": "AggressiveAcorns",
+      "projectPath": "C:\\Users\\Courtney\\Documents\\Stardew\\Modding\\Mod Tools\\StardewMods-master-AgressiveAcorns\\StardewMods-master\\AggressiveAcorns\\AggressiveAcorns.csproj",
+      "packagesPath": "C:\\Users\\Courtney\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Courtney\\Documents\\Stardew\\Modding\\Mod Tools\\StardewMods-master-AgressiveAcorns\\StardewMods-master\\AggressiveAcorns\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Courtney\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net452"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net452": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net452": {
+        "dependencies": {
+          "JetBrains.Annotations": {
+            "target": "Package",
+            "version": "[2019.1.3, )"
+          },
+          "Pathoschild.Stardew.ModBuildConfig": {
+            "target": "Package",
+            "version": "[3.0.0-beta.8, )"
+          }
+        }
+      }
+    }
+  }
+}

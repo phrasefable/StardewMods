@@ -6,9 +6,31 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
 namespace AggressiveAcorns {
+
+    internal static class Utilities
+    {
+        [NotNull]
+        public static IEnumerable<GameLocation> GetLocations(IModHelper helper)
+        {
+            if (Context.IsMainPlayer)
+            {
+                // From https://stardewvalleywiki.com/Modding:Common_tasks#Get_all_locations on 2019/03/16
+                return Game1.locations.Concat(
+                    from location in Game1.locations.OfType<BuildableGameLocation>()
+                    from building in location.buildings
+                    where building.indoors.Value != null
+                    select building.indoors.Value
+                );
+            }
+
+            return helper.Multiplayer.GetActiveLocations();
+
+        }
+    };
 
     [UsedImplicitly]
     public class AggressiveAcorns : Mod {
@@ -43,7 +65,7 @@ namespace AggressiveAcorns {
 
         private void OnDayStarted(object sender, DayStartedEventArgs e) {
             Monitor.Log("Enraging trees in all available areas.", LogLevel.Trace);
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Utilities.GetLocations(Helper));
             ManageTrees = true;
         }
 
@@ -51,7 +73,7 @@ namespace AggressiveAcorns {
         private void OnSaving(object sender, SavingEventArgs e) {
             ManageTrees = false;
             Monitor.Log("Calming trees in all available areas.", LogLevel.Trace);
-            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Utilities.GetLocations(Helper));
         }
 
 
