@@ -9,40 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" ExcludeAssets="runtime"/>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.0.0-beta.8"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_UnmanagedRegistrationCache Remove="obj\NoOre.csproj.UnmanagedRegistration.cache"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_ResolveComReferenceCache Remove="obj\x86\Release\net452\NoOre.csproj.ResolveComReference.cache"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <IntermediateAssembly Remove="obj\x86\Release\net452\NoOre.dll"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_DebugSymbolsIntermediatePath Remove="obj\x86\Release\net452\NoOre.pdb"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_DeploymentManifestEntryPoint Remove="obj\x86\Release\net452\NoOre.dll"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ApplicationManifest Remove="obj\x86\Release\net452\Native.NoOre.manifest"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <DeployManifest Remove="obj\x86\Release\net452\NoOre.application"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\NoOre.pdb"/>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\NoOre.dll"/>
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.0.0"/>
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared"/>

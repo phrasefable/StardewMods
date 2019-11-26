@@ -8,49 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" ExcludeAssets="runtime"/>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.0.0-beta.8"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_UnmanagedRegistrationCache Remove="obj\AggressiveAcorns.csproj.UnmanagedRegistration.cache"/>
-        <_UnmanagedRegistrationCache Remove="obj\AggressiveAcorns.csproj.UnmanagedRegistration.cache"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_ResolveComReferenceCache Remove="obj\x86\Release\net452\AggressiveAcorns.csproj.ResolveComReference.cache"/>
-        <_ResolveComReferenceCache Remove="obj\x86\Release\net452\AggressiveAcorns.csproj.ResolveComReference.cache"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <IntermediateAssembly Remove="obj\x86\Release\net452\AggressiveAcorns.dll"/>
-        <IntermediateAssembly Remove="obj\x86\Release\net452\AggressiveAcorns.dll"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_DebugSymbolsIntermediatePath Remove="obj\x86\Release\net452\AggressiveAcorns.pdb"/>
-        <_DebugSymbolsIntermediatePath Remove="obj\x86\Release\net452\AggressiveAcorns.pdb"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <_DeploymentManifestEntryPoint Remove="obj\x86\Release\net452\AggressiveAcorns.dll"/>
-        <_DeploymentManifestEntryPoint Remove="obj\x86\Release\net452\AggressiveAcorns.dll"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ApplicationManifest Remove="obj\x86\Release\net452\Native.AggressiveAcorns.manifest"/>
-        <ApplicationManifest Remove="obj\x86\Release\net452\Native.AggressiveAcorns.manifest"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <DeployManifest Remove="obj\x86\Release\net452\AggressiveAcorns.application"/>
-        <DeployManifest Remove="obj\x86\Release\net452\AggressiveAcorns.application"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\AggressiveAcorns.pdb"/>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\AggressiveAcorns.dll"/>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\AggressiveAcorns.pdb"/>
-        <Clean Remove="obj\x86\Release\net452\\TempCA\AggressiveAcorns.dll"/>
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.0.0"/>
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared"/>
