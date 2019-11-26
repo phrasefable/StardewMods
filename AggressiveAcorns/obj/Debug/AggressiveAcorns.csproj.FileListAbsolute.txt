@@ -1,0 +1,2 @@
+C:\Users\Courtney\Documents\Stardew\Modding\Mod Tools\StardewMods-master-AgressiveAcorns\StardewMods-master\AggressiveAcorns\obj\Debug\AggressiveAcorns.csprojAssemblyReference.cache
+C:\Users\Courtney\Documents\Stardew\Modding\Mod Tools\StardewMods-master-AgressiveAcorns\StardewMods-master\AggressiveAcorns\obj\Debug\AggressiveAcorns.csproj.CoreCompileInputs.cache
