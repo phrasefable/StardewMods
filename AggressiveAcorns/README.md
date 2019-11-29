@@ -1,19 +1,70 @@
-# Aggressive Acorns
+# Aggressive Acorns - *Yet Another Tree Configurator*
 
-__Aggressive Acorns__ allow high customisation of tree behavior.
-The main features are that spreading trees can replace long grass, and that immature trees cannot be destroyed by melee weapons.
+__Aggressive Acorns__ is a highly configurable overhaul for Stardew Valley's tree growth.
+It adds new mechanics, fixes bugs, in addition to allowing thorough customisation of the vanilla mechanics.
+
+Notable features of the mod are:
+* Allows the user to configure many aspects of the vanilla mechanics.
+* Spreading trees replace grass (the eponymous feature).
+* Immature trees are not destroyed by melee weapons.
+
 
 Also fixes some of vanilla's oversights such as stumps shading adjacent saplings, stumps spreading seeds, and a graphical error that affects mushroom stumps that were cut then regrew within the same game session.
 
-[TOC]: #
+<!-- =============================================================================================================== -->
 
 # Table of Contents
-- [Features](#features)
 - [Installation](#installation)
+- [Features](#features)
 - [Configuration](#configuration)
 - [Future plans](#future)
 
-## Features
+See also:
+ - [Change Log]()
+ - [Detailed Features List]()
+
+<!-- =============================================================================================================== -->
+
+# Installation
+
+1. Install [SMAPI](https://smapi.io/).
+2. Download this mod from the [releases page]() or from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/3661).
+3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
+4. Start the game once to create the configuration file.<br />
+   Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play.<br />
+   *All options default to vanilla, so make sure to enable any features you want*.
+
+
+**Multiplayer**: Must be installed for all players.
+
+**Warning**:
+Versions earlier than 1.2.0 are incompatible with TMXLoader ([bug ticket](https://github.com/phrasefable/StardewMods/issues/1))
+(and hence Stardew Valley Extended).
+
+Compatible with version 1.4 of Stardew Valley.<br />
+For the latest compatibility information visit <https://mods.smapi.io/#Aggressive_Acorns>.
+
+<!-- =============================================================================================================== -->
+
+# Aknowledgements
+
+* Pathoschild: for SMAPI, immeasurable services to the SDV community, etc., etc..
+* Minervamaga: for help updating to SDV 1.4
+* Wren2012, Skybellrock: for reporting bugs
+* Everyone who has used the mod.
+
+The mods that inspired or influenced this one:
+* [A Tappers Dream](https://www.nexusmods.com/stardewvalley/mods/260) by GoldenRevolver (Broken since SDV 1.3).
+* [Consitent Tree Growth Speed](https://www.nexusmods.com/stardewvalley/mods/1799) by asrdfsdvs  (Broken since SDV 1.3.29).
+* [Instant Grow Trees](https://www.nexusmods.com/stardewvalley/mods/173) by Cantorsdust.
+* [Tree Spread](https://www.nexusmods.com/stardewvalley/mods/3183) by bcmpinc.
+
+Recommended:
+* https://mods.smapi.io/#Plantable_Palm_Trees MouseyPounds
+* https://mods.smapi.io/#Plantable_Mushroom_Trees f4iTh
+* https://mods.smapi.io/#Tree_Transplant LeonBlade 
+
+# Features
 Features are classified as either:
 * :icecream: adding configuration to an existing vanilla value (like 'chance' or 'stage')
 * :seedling: configurable new feature
@@ -53,18 +104,6 @@ Features are classified as either:
 * Mushroom stumps will always respect the setting for max shaded growth, whether regrowing from hibernation on Spring 1st or using the daily regrowth feature. This means that if a normal tree grows next to a hibernating stump, it would block the regrowth on Spring 1st.
 * In vanilla, there is an error if a mushroom tree is chopped down, then regrows on Spring 1st, without exiting/reopening the save. The (non-serialized) rotation value is not reset after the falling animation, so the top of the tree reappears fallen over. This has been fixed.
 
-## Installation
-
-1. Install [SMAPI](https://smapi.io/) (>3.0.0)
-2. Get this mod from Nexus Mods.
-3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
-4. Start the game once to create the configuration file. Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play. *All options default to vanilla, so make sure to enable any features you want*.
-
-
-Compatible with version 1.4 of Stardew Valley. Must be installed for all players in multiplayer.
-* Compatible with Stardew Valley Extended as of Aggressive Acorns v1.2.0.
-
-For the latest compatibility information visit https://smapi.io/compat
 
 
 ## Configuration
