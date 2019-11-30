@@ -21,6 +21,7 @@ _ReSharper*/
 # NuGet packages
 *.nupkg
 **/packages/*
+packages/
 *.nuget.props
 *.nuget.targets
 
