@@ -39,6 +39,7 @@ namespace AggressiveAcorns
             stump.Value = tree.stump.Value;
             tapped.Value = tree.tapped.Value;
             hasSeed.Value = tree.hasSeed.Value;
+            fertilized.Value = tree.fertilized.Value;
         }
 
 
@@ -60,6 +61,7 @@ namespace AggressiveAcorns
             tree.stump.Value = stump.Value;
             tree.tapped.Value = tapped.Value;
             tree.hasSeed.Value = hasSeed.Value;
+            tree.fertilized.Value = fertilized.Value;
 
             SyncFieldToTree<NetBool, bool>(tree, "destroy");
 
@@ -141,8 +143,11 @@ namespace AggressiveAcorns
                 return;
             }
 
-            if (ExperiencingWinter() && (!_config.DoGrowInWinter ||
-                                         (treeType.Value == mushroomTree && _config.DoMushroomTreesHibernate)))
+            // Trees experiencing winter won't grow unless fertilized or set to ignore winter.
+            // In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized.
+            if (ExperiencingWinter()
+                && ((treeType.Value == mushroomTree && _config.DoMushroomTreesHibernate)
+                    || !(_config.DoGrowInWinter || fertilized.Value)))
             {
                 return;
             }
@@ -151,7 +156,7 @@ namespace AggressiveAcorns
             {
                 growthStage.Value = IsShaded() ? _config.MaxShadedGrowthStage : treeStage;
             }
-            else if (Game1.random.NextDouble() < _config.DailyGrowthChance)
+            else if (Game1.random.NextDouble() < _config.DailyGrowthChance || fertilized.Value)
             {
                 growthStage.Value += 1;
             }
