@@ -248,7 +248,6 @@ namespace AggressiveAcorns
         }
 
 
-        // TODO: check, should this be compounding? Shouldn't it just try once?
         private IEnumerable<Vector2> GetSpreadLocations()
         {
             // pick random tile within +-3 x/y.
