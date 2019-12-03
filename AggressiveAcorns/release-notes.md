@@ -2,10 +2,17 @@
 
 # Release notes
 
+## 1.2.3-beta
+4 December 2019
+
+* Bugfix: Tree fertilizer works now.
+  * Thanks to BethandMolson for the report.
+* Some internal changes to bring in line with the changes for Stardew Valley 1.4
+
 ## 1.2.2-beta.1
 27 November 2019
 
-* Beta release for Stardew Valley 1.4 and SMAPI 3.0.
+* Beta release for Stardew Valley 1.4 and SMAPI 3.0 (Updated build only).
   * Thanks to Minervamaga for help with the update.
 
 
