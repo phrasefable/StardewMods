@@ -83,8 +83,12 @@ namespace AggressiveAcorns
             if (health.Value <= -100)
             {
                 SetField<NetBool, bool>("destroy", true);
+                _skipUpdate = true;
             }
-            else if (!_skipUpdate && TreeCanGrow())
+
+            ValidateTapped(environment, tileLocation);
+
+            if (!_skipUpdate && TreeCanGrow())
             {
                 PopulateSeed();
                 TrySpread();
@@ -135,6 +139,17 @@ namespace AggressiveAcorns
 
 
         // ===========================================================================================================
+
+        private void ValidateTapped(GameLocation environment, Vector2 tileLocation)
+        {
+            if (!tapped.Value) return;
+
+            Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
+            if (objectAtTile == null || !objectAtTile.bigCraftable.Value || objectAtTile.ParentSheetIndex != 105)
+            {
+                tapped.Value = false;
+            }
+        }
 
         private void TryIncreaseStage()
         {
