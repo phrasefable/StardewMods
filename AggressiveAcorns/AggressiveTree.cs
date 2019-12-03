@@ -134,8 +134,6 @@ namespace AggressiveAcorns
 
         // ===========================================================================================================
 
-        #region Day_Update_Code
-
         private void TryIncreaseStage()
         {
             if (growthStage.Value >= treeStage || (growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded()))
@@ -316,7 +314,5 @@ namespace AggressiveAcorns
 
             return false;
         }
-
-        #endregion
     }
 }
