@@ -172,12 +172,12 @@ namespace AggressiveAcorns
                 return;
             }
 
-            if (Game1.currentSeason.Equals("winter"))
+            if (Game1.IsWinter)
             {
                 stump.Value = true;
                 health.Value = 5;
             }
-            else if (Game1.currentSeason.Equals("spring") && Game1.dayOfMonth <= 1)
+            else if (Game1.IsSpring && Game1.dayOfMonth <= 1)
             {
                 RegrowStumpIfNotShaded();
             }
@@ -216,7 +216,7 @@ namespace AggressiveAcorns
         {
             if (!(_location is Farm) ||
                 growthStage.Value < treeStage ||
-                (Game1.currentSeason.Equals("winter") && !_config.DoSpreadInWinter) ||
+                (Game1.IsWinter && !_config.DoSpreadInWinter) ||
                 (tapped.Value && !_config.DoTappedSpread) ||
                 stump.Value)
             {
@@ -293,7 +293,7 @@ namespace AggressiveAcorns
 
         private bool ExperiencingWinter()
         {
-            return Game1.currentSeason.Equals("winter") && ExperiencesWinter();
+            return Game1.IsWinter && ExperiencesWinter();
         }
 
 
