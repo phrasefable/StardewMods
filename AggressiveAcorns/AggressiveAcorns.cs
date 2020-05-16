@@ -1,143 +1,52 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using Common.Harmony;
+using Harmony;
 using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewValley;
-using StardewValley.TerrainFeatures;
+using static Common.Harmony.PatchValidation.Utilities;
 
 namespace AggressiveAcorns
 {
     [UsedImplicitly]
     public class AggressiveAcorns : Mod
     {
-        internal static IReflectionHelper ReflectionHelper;
-        internal static IModConfig Config;
+        private IModConfig _config;
 
-
-        private bool _manageTrees;
-
-        private bool ManageTrees
-        {
-            get => _manageTrees;
-            set
-            {
-                if (value == _manageTrees) return;
-
-                Monitor.Log($"{(value ? "Started" : "Stopped")} watching for new trees/new areas.");
-                _manageTrees = value;
-            }
-        }
+        private HarmonyInstance _harmony;
+        private readonly List<IHarmonyPatchInfo> _patches = new List<IHarmonyPatchInfo>();
 
 
         public override void Entry([NotNull] IModHelper helper)
         {
-            Config = helper.ReadConfig<ModConfig>();
-            ReflectionHelper = helper.Reflection;
+            _config = helper.ReadConfig<ModConfig>();
+            _harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
 
-            helper.Events.GameLoop.DayStarted += OnDayStarted;
-            helper.Events.World.LocationListChanged += OnLocationListChanged;
-            helper.Events.World.TerrainFeatureListChanged += OnTerrainFeatureListChanged;
-            helper.Events.GameLoop.Saving += OnSaving;
+            SetupPatches(helper);
+
+            helper.Events.GameLoop.GameLaunched += (s, args) => ValidatePatches(
+                _harmony,
+                _patches,
+                Monitor,
+                helper.ModRegistry
+            );
         }
 
 
-        private void OnDayStarted(object sender, DayStartedEventArgs e)
+        private void SetupPatches(IModHelper helper)
         {
-            Monitor.Log("Enraging trees in all available areas.");
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Common.Utilities.GetLocations(Helper));
-            ManageTrees = true;
-        }
+            _patches.Add(Patch_Tree_DayUpdate.Initialize(Monitor, _config, helper.Reflection));
 
-
-        private void OnSaving(object sender, SavingEventArgs e)
-        {
-            ManageTrees = false;
-            Monitor.Log("Calming trees in all available areas.");
-            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Common.Utilities.GetLocations(Helper));
-        }
-
-
-        private void OnLocationListChanged(object sender, LocationListChangedEventArgs e)
-        {
-            if (!ManageTrees) return;
-            Monitor.Log("Found new areas; enraging any trees.");
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, e.Added);
-        }
-
-
-        private void OnTerrainFeatureListChanged(object sender, TerrainFeatureListChangedEventArgs e)
-        {
-            // NOTE: this causes changes to the terrain feature list, make sure that this doesn't get stuck forever.
-            if (!ManageTrees) return;
-
-            var toReplace = GetTerrainFeatures<Tree>(e.Added);
-            if (!toReplace.Any()) return;
-
-            var msg = ReplaceTerrainFeatures(EnrageTree, e.Location, toReplace);
-            Monitor.Log("TerrainFeature list changed: " + msg);
-        }
-
-
-        [NotNull]
-        private static AggressiveTree EnrageTree([NotNull] Tree tree)
-        {
-            return new AggressiveTree(tree);
-        }
-
-
-        [NotNull]
-        private static Tree CalmTree([NotNull] AggressiveTree tree)
-        {
-            return tree.ToTree();
-        }
-
-
-        private void ReplaceTerrainFeatures<TOriginal, TReplacement>(
-            Func<TOriginal, TReplacement> converter,
-            [NotNull] IEnumerable<GameLocation> locations)
-            where TReplacement : TerrainFeature
-            where TOriginal : TerrainFeature
-        {
-            foreach (var location in locations)
+            if (_config.PreventScythe)
             {
-                var toReplace = GetTerrainFeatures<TOriginal>(location.terrainFeatures.Pairs);
-                if (toReplace.Any())
-                {
-                    Monitor.Log(ReplaceTerrainFeatures(converter, location, toReplace));
-                }
-            }
-        }
-
-
-        [NotNull]
-        private static IList<KeyValuePair<Vector2, T>> GetTerrainFeatures<T>(
-            [NotNull] IEnumerable<KeyValuePair<Vector2, TerrainFeature>> items) where T : TerrainFeature
-        {
-            return items
-                .Where(kvp => kvp.Value.GetType() == typeof(T))
-                .Select(kvp => new KeyValuePair<Vector2, T>(kvp.Key, kvp.Value as T))
-                .ToList();
-        }
-
-
-        [NotNull]
-        private string ReplaceTerrainFeatures<TOriginal, TReplacement>(
-            Func<TOriginal, TReplacement> converter,
-            [NotNull] GameLocation location,
-            [NotNull] ICollection<KeyValuePair<Vector2, TOriginal>> terrainFeatures)
-            where TReplacement : TerrainFeature
-            where TOriginal : class
-        {
-            foreach (var keyValuePair in terrainFeatures)
-            {
-                location.terrainFeatures[keyValuePair.Key] = converter(keyValuePair.Value);
+                _patches.Add(Patch_Tree_PerformToolAction.Initialize(Monitor));
             }
 
-            return
-                $"{location.Name} - replaced {terrainFeatures.Count} {typeof(TOriginal).Name} with {typeof(TReplacement).Name}.";
+            if (_config.MaxPassibleGrowthStage != new ModConfig().MaxPassibleGrowthStage)
+            {
+                _patches.Add(Patch_Tree_IsPassible.Initialize(Monitor, _config));
+            }
+
+            _patches.ForEach(p => p.ApplyPatch(_harmony));
         }
     }
 }

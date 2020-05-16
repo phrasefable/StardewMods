@@ -7,6 +7,7 @@
         <TargetFramework>net452</TargetFramework>
         <Platforms>x86</Platforms>
         <PlatformTarget>x86</PlatformTarget>
+        <EnableHarmony>true</EnableHarmony>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,4 +16,6 @@
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared"/>
+
+    <Import Project="..\CommonHarmony\CommonHarmony.projitems" Label="Shared"/>
 </Project>
