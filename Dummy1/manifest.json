@@ -1,0 +1,10 @@
+{
+  "Name": "Dummy1",
+  "Author": "Phrasefable",
+  "Version": "1.0.0",
+  "Description": "Dummy plugin for development tasks",
+  "UniqueID": "Phrasefable.Dummy1",
+  "EntryDll": "Dummy1.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}

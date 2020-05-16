@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>68B08833-5DDF-4E06-8C6D-0B506D05276E</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CommonHarmony</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\IHarmonyPatchInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\HarmonyPatchInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchTypes\IPatchApplicator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchTypes\PostfixPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchTypes\PrefixPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchValidation\ExclusivePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchValidation\IPatchValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchValidation\Utilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Harmony\PatchValidation\ValidationResult.cs" />
+  </ItemGroup>
+</Project>
