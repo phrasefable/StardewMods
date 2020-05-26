@@ -162,9 +162,8 @@ namespace AggressiveAcorns
 
         private static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
         {
-            if (Queries.IsFullyGrown(tree) ||
-                (tree.growthStage.Value >= _config.MaxShadedGrowthStage &&
-                 Queries.IsShaded(location, position)))
+            bool isShaded = Queries.IsShaded(location, position);
+            if (Queries.IsFullyGrown(tree) || (isShaded && tree.growthStage.Value >= _config.MaxShadedGrowthStage))
             {
                 return;
             }
@@ -180,9 +179,7 @@ namespace AggressiveAcorns
 
             if (_config.DoGrowInstantly)
             {
-                tree.growthStage.Value = Queries.IsShaded(location, position)
-                    ? _config.MaxShadedGrowthStage
-                    : Tree.treeStage;
+                tree.growthStage.Value = isShaded ? _config.MaxShadedGrowthStage : Tree.treeStage;
             }
             else if (Game1.random.NextDouble() < _config.DailyGrowthChance || tree.fertilized.Value)
             {
