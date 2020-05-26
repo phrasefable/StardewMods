@@ -42,7 +42,7 @@ namespace NoOre
 
             var harmony = HarmonyInstance.Create(ModManifest.UniqueID);
 
-            var target = typeof(GameLocation).GetMethod(nameof(GameLocation.breakStone));
+            var target = typeof(GameLocation).GetMethod("breakStone");
 
             // Monitor.Log(target != null ? $"got method info for {target.DeclaringType}::{target.Name}" : "couldn't reflect method",LogLevel.Trace);
             var postfix = new HarmonyMethod(GetType(), nameof(Postfix));
