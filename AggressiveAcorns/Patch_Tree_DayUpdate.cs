@@ -27,7 +27,7 @@ namespace AggressiveAcorns
 
         private static readonly MethodInfo PatchSource = AccessTools.Method(
             typeof(Patch_Tree_DayUpdate),
-            nameof(Patch_Tree_DayUpdate.TreeDayUpdate)
+            nameof(Patch_Tree_DayUpdate.TreeDayUpdate_Prefix)
         );
 
 
@@ -44,7 +44,7 @@ namespace AggressiveAcorns
         }
 
 
-        public static bool TreeDayUpdate(
+        public static bool TreeDayUpdate_Prefix(
             Tree __instance,
             GameLocation environment,
             Vector2 tileLocation,
@@ -52,18 +52,7 @@ namespace AggressiveAcorns
         {
             try
             {
-                bool isDestroyed = DestroyIfDead(__instance, ___destroy);
-
-                ValidateTapped(__instance, environment, tileLocation);
-
-                if (!isDestroyed && Queries.TreeCanGrow(__instance, environment, tileLocation))
-                {
-                    PopulateSeed(__instance);
-                    TrySpread(__instance, environment, tileLocation);
-                    TryIncreaseStage(__instance, environment, tileLocation);
-                    ManageHibernation(__instance, environment, tileLocation);
-                    TryRegrow(__instance, environment, tileLocation);
-                }
+                Update(__instance, environment, tileLocation, ___destroy);
 
                 // Prevent other processing on the method.
                 return false;
@@ -80,12 +69,43 @@ namespace AggressiveAcorns
         // ============================================================================================================
 
 
-        private static bool DestroyIfDead(Tree tree, NetBool destroy)
+        private static void Update(Tree tree, GameLocation environment, Vector2 tileLocation, NetBool destroy)
         {
-            if (tree.health.Value > -100) return false;
+            // ===== Pre-processing =====
 
-            destroy.Value = true;
-            return true;
+            ValidateTapped(tree, environment, tileLocation);
+
+            // ===== Invalidation checks =====
+
+            if (tree.health.Value <= -100)
+            {
+                destroy.Value = true;
+                return;
+            }
+
+            if (!Queries.TreeCanGrow(tree, environment, tileLocation)) return;
+
+            // ===== Processing =====
+
+            if (Queries.IsMushroomTree(tree))
+            {
+                ManageHibernation(tree, environment, tileLocation);
+                TryRegrow(tree, environment, tileLocation);
+                /* TODO: prevent further processing if hibernates/regrows*/
+            }
+
+            if (Queries.IsFullyGrown(tree))
+            {
+                if (!tree.stump.Value)
+                {
+                    PopulateSeed(tree);
+                    TrySpread(tree, environment, tileLocation);
+                }
+            }
+            else
+            {
+                TryIncreaseStage(tree, environment, tileLocation);
+            }
         }
 
 
@@ -94,6 +114,7 @@ namespace AggressiveAcorns
             if (!tree.tapped.Value) return;
 
             Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
+            /* TODO: magic number */
             if (objectAtTile == null || !objectAtTile.bigCraftable.Value || objectAtTile.ParentSheetIndex != 105)
             {
                 tree.tapped.Value = false;
@@ -103,9 +124,7 @@ namespace AggressiveAcorns
 
         private static void PopulateSeed(Tree tree)
         {
-            if (!Queries.IsFullyGrown(tree) || tree.stump.Value) return;
-
-            // Seed gain takes precedence over loss, hence loss is immaterial if it is just regained anyway
+            /* Seed gain takes precedence over loss, hence loss is immaterial if it is just regained anyway */
             if (Game1.random.NextDouble() < _config.DailyChanceSeedGain)
             {
                 tree.hasSeed.Value = true;
@@ -119,15 +138,12 @@ namespace AggressiveAcorns
 
         private static void TrySpread(Tree tree, GameLocation location, Vector2 position)
         {
-            if (!(location is Farm) ||
-                !Queries.IsFullyGrown(tree) ||
-                (Game1.IsWinter && !_config.DoSpreadInWinter) ||
-                (tree.tapped.Value && !_config.DoTappedSpread) ||
-                tree.stump.Value)
-            {
-                return;
-            }
+            // Invalidation
+            if (!(location is Farm)) return;
+            if (Game1.IsWinter && !_config.DoSpreadInWinter) return;
+            if (tree.tapped.Value && !_config.DoTappedSpread) return;
 
+            // Processing
             if (Game1.random.NextDouble() >= _config.DailyChanceSpread) return;
 
             foreach (Vector2 seedPos in Queries.GetSpreadLocations(position))
@@ -163,13 +179,12 @@ namespace AggressiveAcorns
         private static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
         {
             bool isShaded = Queries.IsShaded(location, position);
-            if (Queries.IsFullyGrown(tree) || (isShaded && tree.growthStage.Value >= _config.MaxShadedGrowthStage))
-            {
-                return;
-            }
 
-            // Trees experiencing winter won't grow unless fertilized or set to ignore winter.
-            // In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized.
+            // Invalidation
+            if (isShaded && tree.growthStage.Value >= _config.MaxShadedGrowthStage) return;
+
+            /* Trees experiencing winter won't grow unless fertilized or set to ignore winter.
+             * In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized. */
             if (Queries.ExperiencingWinter(location)
                 && ((Queries.IsMushroomTree(tree) && _config.DoMushroomTreesHibernate)
                     || !(_config.DoGrowInWinter || tree.fertilized.Value)))
@@ -177,6 +192,7 @@ namespace AggressiveAcorns
                 return;
             }
 
+            // Processing
             if (_config.DoGrowInstantly)
             {
                 tree.growthStage.Value = isShaded ? _config.MaxShadedGrowthStage : Tree.treeStage;
@@ -190,12 +206,8 @@ namespace AggressiveAcorns
 
         private static void ManageHibernation(Tree tree, GameLocation location, Vector2 position)
         {
-            if (!Queries.IsMushroomTree(tree)
-                || !_config.DoMushroomTreesHibernate
-                || !Queries.ExperiencesWinter(location))
-            {
-                return;
-            }
+            if (!_config.DoMushroomTreesHibernate) return;
+            if (!Queries.ExperiencesWinter(location)) return;
 
             if (Game1.IsWinter)
             {
@@ -211,13 +223,14 @@ namespace AggressiveAcorns
 
         private static void TryRegrow(Tree tree, GameLocation location, Vector2 position)
         {
-            if (Queries.IsMushroomTree(tree) &&
-                _config.DoMushroomTreesRegrow &&
-                tree.stump.Value &&
-                (!Queries.ExperiencingWinter(location) || (!_config.DoMushroomTreesHibernate &&
-                                                           _config.DoGrowInWinter)) &&
-                (_config.DoGrowInstantly ||
-                 Game1.random.NextDouble() < _config.DailyChanceGrowth / 2))
+            // Invalidation checks
+            if (!_config.DoMushroomTreesRegrow) return;
+            if (!tree.stump.Value) return;
+            if (Queries.ExperiencingWinter(location) &&
+                (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) return;
+
+            // Try Regrow
+            if (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyChanceGrowth / 2)
             {
                 RegrowStumpIfNotShaded(tree, location, position);
             }
