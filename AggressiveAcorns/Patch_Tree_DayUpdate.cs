@@ -155,7 +155,7 @@ namespace AggressiveAcorns
         {
             tree.hasSeed.Value = false;
 
-            var seed = new Tree(tree.treeType.Value, 0);
+            var seed = new Tree(tree.treeType.Value, Tree.seedStage);
             location.terrainFeatures[seedPosition] = seed;
         }
 

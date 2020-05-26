@@ -22,7 +22,7 @@ namespace AggressiveAcorns
         {
             string prop = location.doesTileHaveProperty((int) position.X, (int) position.Y, "NoSpawn", "Back");
             bool tileCanSpawnTree = prop == null || !(prop.Equals("All") || prop.Equals("Tree") || prop.Equals("True"));
-            bool isBlockedSeed = tree.growthStage.Value == 0 && location.objects.ContainsKey(position);
+            bool isBlockedSeed = tree.growthStage.Value == Tree.seedStage && location.objects.ContainsKey(position);
             return tileCanSpawnTree && !isBlockedSeed;
         }
 

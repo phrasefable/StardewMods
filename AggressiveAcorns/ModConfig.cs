@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using StardewValley.TerrainFeatures;
 
 namespace AggressiveAcorns
 {
@@ -33,7 +34,9 @@ namespace AggressiveAcorns
         bool DoMushroomTreesRegrow { get; }
     }
 
-
+    /// <summary>
+    /// Mod config - properties default to vanilla values.
+    /// </summary>
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class ModConfig : IModConfig
     {
@@ -43,7 +46,7 @@ namespace AggressiveAcorns
 
         public int MaxShadedGrowthStage { get; set; } = 4;
 
-        public int MaxPassibleGrowthStage { get; set; } = 0;
+        public int MaxPassibleGrowthStage { get; set; } = Tree.seedStage;
 
         public double DailyGrowthChance { get; set; } = 0.20;
 
@@ -59,7 +62,7 @@ namespace AggressiveAcorns
 
         public bool DoSeedsPersist { get; set; } = false;
 
-        public double DailySeedChance { get; set; } = 0.05;
+        public double DailySeedChance { get; set; } = Tree.chanceForDailySeed;
 
         public bool DoMushroomTreesHibernate { get; set; } = true;
 
