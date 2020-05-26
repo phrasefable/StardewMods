@@ -5,19 +5,19 @@ namespace AggressiveAcorns
 {
     public interface IModConfig
     {
-        bool PreventScythe { get; }
+        bool DoScythesDestroySeedlings { get; }
 
-        bool SeedsReplaceGrass { get; }
+        bool DoSeedsReplaceGrass { get; }
 
         int MaxShadedGrowthStage { get; }
 
         int MaxPassibleGrowthStage { get; }
 
-        double DailyGrowthChance { get; }
+        double DailyChanceGrowth { get; }
 
         bool DoGrowInWinter { get; }
 
-        double DailySpreadChance { get; }
+        double DailyChanceSpread { get; }
 
         bool DoTappedSpread { get; }
 
@@ -25,9 +25,9 @@ namespace AggressiveAcorns
 
         bool DoGrowInstantly { get; }
 
-        bool DoSeedsPersist { get; }
+        double DailyChanceSeedLoss { get; }
 
-        double DailySeedChance { get; }
+        double DailyChanceSeedGain { get; }
 
         bool DoMushroomTreesHibernate { get; }
 
@@ -40,19 +40,19 @@ namespace AggressiveAcorns
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class ModConfig : IModConfig
     {
-        public bool PreventScythe { get; set; } = false;
+        public bool DoScythesDestroySeedlings { get; set; } = true;
 
-        public bool SeedsReplaceGrass { get; set; } = false;
+        public bool DoSeedsReplaceGrass { get; set; } = false;
 
         public int MaxShadedGrowthStage { get; set; } = 4;
 
         public int MaxPassibleGrowthStage { get; set; } = Tree.seedStage;
 
-        public double DailyGrowthChance { get; set; } = 0.20;
+        public double DailyChanceGrowth { get; set; } = 0.20;
 
         public bool DoGrowInWinter { get; set; } = false;
 
-        public double DailySpreadChance { get; set; } = 0.15;
+        public double DailyChanceSpread { get; set; } = 0.15;
 
         public bool DoTappedSpread { get; set; } = true;
 
@@ -60,9 +60,9 @@ namespace AggressiveAcorns
 
         public bool DoGrowInstantly { get; set; } = false;
 
-        public bool DoSeedsPersist { get; set; } = false;
+        public double DailyChanceSeedLoss { get; set; } = 1.00;
 
-        public double DailySeedChance { get; set; } = Tree.chanceForDailySeed;
+        public double DailyChanceSeedGain { get; set; } = Tree.chanceForDailySeed;
 
         public bool DoMushroomTreesHibernate { get; set; } = true;
 

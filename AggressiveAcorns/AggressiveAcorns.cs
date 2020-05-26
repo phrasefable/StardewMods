@@ -36,7 +36,7 @@ namespace AggressiveAcorns
         {
             _patches.Add(Patch_Tree_DayUpdate.Initialize(Monitor, _config, helper.Reflection));
 
-            if (_config.PreventScythe)
+            if (!_config.DoScythesDestroySeedlings)
             {
                 _patches.Add(Patch_Tree_PerformToolAction.Initialize(Monitor));
             }

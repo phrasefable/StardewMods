@@ -105,14 +105,14 @@ namespace AggressiveAcorns
         {
             if (!Queries.IsFullyGrown(tree) || tree.stump.Value) return;
 
-            if (!_config.DoSeedsPersist)
-            {
-                tree.hasSeed.Value = false;
-            }
-
-            if (Game1.random.NextDouble() < _config.DailySeedChance)
+            // Seed gain takes precedence over loss, hence loss is immaterial if it is just regained anyway
+            if (Game1.random.NextDouble() < _config.DailyChanceSeedGain)
             {
                 tree.hasSeed.Value = true;
+            }
+            else if (Game1.random.NextDouble() < _config.DailyChanceSeedLoss)
+            {
+                tree.hasSeed.Value = false;
             }
         }
 
@@ -128,13 +128,13 @@ namespace AggressiveAcorns
                 return;
             }
 
-            if (Game1.random.NextDouble() >= _config.DailySpreadChance) return;
+            if (Game1.random.NextDouble() >= _config.DailyChanceSpread) return;
 
             foreach (Vector2 seedPos in Queries.GetSpreadLocations(position))
             {
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
-                if (_config.SeedsReplaceGrass &&
+                if (_config.DoSeedsReplaceGrass &&
                     location.terrainFeatures.TryGetValue(seedPos, out var feature) &&
                     feature is Grass)
                 {
@@ -181,7 +181,7 @@ namespace AggressiveAcorns
             {
                 tree.growthStage.Value = isShaded ? _config.MaxShadedGrowthStage : Tree.treeStage;
             }
-            else if (Game1.random.NextDouble() < _config.DailyGrowthChance || tree.fertilized.Value)
+            else if (Game1.random.NextDouble() < _config.DailyChanceGrowth || tree.fertilized.Value)
             {
                 tree.growthStage.Value += 1;
             }
@@ -217,7 +217,7 @@ namespace AggressiveAcorns
                 (!Queries.ExperiencingWinter(location) || (!_config.DoMushroomTreesHibernate &&
                                                            _config.DoGrowInWinter)) &&
                 (_config.DoGrowInstantly ||
-                 Game1.random.NextDouble() < _config.DailyGrowthChance / 2))
+                 Game1.random.NextDouble() < _config.DailyChanceGrowth / 2))
             {
                 RegrowStumpIfNotShaded(tree, location, position);
             }
