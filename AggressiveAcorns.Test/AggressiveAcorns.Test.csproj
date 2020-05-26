@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>AggressiveAcorns.Test</AssemblyName>
+        <RootNamespace>AggressiveAcorns.Test</RootNamespace>
+
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+
+        <TargetFramework>net452</TargetFramework>
+        <Platforms>x86</Platforms>
+        <PlatformTarget>x86</PlatformTarget>
+
+        <EnableGameDebugging>false</EnableGameDebugging>
+        <EnableModDeploy>false</EnableModDeploy>
+        <EnableModZip>false</EnableModZip>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime"/>
+        <PackageReference Include="NUnit" Version="3.12.0"/>
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj"/>
+    </ItemGroup>
+
+</Project>

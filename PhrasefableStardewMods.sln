@@ -15,6 +15,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommonHarmony", "CommonHarm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dummy1", "Dummy1\Dummy1.csproj", "{C1F830A6-2E10-4EEA-A10D-46A0B4EBF8DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{C4FC47BE-DEFE-4651-A4D6-80484144A85D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4
@@ -43,6 +45,10 @@ Global
 		{C1F830A6-2E10-4EEA-A10D-46A0B4EBF8DC}.Debug|x86.Build.0 = Debug|Any CPU
 		{C1F830A6-2E10-4EEA-A10D-46A0B4EBF8DC}.Release|x86.ActiveCfg = Release|Any CPU
 		{C1F830A6-2E10-4EEA-A10D-46A0B4EBF8DC}.Release|x86.Build.0 = Release|Any CPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.Build.0 = Debug|Any CPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
