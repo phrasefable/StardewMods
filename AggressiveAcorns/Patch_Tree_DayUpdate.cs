@@ -9,7 +9,9 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
-using Object = StardewValley.Object;
+using static AggressiveAcorns.Utilities.Extensions.Tree;
+using static AggressiveAcorns.Utilities.Extensions.GameLocation;
+using static AggressiveAcorns.Utilities.TreeUtilities;
 
 namespace AggressiveAcorns
 {
@@ -83,18 +85,18 @@ namespace AggressiveAcorns
                 return;
             }
 
-            if (!Queries.TreeCanGrow(tree, environment, tileLocation)) return;
+            if (tree.MayGrowAt(environment, tileLocation)) return;
 
             // ===== Processing =====
 
-            if (Queries.IsMushroomTree(tree))
+            if (tree.IsMushroomTree())
             {
                 ManageHibernation(tree, environment, tileLocation);
                 TryRegrow(tree, environment, tileLocation);
                 /* TODO: prevent further processing if hibernates/regrows*/
             }
 
-            if (Queries.IsFullyGrown(tree))
+            if (tree.IsFullyGrown())
             {
                 if (!tree.stump.Value)
                 {
@@ -113,7 +115,7 @@ namespace AggressiveAcorns
         {
             if (!tree.tapped.Value) return;
 
-            Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
+            var objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
             /* TODO: magic number */
             if (objectAtTile == null || !objectAtTile.bigCraftable.Value || objectAtTile.ParentSheetIndex != 105)
             {
@@ -146,7 +148,7 @@ namespace AggressiveAcorns
             // Processing
             if (Game1.random.NextDouble() >= _config.DailyChanceSpread) return;
 
-            foreach (Vector2 seedPos in Queries.GetSpreadLocations(position))
+            foreach (var seedPos in position.GetSpreadLocations())
             {
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
@@ -178,15 +180,15 @@ namespace AggressiveAcorns
 
         private static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
         {
-            bool isShaded = Queries.IsShaded(location, position);
+            var isShaded = location.HasShadeAt(position);
 
             // Invalidation
             if (isShaded && tree.growthStage.Value >= _config.MaxShadedGrowthStage) return;
 
             /* Trees experiencing winter won't grow unless fertilized or set to ignore winter.
              * In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized. */
-            if (Queries.ExperiencingWinter(location)
-                && ((Queries.IsMushroomTree(tree) && _config.DoMushroomTreesHibernate)
+            if (location.ExperiencingWinter()
+                && ((tree.IsMushroomTree() && _config.DoMushroomTreesHibernate)
                     || !(_config.DoGrowInWinter || tree.fertilized.Value)))
             {
                 return;
@@ -207,7 +209,7 @@ namespace AggressiveAcorns
         private static void ManageHibernation(Tree tree, GameLocation location, Vector2 position)
         {
             if (!_config.DoMushroomTreesHibernate) return;
-            if (!Queries.ExperiencesWinter(location)) return;
+            if (!location.ExperiencesWinter()) return;
 
             if (Game1.IsWinter)
             {
@@ -226,7 +228,7 @@ namespace AggressiveAcorns
             // Invalidation checks
             if (!_config.DoMushroomTreesRegrow) return;
             if (!tree.stump.Value) return;
-            if (Queries.ExperiencingWinter(location) &&
+            if (location.ExperiencingWinter() &&
                 (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) return;
 
             // Try Regrow
@@ -239,7 +241,7 @@ namespace AggressiveAcorns
 
         private static void RegrowStumpIfNotShaded(Tree tree, GameLocation location, Vector2 position)
         {
-            if (Queries.IsShaded(location, position)) return;
+            if (location.HasShadeAt(position)) return;
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
