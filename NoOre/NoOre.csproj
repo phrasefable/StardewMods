@@ -2,11 +2,10 @@
     <PropertyGroup>
         <AssemblyName>NoOre</AssemblyName>
         <Version>0.1.0</Version>
+        <EnableHarmony>true</EnableHarmony>
+
         <RootNamespace>NoOre</RootNamespace>
         <TargetFramework>net452</TargetFramework>
-        <EnableHarmony>true</EnableHarmony>
-        <Platforms>x86</Platforms>
-        <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,4 +14,5 @@
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared"/>
+    <Import Project="$(SolutionDir)\common.targets"/>
 </Project>

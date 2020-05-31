@@ -2,10 +2,9 @@
     <PropertyGroup>
         <AssemblyName>Phrasefable_Modding_Tools</AssemblyName>
         <Version>0.0.1</Version>
+
         <RootNamespace>Phrasefable_Modding_Tools</RootNamespace>
         <TargetFramework>net452</TargetFramework>
-        <Platforms>x86</Platforms>
-        <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,4 +13,5 @@
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared"/>
+    <Import Project="$(SolutionDir)\common.targets"/>
 </Project>
