@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace AggressiveAcorns.Test
+namespace Phrasefable.StardewMods.AggressiveAcorns.Test
 {
     [TestFixture]
     public class Tests

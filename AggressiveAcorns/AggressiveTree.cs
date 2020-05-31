@@ -8,7 +8,7 @@ using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using xTile.Dimensions;
 
-namespace AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal class AggressiveTree : Tree
     {

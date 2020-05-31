@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     public interface IModConfig
     {

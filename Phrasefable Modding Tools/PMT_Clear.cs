@@ -1,7 +1,7 @@
 using StardewModdingAPI;
 using StardewValley;
 
-namespace Phrasefable_Modding_Tools
+namespace Phrasefable.StardewMods.ModdingTools
 {
     public partial class PhrasefableModdingTools
     {

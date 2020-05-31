@@ -5,7 +5,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 
-namespace Common
+namespace Phrasefable.StardewMods.Common
 {
     internal static class Utilities
     {

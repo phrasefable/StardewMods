@@ -8,7 +8,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
-namespace AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     [UsedImplicitly]
     public class AggressiveAcorns : Mod

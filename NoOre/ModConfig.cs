@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace NoOre
+namespace Phrasefable.StardewMods.NoOre
 {
     public interface IModConfig
     {

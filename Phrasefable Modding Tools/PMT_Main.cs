@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using StardewModdingAPI;
 
-namespace Phrasefable_Modding_Tools
+namespace Phrasefable.StardewMods.ModdingTools
 {
     [UsedImplicitly]
     public partial class PhrasefableModdingTools : Mod

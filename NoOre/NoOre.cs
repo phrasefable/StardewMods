@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using SObject = StardewValley.Object;
 
-namespace NoOre
+namespace Phrasefable.StardewMods.NoOre
 {
     [UsedImplicitly]
     public class NoOre : Mod

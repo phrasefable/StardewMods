@@ -3,15 +3,15 @@
         <AssemblyName>Phrasefable_Modding_Tools</AssemblyName>
         <Version>0.0.1</Version>
 
-        <RootNamespace>Phrasefable_Modding_Tools</RootNamespace>
-        <TargetFramework>net452</TargetFramework>
+      <RootNamespace>Phrasefable.StardewMods.ModdingTools</RootNamespace>
+      <TargetFramework>net452</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime"/>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime"/>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0"/>
+  </ItemGroup>
 
-    <Import Project="..\Common\Common.projitems" Label="Shared"/>
-    <Import Project="$(SolutionDir)\common.targets"/>
+  <Import Project="..\Common\Common.projitems" Label="Shared"/>
+  <Import Project="$(SolutionDir)\common.targets"/>
 </Project>

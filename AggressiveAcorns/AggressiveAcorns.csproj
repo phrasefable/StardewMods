@@ -4,7 +4,7 @@
         <AssemblyName>AggressiveAcorns</AssemblyName>
         <Version>1.2.3-beta</Version>
 
-        <RootNamespace>AggressiveAcorns</RootNamespace>
+        <RootNamespace>Phrasefable.StardewMods.AggressiveAcorns</RootNamespace>
         <TargetFramework>net452</TargetFramework>
     </PropertyGroup>
 

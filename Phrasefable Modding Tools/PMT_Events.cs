@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
-namespace Phrasefable_Modding_Tools
+namespace Phrasefable.StardewMods.ModdingTools
 {
     public partial class PhrasefableModdingTools
     {
