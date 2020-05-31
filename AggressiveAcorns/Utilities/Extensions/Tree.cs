@@ -25,11 +25,11 @@ namespace AggressiveAcorns.Utilities.Extensions
         }
 
 
-        [Pure]
-        public static bool IsFullyGrown([NotNull] this SDVTree tree)
-        {
-            return tree.growthStage.Value >= SDVTree.treeStage;
-        }
+        // [Pure]
+        // public static bool IsFullyGrown([NotNull] this SDVTree tree)
+        // {
+        //     return tree.growthStage.Value >= SDVTree.treeStage;
+        // }
 
 
         [Pure]

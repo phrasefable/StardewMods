@@ -30,7 +30,7 @@ namespace AggressiveAcorns.Utilities.Extensions
             {
                 if (location.terrainFeatures.TryGetValue(adjacentTile, out var feature)
                     && feature is SDVTree adjTree
-                    && adjTree.IsFullyGrown()
+                    && adjTree.growthStage.Value == SDVTree.treeStage
                     && !adjTree.stump.Value)
                 {
                     return true;

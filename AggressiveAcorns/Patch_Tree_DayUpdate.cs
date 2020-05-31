@@ -71,50 +71,53 @@ namespace AggressiveAcorns
         // ============================================================================================================
 
 
-        private static void Update(Tree tree, GameLocation environment, Vector2 tileLocation, NetBool destroy)
+        private static void Update(Tree tree, GameLocation location, Vector2 position, NetBool destroy)
         {
             // ===== Pre-processing =====
 
-            ValidateTapped(tree, environment, tileLocation);
+            if (tree.tapped.Value) ValidateTapped(tree, location, position);
+            if (tree.health.Value <= -100) destroy.Value = true;
 
             // ===== Invalidation checks =====
 
-            if (tree.health.Value <= -100)
-            {
-                destroy.Value = true;
-                return;
-            }
-
-            if (tree.MayGrowAt(environment, tileLocation)) return;
+            //TODO: check this; in vanilla only called when increasing stage
+            if (!tree.MayGrowAt(location, position)) return;
 
             // ===== Processing =====
 
             if (tree.IsMushroomTree())
             {
-                ManageHibernation(tree, environment, tileLocation);
-                TryRegrow(tree, environment, tileLocation);
-                /* TODO: prevent further processing if hibernates/regrows*/
+                // Note short-circuit evaluation
+                var changedHibernation =
+                    ManageHibernation(tree, location, position) ||
+                    TryRegrow(tree, location, position);
+
+                // TODO: ensure non-hibernating immature trees have stump flag cleared.
+
+                if (changedHibernation) return;
+
             }
 
-            if (tree.IsFullyGrown())
+            if (tree.stump.Value) return;
+
+            if (tree.growthStage.Value >= Tree.treeStage)
             {
-                if (!tree.stump.Value)
-                {
-                    PopulateSeed(tree);
-                    TrySpread(tree, environment, tileLocation);
-                }
+                TrySpread(tree, location, position);
             }
             else
             {
-                TryIncreaseStage(tree, environment, tileLocation);
+                TryIncreaseStage(tree, location, position);
+            }
+
+            if (tree.growthStage.Value >= Tree.treeStage)
+            {
+                PopulateSeed(tree); // TODO: Mushroom trees don't have seeds anyway.
             }
         }
 
 
         private static void ValidateTapped(Tree tree, GameLocation environment, Vector2 tileLocation)
         {
-            if (!tree.tapped.Value) return;
-
             var objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
             /* TODO: magic number */
             if (objectAtTile == null || !objectAtTile.bigCraftable.Value || objectAtTile.ParentSheetIndex != 105)
@@ -180,9 +183,11 @@ namespace AggressiveAcorns
 
         private static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
         {
+            // TODO: only evaluate isShaded if necessary.
             var isShaded = location.HasShadeAt(position);
 
             // Invalidation
+            // TODO reverse check.
             if (isShaded && tree.growthStage.Value >= _config.MaxShadedGrowthStage) return;
 
             /* Trees experiencing winter won't grow unless fertilized or set to ignore winter.
@@ -206,47 +211,59 @@ namespace AggressiveAcorns
         }
 
 
-        private static void ManageHibernation(Tree tree, GameLocation location, Vector2 position)
+        /* TODO: validate that all immature mushroom trees are only stumps if hibernating.
+         * -> would that mean that RegrowStumpIfNotShaded only applies to mature trees, or should they regrow even if shaded?
+         */
+        private static bool ManageHibernation(Tree tree, GameLocation location, Vector2 position)
         {
-            if (!_config.DoMushroomTreesHibernate) return;
-            if (!location.ExperiencesWinter()) return;
+            if (!_config.DoMushroomTreesHibernate) return false;
+            if (!location.ExperiencesWinter()) return false;
 
             if (Game1.IsWinter)
             {
                 tree.stump.Value = true;
                 tree.health.Value = 5;
+                return true;
             }
-            else if (Game1.IsSpring && Game1.dayOfMonth <= 1)
+
+            if (Game1.IsSpring && Game1.dayOfMonth <= 1)
             {
-                RegrowStumpIfNotShaded(tree, location, position);
+                return RegrowStumpIfNotShaded(tree, location, position);
             }
+
+            return false;
         }
 
 
-        private static void TryRegrow(Tree tree, GameLocation location, Vector2 position)
+        private static bool TryRegrow(Tree tree, GameLocation location, Vector2 position)
         {
             // Invalidation checks
-            if (!_config.DoMushroomTreesRegrow) return;
-            if (!tree.stump.Value) return;
+            if (!_config.DoMushroomTreesRegrow) return false;
+            if (!tree.stump.Value) return false;
             if (location.ExperiencingWinter() &&
-                (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) return;
+                (_config.DoMushroomTreesHibernate || !_config.DoGrowInWinter)) return false;
 
             // Try Regrow
             if (_config.DoGrowInstantly || Game1.random.NextDouble() < _config.DailyChanceGrowth / 2)
             {
-                RegrowStumpIfNotShaded(tree, location, position);
+                return RegrowStumpIfNotShaded(tree, location, position);
             }
+
+            return false;
         }
 
 
-        private static void RegrowStumpIfNotShaded(Tree tree, GameLocation location, Vector2 position)
+        private static bool RegrowStumpIfNotShaded(Tree tree, GameLocation location, Vector2 position)
         {
-            if (location.HasShadeAt(position)) return;
+            if (location.HasShadeAt(position)) return false;
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
 
+            /* TODO: move this fix to the cause rather than this particular case where the symptoms become visible */
             _reflectionHelper.GetField<float>(tree, "shakeRotation").SetValue(0);
+
+            return true;
         }
     }
 }
