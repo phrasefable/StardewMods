@@ -10,7 +10,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         int MaxShadedGrowthStage { get; }
 
-        int MaxPassibleGrowthStage { get; }
+        int MaxPassibleGrowthStage { get; } // TODO spellcheck pass_i_ble -> pass_a_ble
 
         double DailyGrowthChance { get; }
 
