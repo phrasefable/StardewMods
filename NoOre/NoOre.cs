@@ -1,4 +1,5 @@
-﻿using Harmony;
+﻿using System.Reflection;
+using Harmony;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -11,12 +12,15 @@ namespace NoOre
     public class NoOre : Mod
     {
         private static IModConfig _config;
+
+        // ReSharper disable once NotAccessedField.Local
         private static IMonitor _monitor;
 
         private bool _handleNewLocations;
 
         private bool DoHandleNewLocations
         {
+            // ReSharper disable once UnusedMember.Local
             get => _handleNewLocations;
             set
             {
@@ -37,15 +41,15 @@ namespace NoOre
 
         public override void Entry([NotNull] IModHelper helper)
         {
-            _config = helper.ReadConfig<ModConfig>();
-            _monitor = Monitor;
+            NoOre._config = helper.ReadConfig<ModConfig>();
+            NoOre._monitor = Monitor;
 
             var harmony = HarmonyInstance.Create(ModManifest.UniqueID);
 
-            var target = typeof(GameLocation).GetMethod("breakStone");
+            MethodInfo target = typeof(GameLocation).GetMethod("breakStone");
 
             // Monitor.Log(target != null ? $"got method info for {target.DeclaringType}::{target.Name}" : "couldn't reflect method",LogLevel.Trace);
-            var postfix = new HarmonyMethod(GetType(), nameof(Postfix));
+            var postfix = new HarmonyMethod(GetType(), nameof(NoOre.Postfix));
             harmony.Patch(target, null, postfix);
 
             helper.Events.GameLoop.SaveLoaded += (sender, args) => DoHandleNewLocations = Context.IsMainPlayer;
@@ -53,6 +57,7 @@ namespace NoOre
         }
 
 
+        // ReSharper disable once MemberCanBeMadeStatic.Local
         private void WorldOnLocationListChanged(object sender, LocationListChangedEventArgs e)
         {
             throw new System.NotImplementedException();
@@ -60,19 +65,22 @@ namespace NoOre
 
 
         private static void Postfix(
+            // ReSharper disable UnusedParameter.Local
             GameLocation __instance,
             bool __result,
             int indexOfStone,
             int x,
             int y,
-            Farmer who)
+            Farmer who
+            // ReSharper restore UnusedParameter.Local
+        )
         {
             // _monitor.Log(
             //     $"breakStone called in {__instance.Name} at ({x},{y}) by {who.Name} on {indexOfStone}",
             //     LogLevel.Trace);
             if (__result) return; // if the original method returned true, it wasn't normal stone
 
-            if (_config.ReplaceOres)
+            if (NoOre._config.ReplaceOres)
             {
                 // chance to drop ores
                 /*
@@ -84,17 +92,17 @@ namespace NoOre
                  */
             }
 
-            if (_config.ReplaceGemNodes)
+            if (NoOre._config.ReplaceGemNodes)
             {
                 // chance to drop gems
             }
 
-            if (_config.ReplaceMysticStone)
+            if (NoOre._config.ReplaceMysticStone)
             {
                 // chance to drop mystic stone drops
             }
 
-            if (_config.ReplaceGeodeNodes)
+            if (NoOre._config.ReplaceGeodeNodes)
             {
                 // chance to drop geodes
             }
@@ -102,6 +110,7 @@ namespace NoOre
     }
 
 
+    // ReSharper disable UnusedType.Global, UnusedMember.Global
     internal static class Constants
     {
         public const int CopperNode = 378;
@@ -110,4 +119,5 @@ namespace NoOre
         public const int GoldNode = 384;
         public const int IridiumNode = 386;
     }
+    // ReSharper restore UnusedType.Global, UnusedMember.Global
 }

@@ -34,8 +34,8 @@ namespace AggressiveAcorns
 
         public override void Entry([NotNull] IModHelper helper)
         {
-            Config = helper.ReadConfig<ModConfig>();
-            ReflectionHelper = helper.Reflection;
+            AggressiveAcorns.Config = helper.ReadConfig<ModConfig>();
+            AggressiveAcorns.ReflectionHelper = helper.Reflection;
 
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.World.LocationListChanged += OnLocationListChanged;
@@ -47,7 +47,10 @@ namespace AggressiveAcorns
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             Monitor.Log("Enraging trees in all available areas.");
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<Tree, AggressiveTree>(
+                AggressiveAcorns.EnrageTree,
+                Common.Utilities.GetLocations(Helper)
+            );
             ManageTrees = true;
         }
 
@@ -56,7 +59,10 @@ namespace AggressiveAcorns
         {
             ManageTrees = false;
             Monitor.Log("Calming trees in all available areas.");
-            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<AggressiveTree, Tree>(
+                AggressiveAcorns.CalmTree,
+                Common.Utilities.GetLocations(Helper)
+            );
         }
 
 
@@ -64,7 +70,7 @@ namespace AggressiveAcorns
         {
             if (!ManageTrees) return;
             Monitor.Log("Found new areas; enraging any trees.");
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, e.Added);
+            ReplaceTerrainFeatures<Tree, AggressiveTree>(AggressiveAcorns.EnrageTree, e.Added);
         }
 
 
@@ -73,10 +79,10 @@ namespace AggressiveAcorns
             // NOTE: this causes changes to the terrain feature list, make sure that this doesn't get stuck forever.
             if (!ManageTrees) return;
 
-            var toReplace = GetTerrainFeatures<Tree>(e.Added);
+            IList<KeyValuePair<Vector2, Tree>> toReplace = AggressiveAcorns.GetTerrainFeatures<Tree>(e.Added);
             if (!toReplace.Any()) return;
 
-            var msg = ReplaceTerrainFeatures(EnrageTree, e.Location, toReplace);
+            string msg = AggressiveAcorns.ReplaceTerrainFeatures(AggressiveAcorns.EnrageTree, e.Location, toReplace);
             Monitor.Log("TerrainFeature list changed: " + msg);
         }
 
@@ -101,12 +107,13 @@ namespace AggressiveAcorns
             where TReplacement : TerrainFeature
             where TOriginal : TerrainFeature
         {
-            foreach (var location in locations)
+            foreach (GameLocation location in locations)
             {
-                var toReplace = GetTerrainFeatures<TOriginal>(location.terrainFeatures.Pairs);
+                IList<KeyValuePair<Vector2, TOriginal>> toReplace =
+                    AggressiveAcorns.GetTerrainFeatures<TOriginal>(location.terrainFeatures.Pairs);
                 if (toReplace.Any())
                 {
-                    Monitor.Log(ReplaceTerrainFeatures(converter, location, toReplace));
+                    Monitor.Log(AggressiveAcorns.ReplaceTerrainFeatures(converter, location, toReplace));
                 }
             }
         }
@@ -124,14 +131,14 @@ namespace AggressiveAcorns
 
 
         [NotNull]
-        private string ReplaceTerrainFeatures<TOriginal, TReplacement>(
+        private static string ReplaceTerrainFeatures<TOriginal, TReplacement>(
             Func<TOriginal, TReplacement> converter,
             [NotNull] GameLocation location,
             [NotNull] ICollection<KeyValuePair<Vector2, TOriginal>> terrainFeatures)
             where TReplacement : TerrainFeature
             where TOriginal : class
         {
-            foreach (var keyValuePair in terrainFeatures)
+            foreach (KeyValuePair<Vector2, TOriginal> keyValuePair in terrainFeatures)
             {
                 location.terrainFeatures[keyValuePair.Key] = converter(keyValuePair.Value);
             }

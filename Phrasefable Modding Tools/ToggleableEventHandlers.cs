@@ -34,20 +34,13 @@ namespace Phrasefable_Modding_Tools
 
         public void Set(ToggleAction action)
         {
-            switch (action)
+            this.IsEnabled = action switch
             {
-                case ToggleAction.Enable:
-                    IsEnabled = true;
-                    break;
-                case ToggleAction.Disable:
-                    IsEnabled = false;
-                    break;
-                case ToggleAction.Toggle:
-                    IsEnabled = !IsEnabled;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
-            }
+                ToggleAction.Enable => true,
+                ToggleAction.Disable => false,
+                ToggleAction.Toggle => !this.IsEnabled,
+                _ => throw new ArgumentOutOfRangeException(nameof(action), action, null)
+            };
         }
     }
 

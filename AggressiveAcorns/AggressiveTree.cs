@@ -25,9 +25,7 @@ namespace AggressiveAcorns
 
 
         [UsedImplicitly]
-        public AggressiveTree()
-        {
-        }
+        public AggressiveTree() { }
 
 
         public AggressiveTree([NotNull] Tree tree)
@@ -124,7 +122,7 @@ namespace AggressiveAcorns
         }
 
 
-        private void SyncField<TNetField, T>(object origin, object target, string name)
+        private static void SyncField<TNetField, T>(object origin, object target, string name)
             where TNetField : NetField<T, TNetField>
         {
             T value = AggressiveAcorns.ReflectionHelper.GetField<TNetField>(origin, name).GetValue().Value;
@@ -134,7 +132,7 @@ namespace AggressiveAcorns
 
         private void SyncFieldToTree<TNetField, T>(Tree tree, string name) where TNetField : NetField<T, TNetField>
         {
-            SyncField<TNetField, T>(this, tree, name);
+            AggressiveTree.SyncField<TNetField, T>(this, tree, name);
         }
 
 
@@ -153,7 +151,8 @@ namespace AggressiveAcorns
 
         private void TryIncreaseStage()
         {
-            if (growthStage.Value >= treeStage || (growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded()))
+            if (growthStage.Value >= Tree.treeStage ||
+                (growthStage.Value >= _config.MaxShadedGrowthStage && IsShaded()))
             {
                 return;
             }
@@ -161,7 +160,7 @@ namespace AggressiveAcorns
             // Trees experiencing winter won't grow unless fertilized or set to ignore winter.
             // In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized.
             if (ExperiencingWinter()
-                && ((treeType.Value == mushroomTree && _config.DoMushroomTreesHibernate)
+                && ((treeType.Value == Tree.mushroomTree && _config.DoMushroomTreesHibernate)
                     || !(_config.DoGrowInWinter || fertilized.Value)))
             {
                 return;
@@ -169,7 +168,7 @@ namespace AggressiveAcorns
 
             if (_config.DoGrowInstantly)
             {
-                growthStage.Value = IsShaded() ? _config.MaxShadedGrowthStage : treeStage;
+                growthStage.Value = IsShaded() ? _config.MaxShadedGrowthStage : Tree.treeStage;
             }
             else if (Game1.random.NextDouble() < _config.DailyGrowthChance || fertilized.Value)
             {
@@ -180,7 +179,7 @@ namespace AggressiveAcorns
 
         private void ManageHibernation()
         {
-            if (treeType.Value != mushroomTree
+            if (treeType.Value != Tree.mushroomTree
                 || !_config.DoMushroomTreesHibernate
                 || !ExperiencesWinter())
             {
@@ -201,7 +200,7 @@ namespace AggressiveAcorns
 
         private void TryRegrow()
         {
-            if (treeType.Value == mushroomTree &&
+            if (treeType.Value == Tree.mushroomTree &&
                 _config.DoMushroomTreesRegrow &&
                 stump.Value &&
                 (!ExperiencingWinter() || (!_config.DoMushroomTreesHibernate && _config.DoGrowInWinter)) &&
@@ -217,7 +216,7 @@ namespace AggressiveAcorns
             if (IsShaded()) return;
 
             stump.Value = false;
-            health.Value = startingHealth;
+            health.Value = Tree.startingHealth;
 
             /*  Not currently needed as AggressiveTree is converted to Tree and back around save to allow
              *  serialization (ie. new objects created so rotation is reset).
@@ -230,7 +229,7 @@ namespace AggressiveAcorns
         private void TrySpread()
         {
             if (!(_location is Farm) ||
-                growthStage.Value < treeStage ||
+                growthStage.Value < Tree.treeStage ||
                 (Game1.IsWinter && !_config.DoSpreadInWinter) ||
                 (tapped.Value && !_config.DoTappedSpread) ||
                 stump.Value)
@@ -243,7 +242,7 @@ namespace AggressiveAcorns
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
                 if (_config.SeedsReplaceGrass &&
-                    _location.terrainFeatures.TryGetValue(seedPos, out var feature) &&
+                    _location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
                     feature is Grass)
                 {
                     PlaceOffspring(seedPos);
@@ -283,7 +282,7 @@ namespace AggressiveAcorns
 
         private void PopulateSeed()
         {
-            if (growthStage.Value < treeStage || stump.Value) return;
+            if (growthStage.Value < Tree.treeStage || stump.Value) return;
 
             if (!_config.DoSeedsPersist)
             {
@@ -324,7 +323,7 @@ namespace AggressiveAcorns
             {
                 if (_location.terrainFeatures.TryGetValue(adjacentTile, out TerrainFeature feature)
                     && feature is Tree adjTree
-                    && adjTree.growthStage.Value >= treeStage
+                    && adjTree.growthStage.Value >= Tree.treeStage
                     && !adjTree.stump.Value)
                 {
                     return true;
