@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -19,11 +20,23 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         private bool _skipUpdate;
 
 
+        private readonly Func<Tool, int, Vector2, GameLocation, bool> PerformToolActionHandler;
+
+
         [UsedImplicitly]
-        public AggressiveTree() { }
+        public AggressiveTree()
+        {
+            this.PerformToolActionHandler = base.performToolAction;
+        }
 
 
-        public AggressiveTree([NotNull] Tree tree)
+        internal AggressiveTree(Func<Tool, int, Vector2, GameLocation, bool> performToolActionHandler)
+        {
+            this.PerformToolActionHandler = performToolActionHandler;
+        }
+
+
+        public AggressiveTree([NotNull] Tree tree) : this()
         {
             growthStage.Value = tree.growthStage.Value;
             treeType.Value = tree.treeType.Value;
@@ -33,13 +46,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             tapped.Value = tree.tapped.Value;
             hasSeed.Value = tree.hasSeed.Value;
             fertilized.Value = tree.fertilized.Value;
-        }
-
-
-        private AggressiveTree(int treeType, int growthStage, bool skipFirstUpdate = false)
-            : base(treeType, growthStage)
-        {
-            _skipUpdate = skipFirstUpdate;
         }
 
 
@@ -100,8 +106,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override bool performToolAction(Tool t, int explosion, Vector2 tileLocation, GameLocation location)
         {
-            bool prevent = _config.PreventScythe && t is MeleeWeapon;
-            return !prevent && base.performToolAction(t, explosion, tileLocation, location);
+            if (_config.PreventScythe && t is MeleeWeapon)
+            {
+                return false;
+            }
+
+            return this.PerformToolActionHandler(t, explosion, tileLocation, location);
         }
 
 
