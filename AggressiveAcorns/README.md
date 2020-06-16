@@ -30,7 +30,7 @@ and a graphical error that affects mushroom stumps that were cut then regrew wit
 
 1. Install [SMAPI](https://smapi.io/).
 2. Download this mod from the [releases page]() or from [Nexus Mods](https://www.nexusmods.com/stardewvalley/mods/3661).
-3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`. 
+3. (Manual installation) Extract the contents of the zip file to `Stardew Valley\Mods`.
 4. Start the game once to create the configuration file.<br />
    Quit, edit the file (`Stardew Valley\Mods\Aggressive Acorns\config.json`), then play.<br />
    *All options default to vanilla, so make sure to enable any features you want*.
@@ -38,12 +38,12 @@ and a graphical error that affects mushroom stumps that were cut then regrew wit
 ## Compatibility
 For up-to-date compatibility information visit the community database <https://mods.smapi.io/#Aggressive_Acorns>.
 
-The latest version of Aggressive Acorns is compatible with **Stardew Valley 1.4**. 
+The latest version of Aggressive Acorns is compatible with **Stardew Valley 1.4**.
 Previous versions are available for Stardew Valley 1.3.
 
 Aggressive Acorns works in **multiplayer**, however, all players must have the mod installed.
 
-Aggressive Acorns versions &ge;1.2.0 are compatible with [TMX Loader](nexusmods.com/stardewvalley/mods/1820),
+Aggressive Acorns versions &ge;1.2.0 are compatible with [TMX Loader](https://nexusmods.com/stardewvalley/mods/1820),
 including its dependent [Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753).
 
 <!-- =============================================================================================================== -->
