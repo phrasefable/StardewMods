@@ -8,7 +8,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void SetUp_Clear()
         {
             const string doc = "clears all objects and terrain features from current location";
-            Helper.ConsoleCommands.Add("clear-map", doc, ClearGround);
+            Helper.ConsoleCommands.Add("clear_map", doc, ClearGround);
         }
 
 

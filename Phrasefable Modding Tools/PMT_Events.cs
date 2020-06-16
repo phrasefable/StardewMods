@@ -28,8 +28,8 @@ namespace Phrasefable.StardewMods.ModdingTools
             BuildLogger_GameLoop_DayStarted();
             BuildLogger_GameLoop_DayEnding();
 
-            const string desc = "Usage: log-events [event...][ {1|true|t|0|false|f}]";
-            Helper.ConsoleCommands.Add("log-events", desc, Callback);
+            const string desc = "Usage: log_events [event...][ {1|true|t|0|false|f}]";
+            Helper.ConsoleCommands.Add("log_events", desc, Callback);
         }
 
 
@@ -145,7 +145,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void BuildLogger_World_LargeTerrainFeatureListChanged()
         {
             ToggleableEventLogger<LargeTerrainFeatureListChangedEventArgs> logger = BuildLogger(
-                "large-terrain",
+                "large_terrain",
                 (LargeTerrainFeatureListChangedEventArgs args) =>
                     $"World.LargeTerrainFeatureListChanged {args.Location.Name} +{args.Added.Count()} -{args.Removed.Count()}"
             );
@@ -176,7 +176,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void BuildLogger_GameLoop_SaveLoaded()
         {
             ToggleableEventLogger<SaveLoadedEventArgs> logger = BuildLogger(
-                "save-loaded",
+                "save_loaded",
                 (SaveLoadedEventArgs args) => "GameLoop.SaveLoaded"
             );
             Helper.Events.GameLoop.SaveLoaded += logger.OnEvent;
@@ -186,7 +186,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void BuildLogger_GameLoop_DayStarted()
         {
             ToggleableEventLogger<DayStartedEventArgs> logger = BuildLogger(
-                "day-started",
+                "day_started",
                 (DayStartedEventArgs args) => "GameLoop.DayStarted"
             );
             Helper.Events.GameLoop.DayStarted += logger.OnEvent;
@@ -196,7 +196,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void BuildLogger_GameLoop_DayEnding()
         {
             ToggleableEventLogger<DayEndingEventArgs> logger = BuildLogger(
-                "day-ending",
+                "day_ending",
                 (DayEndingEventArgs args) => "GameLoop.DayEnding"
             );
             Helper.Events.GameLoop.DayEnding += logger.OnEvent;

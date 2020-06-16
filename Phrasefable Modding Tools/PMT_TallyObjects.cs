@@ -19,12 +19,12 @@ namespace Phrasefable.StardewMods.ModdingTools
             Helper.Events.Player.Warped += _tallyHandler.OnEvent;
 
             var desc = new StringBuilder("Counts the objects in the current location.");
-            desc.AppendLine("Usage: count-objects [all|start|stop]");
+            desc.AppendLine("Usage: count_objects [all|start|stop]");
             desc.AppendLine("    all   - count the objects in every location");
             desc.AppendLine("    start - start counting each time a location is entered");
             desc.AppendLine("    stop  - stop counting each time a location is entered");
-            Helper.ConsoleCommands.Add("count-objects", desc.ToString(), TallyObjectCommand);
-            Helper.ConsoleCommands.Add("count-terrain", "counts terrain features", CountTerrainFeatures);
+            Helper.ConsoleCommands.Add("count_objects", desc.ToString(), TallyObjectCommand);
+            Helper.ConsoleCommands.Add("count_terrain", "counts terrain features", CountTerrainFeatures);
         }
 
 
