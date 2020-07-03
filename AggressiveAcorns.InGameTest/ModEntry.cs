@@ -11,14 +11,17 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
     public class ModEntry : Mod
     {
         private readonly Dictionary<string, ITest> _tests = new Dictionary<string, ITest>();
+        private string TestNames => string.Join(" ", _tests.Keys);
 
 
         public override void Entry(IModHelper helper)
         {
-            var desc = new StringBuilder("Usage: run_tests [<test> ...]");
-            desc.AppendLine();
+            var desc = new StringBuilder();
+            desc.AppendLine("");
+            desc.AppendLine("Usage:");
+            desc.AppendLine("  run_tests [<test> ...]");
             desc.AppendLine("Runs specified tests. If none specified, runs all tests.");
-            desc.AppendLine("See `list_tests` for determining test names.");
+            desc.Append("Use command `list_tests` to determining test names.");
 
             helper.ConsoleCommands.Add("run_tests", desc.ToString(), this.RunTests);
             helper.ConsoleCommands.Add("list_tests", "Lists registered tests.", ListTests);
@@ -27,7 +30,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
         private void ListTests(string arg1, string[] arg2)
         {
-            Monitor.Log(string.Join(" ", _tests.Keys));
+            Monitor.Log(this.TestNames);
         }
 
 
@@ -53,8 +56,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
             if (badKeys.Any())
             {
-                Monitor.Log($"Invalid test ids: {string.Join(" ", badKeys)}", LogLevel.Error);
-                Monitor.Log($"Test ids must be one of: {string.Join(" ", this._tests.Keys)}", LogLevel.Error);
+                Monitor.Log(
+                    $"Test run aborted. Invalid test name(s) present: {string.Join(" ", badKeys)}",
+                    LogLevel.Error
+                );
+                Monitor.Log($"Available tests: {this.TestNames}", LogLevel.Error);
                 return;
             }
 
