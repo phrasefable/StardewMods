@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests;
 using StardewModdingAPI;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
@@ -16,6 +17,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
         public override void Entry(IModHelper helper)
         {
+            this._tests.Add("experiences_winter", TreeUtils_ExperiencesWinter_Test.BuildTest());
+
             var desc = new StringBuilder();
             desc.AppendLine("");
             desc.AppendLine("Usage:");
