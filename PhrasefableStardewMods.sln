@@ -13,6 +13,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{C4FC47BE-DEFE-4651-A4D6-80484144A85D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{C7432C12-58BF-4238-9E7F-B021252098C8}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4
@@ -28,9 +30,7 @@ Global
 		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|x86.ActiveCfg = Release|x86
 		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|x86.Build.0 = Release|x86
 		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|x86.ActiveCfg = Debug|x86
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|x86.Build.0 = Debug|x86
 		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|x86.ActiveCfg = Release|x86
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|x86.Build.0 = Release|x86
 		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|x86.ActiveCfg = Debug|x86
 		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|x86.Build.0 = Debug|x86
 		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|x86.ActiveCfg = Release|x86
@@ -39,7 +39,8 @@ Global
 		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.ActiveCfg = Debug|x86
 		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.Build.0 = Debug|x86
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|x86.ActiveCfg = Release|x86
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.ActiveCfg = Debug|x86
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

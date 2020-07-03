@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>AggressiveAcorns.InGameTest</AssemblyName>
+        <Version>0.0.1</Version>
+
+        <RootNamespace>Phrasefable.StardewMods.AggressiveAcorns.InGameTest</RootNamespace>
+        <TargetFramework>net452</TargetFramework>
+
+        <EnableModZip>False</EnableModZip>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" />
+    </ItemGroup>
+
+    <Import Project="$(SolutionDir)\common.targets" />
+</Project>
