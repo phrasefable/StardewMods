@@ -33,7 +33,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
             var shim = new ToolActionShim(effectsTree);
             var tree = new AggressiveTree(shim.Shim);
 
-            bool result = tree.performToolAction(new MeleeWeapon(), 0, Vector2.Zero, this._dummyLocation);
+            Tool tool = ToolFactory.getToolFromDescription(ToolFactory.meleeWeapon, Tool.stone);
+            bool result = tree.performToolAction(tool, 0, Vector2.Zero, this._dummyLocation);
 
             shim.Called.Should().Be(!configValue);
             result.Should().Be(effectsTree);
@@ -43,7 +44,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [Test]
         public void MeleeDelegatesCallAndUsesResultByDefault()
         {
-            this.AssertDelegatesCallAndUsesResult<MeleeWeapon>();
+            this.AssertDelegatesCallAndUsesResult(ToolFactory.meleeWeapon);
         }
 
 
@@ -54,22 +55,23 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
             this._config.PreventScythe = configValue;
 
 
-            this.AssertDelegatesCallAndUsesResult<Axe>();
-            this.AssertDelegatesCallAndUsesResult<Pickaxe>();
-            this.AssertDelegatesCallAndUsesResult<Hoe>();
+            this.AssertDelegatesCallAndUsesResult(ToolFactory.axe);
+            this.AssertDelegatesCallAndUsesResult(ToolFactory.pickAxe);
+            this.AssertDelegatesCallAndUsesResult(ToolFactory.hoe);
         }
 
 
-        private void AssertDelegatesCallAndUsesResult<T>() where T : Tool, new()
+        private void AssertDelegatesCallAndUsesResult(byte toolType)
         {
             foreach (bool fakeVanillaOutput in new[] {true, false})
             {
                 // Arrange
                 var shim = new ToolActionShim(fakeVanillaOutput);
                 var tree = new AggressiveTree(shim.Shim);
+                Tool tool = ToolFactory.getToolFromDescription(toolType, Tool.stone);
 
                 // Act
-                bool result = tree.performToolAction(new T(), 0, Vector2.Zero, _dummyLocation);
+                bool result = tree.performToolAction(tool, 0, Vector2.Zero, _dummyLocation);
 
                 // Assert
                 shim.Called.Should().BeTrue();
