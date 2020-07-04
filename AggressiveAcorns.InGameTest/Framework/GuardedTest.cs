@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Loggers;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
 {
