@@ -6,7 +6,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
     {
         public string Name { get; }
         public void RunTest();
-        public ResultLogger GetResults();
+        public ILogger GetResults();
     }
 
     internal static class TestExtensions

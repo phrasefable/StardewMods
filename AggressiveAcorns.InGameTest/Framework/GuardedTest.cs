@@ -26,7 +26,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
         }
 
 
-        public ResultLogger GetResults()
+        public ILogger GetResults()
         {
             if (PassedGuard) return this._guardedTest.GetResults();
 

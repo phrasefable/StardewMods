@@ -74,7 +74,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
         }
 
 
-        public ResultLogger GetResults()
+        public ILogger GetResults()
         {
             var logger = new ResultLogger(this);
 

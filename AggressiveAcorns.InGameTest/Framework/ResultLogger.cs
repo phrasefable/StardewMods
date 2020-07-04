@@ -3,6 +3,12 @@ using StardewModdingAPI;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
 {
+    internal interface ILogger
+    {
+        public void Log(IMonitor monitor);
+    }
+
+
     internal class IndentedLogger
     {
         private readonly IndentedLogger _prev;
@@ -40,7 +46,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
     }
 
 
-    internal class ResultLogger : IndentedLogger
+    internal class ResultLogger : IndentedLogger, ILogger
     {
         private readonly List<string> _lines = new List<string>();
         public bool HasFailure { get; set; } = true;
