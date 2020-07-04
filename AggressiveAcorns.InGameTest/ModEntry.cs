@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             desc.AppendLine("Usage:");
             desc.AppendLine("  run_tests [<test> ...]");
             desc.AppendLine("Runs specified tests. If none specified, runs all tests.");
-            desc.Append("Use command `list_tests` to determining test names.");
+            desc.Append("Use command `list_tests` to determine test names.");
 
             helper.ConsoleCommands.Add("run_tests", desc.ToString(), this.RunTests);
             helper.ConsoleCommands.Add("list_tests", "Lists registered tests.", ListTests);
