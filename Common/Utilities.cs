@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
@@ -24,6 +25,17 @@ namespace Phrasefable.StardewMods.Common
             }
 
             return helper.Multiplayer.GetActiveLocations();
+        }
+
+        public static IEnumerable<Vector2> GetTilesInRadius(Vector2 centre, int radius)
+        {
+            for (int dy = -radius; dy <= radius; dy++)
+            {
+                for (int dx = -radius; dx <= radius; dx++)
+                {
+                    yield return centre + new Vector2(dx, dy);
+                }
+            }
         }
     }
 }

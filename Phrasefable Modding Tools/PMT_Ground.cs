@@ -1,6 +1,7 @@
 using System.Text;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Phrasefable.StardewMods.Common;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -31,18 +32,11 @@ namespace Phrasefable.StardewMods.ModdingTools
                 radius = value;
             }
 
-            Vector2 loc = Game1.player.Position;
-            float playerX = loc.X / Game1.tileSize;
-            float playerY = loc.Y / Game1.tileSize;
-            var playerPosition = new Vector2((int) playerX, (int) playerY);
+            Vector2 playerPosition = Game1.player.getTileLocation();
 
-            for (int dy = -radius; dy <= radius; dy++)
+            foreach (Vector2 tile in Utilities.GetTilesInRadius(playerPosition, radius))
             {
-                for (int dx = -radius; dx <= radius; dx++)
-                {
-                    Vector2 tile = playerPosition + new Vector2(dx, dy);
-                    CheckGround(Game1.currentLocation, tile);
-                }
+                CheckGround(Game1.currentLocation, tile);
             }
         }
 
