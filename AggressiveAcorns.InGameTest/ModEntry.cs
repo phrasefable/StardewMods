@@ -14,10 +14,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         private readonly Dictionary<string, ITest> _tests = new Dictionary<string, ITest>();
         private string TestNames => string.Join(" ", _tests.Keys);
 
+        public static Mod Instance;
 
         public override void Entry(IModHelper helper)
         {
+            ModEntry.Instance = this;
             this._tests.Add("experiences_winter", TreeUtils_ExperiencesWinter_Test.BuildTest());
+            this._tests.Add("seeds", new Seed_Tests().GetTest());
 
             var desc = new StringBuilder();
             desc.AppendLine("");

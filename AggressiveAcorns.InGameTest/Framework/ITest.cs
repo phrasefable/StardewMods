@@ -1,4 +1,3 @@
-using System;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Loggers;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
@@ -8,13 +7,5 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
         public string Name { get; }
         public void RunTest();
         public ILogger GetResults();
-    }
-
-    internal static class TestExtensions
-    {
-        public static ITest Guard(this ITest test, Func<TestResult> guardMethod)
-        {
-            return new GuardedTest(test, guardMethod);
-        }
     }
 }

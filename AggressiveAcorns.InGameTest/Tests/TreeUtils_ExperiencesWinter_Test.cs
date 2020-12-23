@@ -1,5 +1,4 @@
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
-using StardewModdingAPI;
 using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
@@ -29,17 +28,17 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             var cases = new CasedTest<string, bool>("ExperiencesWinter", TreeUtils_ExperiencesWinter_Test.TheTest);
 
             // Base Cases
-            cases.AddCase("Farm", !true);
-            cases.AddCase("Greenhouse", !false);
-            cases.AddCase("Desert", !false);
+            cases.AddCase("Farm", true);
+            cases.AddCase("Greenhouse", false);
+            cases.AddCase("Desert", false);
 
             // Farm Locations
-            cases.AddCase("FarmHouse", !false);
-            cases.AddCase("FarmCave", !false);
-            cases.AddCase("Cellar", !false);
-            cases.AddCase("Cellar2!", false);
-            cases.AddCase("Cellar3!", false);
-            cases.AddCase("Cellar4!", false);
+            cases.AddCase("FarmHouse", false);
+            cases.AddCase("FarmCave", false);
+            cases.AddCase("Cellar", false);
+            cases.AddCase("Cellar2", false);
+            cases.AddCase("Cellar3", false);
+            cases.AddCase("Cellar4", false);
 
             // Outdoors
             cases.AddCase("Town", true);
@@ -102,11 +101,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             cases.AddCase("BugLand", false);
             cases.AddCase("Summit", true);
 
-            ITest test = cases.Guard(
-                () => Context.IsWorldReady
-                    ? new TestResult(TestOutcome.Pass)
-                    : new TestResult(TestOutcome.Fail, "World not ready.")
-            );
+            ITest test = cases.Guard_WorldReady();
             return test;
         }
     }
