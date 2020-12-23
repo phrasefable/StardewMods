@@ -1,14 +1,25 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
+using Object = StardewValley.Object;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal static class TreeUtils
     {
+        internal static Func<double, bool> RandomChance = TreeUtils._RandomChance;
+
+
+        internal static bool _RandomChance(double chance)
+        {
+            return Game1.random.NextDouble() < chance;
+        }
+
+
         public static void ValidateTapped(Tree tree, GameLocation environment, Vector2 tileLocation)
         {
             if (!tree.tapped.Value) return;
@@ -44,7 +55,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                     ? AggressiveAcorns.Config.MaxShadedGrowthStage
                     : Tree.treeStage;
             }
-            else if (Game1.random.NextDouble() < AggressiveAcorns.Config.DailyGrowthChance || tree.fertilized.Value)
+            else if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailyGrowthChance) || tree.fertilized.Value)
             {
                 tree.growthStage.Value += 1;
             }
@@ -80,7 +91,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 (!TreeUtils.ExperiencingWinter(location) || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
                                                              AggressiveAcorns.Config.DoGrowInWinter)) &&
                 (AggressiveAcorns.Config.DoGrowInstantly ||
-                 Game1.random.NextDouble() < AggressiveAcorns.Config.DailyGrowthChance / 2))
+                 TreeUtils.RandomChance(AggressiveAcorns.Config.DailyGrowthChance / 2)))
             {
                 TreeUtils.RegrowStumpIfNotShaded(tree, location, position);
             }
@@ -146,7 +157,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         public static IEnumerable<Vector2> GetSpreadLocations(Vector2 position)
         {
             // pick random tile within +-3 x/y.
-            if (Game1.random.NextDouble() < AggressiveAcorns.Config.DailySpreadChance)
+            if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailySpreadChance))
             {
                 int tileX = Game1.random.Next(-3, 4) + (int) position.X;
                 int tileY = Game1.random.Next(-3, 4) + (int) position.Y;
@@ -165,7 +176,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 tree.hasSeed.Value = false;
             }
 
-            if (Game1.random.NextDouble() < AggressiveAcorns.Config.DailySeedChance)
+            if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailySeedChance))
             {
                 tree.hasSeed.Value = true;
             }
