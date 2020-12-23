@@ -10,8 +10,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal class AggressiveTree : Tree
     {
-        private readonly IModConfig _config = AggressiveAcorns.Config;
-
         /// <summary>
         /// Flag to skip first update, used to prevent spread seeds from updating the night they are created.
         /// As spread seeds are not guaranteed to be hit in the update loop of the night they are planted, clearing this
@@ -70,7 +68,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override bool isPassable([CanBeNull] Character c = null)
         {
-            return health.Value <= -99 || growthStage.Value <= _config.MaxPassibleGrowthStage;
+            return health.Value <= -99 || growthStage.Value <= AggressiveAcorns.Config.MaxPassibleGrowthStage;
         }
 
 
@@ -106,7 +104,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override bool performToolAction(Tool t, int explosion, Vector2 tileLocation, GameLocation location)
         {
-            if (_config.PreventScythe && t is MeleeWeapon)
+            if (AggressiveAcorns.Config.PreventScythe && t is MeleeWeapon)
             {
                 return false;
             }
