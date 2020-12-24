@@ -8,5 +8,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
         public ITestSuiteBuilder AddTestSuite(string key, Action<ITestSuiteBuilder> callback);
         public ITestSuiteBuilder AddTest(string key, Action<ITestBuilder> callback);
         public ITestSuiteBuilder AddCasedTest<TCaseParams>(string key, Action<ICasedTestBuilder<TCaseParams>> callback);
+
+        public ICasedTestBuilder<TCaseParams> AddCasedTest<TCaseParams>(string key);
     }
 }

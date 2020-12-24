@@ -9,6 +9,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
         ICasedTestBuilder<TCaseParams>
     >
     {
-        public ICasedTestBuilder<TCaseParams> AddCase(TCaseParams caseParams);
+        public ICasedTestBuilder<TCaseParams> AddCases(params TCaseParams[] caseParams);
     }
 }

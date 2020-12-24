@@ -1,4 +1,7 @@
 using Microsoft.Xna.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
+using Phrasefable.StardewMods.Common;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -26,6 +29,34 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         public static void Update(this Tree tree)
         {
             tree.dayUpdate(tree.currentLocation, tree.currentTileLocation);
+        }
+
+        public static Tree PlantTree(
+            GameLocation location,
+            Vector2 position,
+            int treeType,
+            int growthStage,
+            bool ensureUnshaded = true
+        )
+        {
+            if (ensureUnshaded)
+            {
+                foreach (Vector2 tile in Utilities.GetTilesInRadius(position, 3))
+                {
+                    location.removeEverythingExceptCharactersFromThisTile((int) tile.X, (int) tile.Y);
+                }
+            }
+
+            Tree tree = new AggressiveTree(new Tree(growthStage, treeType));
+            location.terrainFeatures.Add(position, tree);
+            return tree;
+        }
+
+        public static IResult Condition_WorldReady()
+        {
+            return Context.IsWorldReady
+                ? new Result(Status.Pass)
+                : new Result(Status.Fail, "World not ready.");
         }
     }
 }
