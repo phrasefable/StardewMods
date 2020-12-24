@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests;
 using StardewModdingAPI;
 
@@ -11,16 +12,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
     [UsedImplicitly]
     public class ModEntry : Mod
     {
-        private readonly Dictionary<string, ITest> _tests = new Dictionary<string, ITest>();
-        private string TestNames => string.Join(" ", _tests.Keys);
-
-        public static Mod Instance;
+        private INode _testsRoot;
 
         public override void Entry(IModHelper helper)
         {
-            ModEntry.Instance = this;
-            this._tests.Add("experiences_winter", TreeUtils_ExperiencesWinter_Test.BuildTest());
-            this._tests.Add("seeds", new Seed_Tests().GetTest());
+            _testsRoot = SetUpTests();
 
             var desc = new StringBuilder();
             desc.AppendLine("");
@@ -30,7 +26,19 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             desc.Append("Use command `list_tests` to determine test names.");
 
             helper.ConsoleCommands.Add("run_tests", desc.ToString(), this.RunTests);
-            helper.ConsoleCommands.Add("list_tests", "Lists registered tests.", ListTests);
+            helper.ConsoleCommands.Add("list_tests", "Lists tests.", ListTests);
+        }
+
+        private INode SetUpTests()
+        {
+            ITestSuiteBuilder rootBuilder = null;
+
+            // ReSharper disable once ObjectCreationAsStatement
+            new TreeUtils_ExperiencesWinter_Test(rootBuilder);
+            // ReSharper disable once ObjectCreationAsStatement
+            new Seed_Tests(rootBuilder);
+
+            return rootBuilder.Build();
         }
 
 
