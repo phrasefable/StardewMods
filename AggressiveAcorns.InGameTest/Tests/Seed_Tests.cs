@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
 using Phrasefable.StardewMods.Common;
 using StardewValley;
 using StardewValley.TerrainFeatures;
@@ -17,6 +16,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         {
             this._suite = new TestSuite {BeforeAll = BeforeAll, BeforeEach = BeforeEach};
             this._suite.Add(this.BuildBasicTest());
+
+            I
         }
 
         public ITest GetTest()
