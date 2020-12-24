@@ -1,6 +1,6 @@
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model
 {
-    public enum ResultStatus
+    public enum Status
     {
         Pass,
         Fail,

@@ -4,7 +4,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model
 {
     public interface IResult
     {
-        [NotNull] public ResultStatus Status { get; }
+        [NotNull] public Status Status { get; }
         [CanBeNull] public string Message { get; }
     }
 }
