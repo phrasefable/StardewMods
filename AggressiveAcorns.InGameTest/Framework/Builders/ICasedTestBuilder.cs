@@ -3,12 +3,10 @@ using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
 {
-    public interface ICasedTestBuilder<TCaseParams> : ITestableNodeBuilder<
-        Func<TCaseParams, IResult>,
-        ICasedTest,
-        ICasedTestBuilder<TCaseParams>
-    >
+    public interface ICasedTestBuilder<TCaseParams> :
+        IBaseTestBuilder<ICasedTestBuilder<TCaseParams>, Func<TCaseParams, IResult>>,
+        IBuilder<ICasedTest<TCaseParams>>
     {
-        public ICasedTestBuilder<TCaseParams> AddCases(params TCaseParams[] caseParams);
+        public void AddCases(params TCaseParams[] @case);
     }
 }
