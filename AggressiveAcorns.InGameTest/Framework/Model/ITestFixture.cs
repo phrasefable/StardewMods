@@ -4,14 +4,9 @@ using JetBrains.Annotations;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model
 {
-    public interface INode
+    public interface ITestFixture : IIdentifiable, IConditional
     {
-        [NotNull] public string Key { get; }
-        [CanBeNull] public string Name { get; }
-
-        [CanBeNull] public INode Parent { get; }
-
-        [NotNull] public IEnumerable<ITestable> Conditions { get; }
+        [NotNull] public IEnumerable<IBaseTest> Tests { get; }
 
         [CanBeNull] public Action BeforeAll { get; }
         [CanBeNull] public Action BeforeEach { get; }
