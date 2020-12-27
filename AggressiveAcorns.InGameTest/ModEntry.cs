@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
@@ -12,76 +11,88 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
     [UsedImplicitly]
     public class ModEntry : Mod
     {
-        private INode _testsRoot;
+        private readonly IDictionary<string, ITestFixture> _fixtures = new SortedDictionary<string, ITestFixture>();
+
 
         public override void Entry(IModHelper helper)
         {
-            _testsRoot = SetUpTests();
+            SetUpTests();
 
-            var desc = new StringBuilder();
-            desc.AppendLine("");
-            desc.AppendLine("Usage:");
-            desc.AppendLine("  run_tests [<test> ...]");
-            desc.AppendLine("Runs specified tests. If none specified, runs all tests.");
-            desc.Append("Use command `list_tests` to determine test names.");
+            // TODO implement test runner
+            // var desc = new StringBuilder();
+            // desc.AppendLine("");
+            // desc.AppendLine("Usage:");
+            // desc.AppendLine("  run_tests [<test> ...]");
+            // desc.AppendLine("Runs specified tests. If none specified, runs all tests.");
+            // desc.Append("Use command `list_tests` to determine test names.");
 
-            helper.ConsoleCommands.Add("run_tests", desc.ToString(), this.RunTests);
-            helper.ConsoleCommands.Add("list_tests", "Lists tests.", ListTests);
+            // helper.ConsoleCommands.Add("run_tests", desc.ToString(), this.RunTests);
+            helper.ConsoleCommands.Add("list_tests", "Lists test fixtures.", ListTests);
         }
 
-        private INode SetUpTests()
+
+        private void SetUpTests()
         {
-            ITestSuiteBuilder rootBuilder = null;
+            IBuilderFactory factory = GetBuilderFactory();
+            foreach (ITestFixtureDefinition fixtureDefinition in new ITestFixtureDefinition[]
+            {
+                new Seed_Tests(),
+                new TreeUtils_ExperiencesWinter_Test()
+            })
+            {
+                ITestFixture fixture = fixtureDefinition.GetFixture(factory);
+                this._fixtures.Add(fixture.Key, fixture);
+            }
+        }
 
-            // ReSharper disable once ObjectCreationAsStatement
-            new TreeUtils_ExperiencesWinter_Test(rootBuilder);
-            // ReSharper disable once ObjectCreationAsStatement
-            new Seed_Tests(rootBuilder);
 
-            return rootBuilder.Build();
+        private IBuilderFactory GetBuilderFactory()
+        {
+            throw new NotImplementedException();
         }
 
 
         private void ListTests(string arg1, string[] arg2)
         {
-            Monitor.Log(this.TestNames);
+            throw new NotImplementedException();
         }
 
 
         private void RunTests(string command, string[] args)
         {
-            void RunTest(ITest test)
-            {
-                test.RunTest();
-                test.GetResults().Log(Monitor);
-            }
-
-            if (args.Length == 0)
-            {
-                foreach (ITest test in this._tests.Values)
-                {
-                    RunTest(test);
-                }
-            }
-
-            List<string> badKeys = args
-                .Where(arg => !this._tests.ContainsKey(arg))
-                .ToList();
-
-            if (badKeys.Any())
-            {
-                Monitor.Log(
-                    $"Test run aborted. Invalid test name(s) present: {string.Join(" ", badKeys)}",
-                    LogLevel.Error
-                );
-                Monitor.Log($"Available tests: {this.TestNames}", LogLevel.Error);
-                return;
-            }
-
-            foreach (string testId in args)
-            {
-                RunTest(this._tests[testId]);
-            }
+            throw new NotImplementedException();
+            // void RunTest(ITestBuilder test)
+            // {
+            //     test.RunTest();
+            //     test.GetResults().Log(Monitor);
+            // }
+            //
+            // if (args.Length == 0)
+            // {
+            //     foreach (ITestBuilder test in this._tests.Values)
+            //     {
+            //         RunTest(test);
+            //     }
+            // }
+            //
+            // List<string> badKeys = args
+            //     .Where(arg => !this._tests.ContainsKey(arg))
+            //     .ToList();
+            //
+            // if (badKeys.Any())
+            // {
+            //     Monitor.Log(
+            //         $"Test run aborted. Invalid test name(s) present: {string.Join(" ", badKeys)}",
+            //         LogLevel.Error
+            //     );
+            //     Monitor.Log($"Available tests: {this.TestNames}", LogLevel.Error);
+            //     return;
+            // }
+            //
+            // foreach (string testId in args)
+            // {
+            //     RunTest(this._tests[testId]);
+            // }
         }
     }
 }

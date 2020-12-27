@@ -5,15 +5,23 @@ using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class TreeUtils_ExperiencesWinter_Test
+    internal class TreeUtils_ExperiencesWinter_Test : ITestFixtureDefinition
     {
-        public TreeUtils_ExperiencesWinter_Test(ITestSuiteBuilder parentNode)
+        public ITestFixture GetFixture(IBuilderFactory factory)
         {
-            ICasedTestBuilder<StringToBool> testBuilder = parentNode.AddCasedTest<StringToBool>(
-                "location_experiences_winter"
-            );
+            var fixtureBuilder = factory.CreateFixtureBuilder();
+            fixtureBuilder.SetKey("tree_utils_experiences_winter");
+            fixtureBuilder.AddCondition(Utils.Condition_WorldReady);
+            fixtureBuilder.AddTest(this.GetTestBuilder_ExperiencesWinter(factory));
 
-            testBuilder.AddCondition(Utils.Condition_WorldReady);
+            return fixtureBuilder.Build();
+        }
+
+
+        private IBuilder<IBaseTest> GetTestBuilder_ExperiencesWinter(IBuilderFactory factory)
+        {
+            var testBuilder = factory.CreateCasedTestBuilder<StringToBool>();
+            testBuilder.SetKey("location_experiences_winter");
             testBuilder.SetTestMethod(this.TestLocationExperiencesWinter);
 
             // Base Cases
@@ -101,6 +109,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 new StringToBool("BugLand", false),
                 new StringToBool("Summit", true)
             );
+
+            return testBuilder;
         }
 
 

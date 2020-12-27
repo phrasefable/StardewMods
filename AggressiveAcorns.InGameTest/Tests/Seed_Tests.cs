@@ -7,25 +7,24 @@ using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class Seed_Tests
+    internal class Seed_Tests : ITestFixtureDefinition
     {
         private ModConfig _config;
 
-        public Seed_Tests(ITestSuiteBuilder parentNode)
+
+        public ITestFixture GetFixture(IBuilderFactory factory)
         {
-            ICasedTestBuilder<DoubleToBool> testBuilder = parentNode.AddCasedTest<DoubleToBool>("tree_holds_seeds");
-
-            testBuilder.AddCondition(Utils.Condition_WorldReady);
-
-            testBuilder.SetBeforeAllAction(
+            ITestFixtureBuilder fixtureBuilder = factory.CreateFixtureBuilder();
+            fixtureBuilder.SetKey("seed_tests");
+            fixtureBuilder.AddCondition(Utils.Condition_WorldReady);
+            fixtureBuilder.SetBeforeAllAction(
                 /* Note warps are not synchronous - printing the players position before and after the warp
                  * statement does not show a difference. Still seems to work (the locations used in this test are
                  * always loaded??), so have not bothered to make the test framework asynchronous.
                  * */
                 () => Game1.player.warpFarmer(Utils.WarpFarm)
             );
-
-            testBuilder.SetBeforeEachAction(
+            fixtureBuilder.SetBeforeEachAction(
                 () =>
                 {
                     this._config = new ModConfig();
@@ -33,11 +32,21 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 }
             );
 
+            fixtureBuilder.AddTest(this.GetTestBuilder_HeldSeed(factory));
+
+            return fixtureBuilder.Build();
+        }
+
+        private Framework.Builders.ICasedTestBuilder<DoubleToBool> GetTestBuilder_HeldSeed(IBuilderFactory factory)
+        {
+            ICasedTestBuilder<DoubleToBool> testBuilder = factory.CreateCasedTestBuilder<DoubleToBool>();
+            testBuilder.SetKey("tree_holds_seeds");
             testBuilder.SetTestMethod(this.TestHeldSeed);
             testBuilder.AddCases(
                 new DoubleToBool(0.0, false),
                 new DoubleToBool(1.0, true)
             );
+            return testBuilder;
         }
 
 
