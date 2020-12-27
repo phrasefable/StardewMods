@@ -59,7 +59,34 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
         private void ListTests(string arg1, string[] arg2)
         {
-            throw new NotImplementedException();
+            // TODO: make conditions show with explanations?
+            // TODO: filter via args
+            Monitor.Log(string.Join(" ", this._fixtures.Keys));
+
+            static string PrettyPrintIdentifier(IIdentifiable identifiable)
+            {
+                return identifiable.LongName == null
+                    ? identifiable.Key
+                    : $"{identifiable.LongName} ({identifiable.Key})";
+            }
+
+            foreach (ITestFixture fixture in this._fixtures.Values)
+            {
+                Monitor.Log(PrettyPrintIdentifier(fixture) + ":");
+                if (!fixture.Tests.Any())
+                {
+                    Monitor.Log("    (no tests)");
+                }
+                else
+                {
+                    foreach (IBaseTest test in fixture.Tests)
+                    {
+                        string s = "    " + PrettyPrintIdentifier(test);
+                        if (test is ICasedTest casedTest) s = $"{s} ({casedTest.Cases.Count()} cases)";
+                        Monitor.Log(s);
+                    }
+                }
+            }
         }
 
 
