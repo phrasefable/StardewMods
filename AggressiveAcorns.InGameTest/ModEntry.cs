@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
@@ -48,7 +49,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
         private IBuilderFactory GetBuilderFactory()
         {
-            throw new NotImplementedException();
+            var validator = new Validator();
+            validator.AddIdentifiableValidation();
+
+            var factory = new BuilderFactory(validator);
+            return factory;
         }
 
 

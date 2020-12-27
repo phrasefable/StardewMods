@@ -13,6 +13,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework
         }
     }
 
+
     public readonly struct StringToBool
     {
         public readonly string String;
