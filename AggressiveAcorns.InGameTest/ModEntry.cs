@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Runners;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests;
 using StardewModdingAPI;
 
@@ -34,7 +36,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
         private void SetUpTests()
         {
-            IBuilderFactory factory = GetBuilderFactory();
+            IBuilderFactory factory = this.BuildBuilderFactory();
             foreach (ITestFixtureDefinition fixtureDefinition in new ITestFixtureDefinition[]
             {
                 new Seed_Tests(),
@@ -47,7 +49,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         }
 
 
-        private IBuilderFactory GetBuilderFactory()
+        private IBuilderFactory BuildBuilderFactory()
         {
             var validator = new Validator();
             validator.AddIdentifiableValidation();
@@ -57,22 +59,27 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         }
 
 
+        private IResultLogger BuildLogger()
+        {
+            return new SmapiConsoleLogger(this.Monitor, ModEntry.PrettyPrintIdentifier);
+        }
+
+
+        private IFixtureRunner BuildFixtureRunner()
+        {
+            return new FixtureRunner();
+        }
+
+
         private void ListTests(string arg1, string[] arg2)
         {
             // TODO: make conditions show with explanations?
             // TODO: filter via args
             Monitor.Log(string.Join(" ", this._fixtures.Keys));
 
-            static string PrettyPrintIdentifier(IIdentifiable identifiable)
-            {
-                return identifiable.LongName == null
-                    ? identifiable.Key
-                    : $"{identifiable.LongName} ({identifiable.Key})";
-            }
-
             foreach (ITestFixture fixture in this._fixtures.Values)
             {
-                Monitor.Log(PrettyPrintIdentifier(fixture) + ":");
+                Monitor.Log(ModEntry.PrettyPrintIdentifier(fixture) + ":");
                 if (!fixture.Tests.Any())
                 {
                     Monitor.Log("    (no tests)");
@@ -81,7 +88,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
                 {
                     foreach (IBaseTest test in fixture.Tests)
                     {
-                        string s = "    " + PrettyPrintIdentifier(test);
+                        string s = "    " + ModEntry.PrettyPrintIdentifier(test);
                         if (test is ICasedTest casedTest) s = $"{s} ({casedTest.Cases.Count()} cases)";
                         Monitor.Log(s);
                     }
@@ -89,23 +96,35 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             }
         }
 
+        private static string PrettyPrintIdentifier(IIdentifiable identifiable)
+        {
+            return identifiable.LongName == null
+                ? identifiable.Key
+                : $"{identifiable.LongName} ({identifiable.Key})";
+        }
+
 
         private void RunTests(string command, string[] args)
         {
-            throw new NotImplementedException();
             // void RunTest(ITestBuilder test)
             // {
             //     test.RunTest();
             //     test.GetResults().Log(Monitor);
             // }
             //
-            // if (args.Length == 0)
-            // {
-            //     foreach (ITestBuilder test in this._tests.Values)
-            //     {
-            //         RunTest(test);
-            //     }
-            // }
+
+            if (args.Length == 0)
+            {
+                foreach (ITestFixture fixture in this._fixtures.Values)
+                {
+                    IFixtureRunner runner = this.BuildFixtureRunner();
+                    ITestResult result = runner.RunFixture(fixture);
+                    IResultLogger logger = this.BuildLogger();
+                    logger.Log(result);
+                }
+            }
+
+            throw new NotImplementedException();
             //
             // List<string> badKeys = args
             //     .Where(arg => !this._tests.ContainsKey(arg))
