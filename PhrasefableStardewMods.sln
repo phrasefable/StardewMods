@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.Test", "Ag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{C7432C12-58BF-4238-9E7F-B021252098C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarUnit", "StarUnit\StarUnit.csproj", "{744B493A-A496-4513-8AC3-26092A372D4B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4
@@ -41,6 +43,10 @@ Global
 		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.Build.0 = Debug|x86
 		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.ActiveCfg = Debug|x86
 		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.Build.0 = Debug|x86
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|x86.ActiveCfg = Debug|x86
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|x86.Build.0 = Debug|x86
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|x86.ActiveCfg = Release|x86
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

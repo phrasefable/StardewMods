@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>StarUnit</AssemblyName>
+        <Version>0.0.1</Version>
+
+        <RootNamespace>Phrasefable.StardewMods.StarUnit</RootNamespace>
+        <TargetFramework>net452</TargetFramework>
+
+        <EnableModZip>True</EnableModZip>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0" />
+    </ItemGroup>
+
+    <Import Project="$(SolutionDir)\common.targets" />
+</Project>
