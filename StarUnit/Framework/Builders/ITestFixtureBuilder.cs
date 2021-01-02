@@ -1,7 +1,7 @@
 using System;
-using Phrasefable.StardewMods.StarUnit.Api.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Api.Builders
+namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
     public interface ITestFixtureBuilder : IBuilder<ITestSuite>, ITraversableBuilder
     {

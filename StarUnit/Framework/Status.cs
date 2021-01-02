@@ -1,4 +1,4 @@
-namespace Phrasefable.StardewMods.StarUnit.Api
+namespace Phrasefable.StardewMods.StarUnit.Framework
 {
     public enum Status
     {

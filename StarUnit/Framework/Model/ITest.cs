@@ -1,6 +1,6 @@
 using System;
 
-namespace Phrasefable.StardewMods.StarUnit.Api.Model
+namespace Phrasefable.StardewMods.StarUnit.Framework.Model
 {
     public interface ITest : ITraversable
     {

@@ -1,6 +1,6 @@
-using Phrasefable.StardewMods.StarUnit.Api.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Default
+namespace Phrasefable.StardewMods.StarUnit.Internal
 {
     internal class Identifiable : IIdentifiable
     {

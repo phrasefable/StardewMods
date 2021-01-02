@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace Phrasefable.StardewMods.StarUnit.Default
+namespace Phrasefable.StardewMods.StarUnit.Internal
 {
     internal class SettableOnce<T>
     {

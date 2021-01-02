@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Phrasefable.StardewMods.StarUnit.Api.Builders;
-using Phrasefable.StardewMods.StarUnit.Api.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Default.Builders
+namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     internal class BranchChildrenBuilder<TChildren> : IBuilder<IEnumerable<TChildren>> where TChildren : ITraversable
     {

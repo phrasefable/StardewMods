@@ -1,9 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
-using Phrasefable.StardewMods.StarUnit.Api.Builders;
-using Phrasefable.StardewMods.StarUnit.Api.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Default.Builders
+namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     /// <summary>
     /// Internal class used as component in other builders - handles building and validation of IIdentifiable's members

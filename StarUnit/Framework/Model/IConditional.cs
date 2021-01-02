@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Phrasefable.StardewMods.StarUnit.Api.Model
+namespace Phrasefable.StardewMods.StarUnit.Framework.Model
 {
     public interface IConditional
     {

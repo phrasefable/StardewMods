@@ -1,4 +1,4 @@
-namespace Phrasefable.StardewMods.StarUnit.Api.Builders
+namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
     public interface IBuilder<out T>
     {
