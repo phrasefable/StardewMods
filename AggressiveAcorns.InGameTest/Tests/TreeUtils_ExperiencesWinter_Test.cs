@@ -5,34 +5,34 @@ using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class TreeUtils_ExperiencesWinter_Test : ITestFixtureDefinition
+    internal class TreeUtils_ExperiencesWinter_Test
     {
-        public ITestFixture GetFixture(IBuilderFactory factory)
+        public ITestSuite BuildFixture(IBuilderFactory factory)
         {
-            var fixtureBuilder = factory.CreateFixtureBuilder();
-            fixtureBuilder.SetKey("tree_utils_experiences_winter");
-            fixtureBuilder.AddCondition(Utils.Condition_WorldReady);
-            fixtureBuilder.AddTest(this.GetTestBuilder_ExperiencesWinter(factory));
+            ITestFixtureBuilder builder = factory.CreateFixtureBuilder();
+            builder.SetKey("tree_utils_experiences_winter");
+            builder.AddCondition(Utils.Condition_WorldReady);
+            builder.AddChild(this.BuildTest_ExperiencesWinter(factory));
 
-            return fixtureBuilder.Build();
+            return builder.Build();
         }
 
 
-        private IBuilder<IBaseTest> GetTestBuilder_ExperiencesWinter(IBuilderFactory factory)
+        private ITestSuite BuildTest_ExperiencesWinter(IBuilderFactory factory)
         {
-            var testBuilder = factory.CreateCasedTestBuilder<StringToBool>();
-            testBuilder.SetKey("location_experiences_winter");
-            testBuilder.SetTestMethod(this.TestLocationExperiencesWinter);
+            ICasedTestBuilder<StringToBool> builder = factory.CreateCasedTestBuilder<StringToBool>();
+            builder.SetKey("location_experiences_winter");
+            builder.SetTestMethod(this.Test_ExperiencesWinter);
 
             // Base Cases
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("Farm", true),
                 new StringToBool("Greenhouse", false),
                 new StringToBool("Desert", false)
             );
 
             // Farm Locations
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("FarmHouse", false),
                 new StringToBool("FarmCave", false),
                 new StringToBool("Cellar", false),
@@ -42,7 +42,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             );
 
             // Outdoors
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("Town", true),
                 new StringToBool("Beach", true),
                 new StringToBool("Mountain", true),
@@ -54,7 +54,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             );
 
             // Misc Indoors
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("Tunnel", false),
                 new StringToBool("SkullCave", false),
                 new StringToBool("Mine", false),
@@ -62,7 +62,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             );
 
             // Buildings
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("Blacksmith", false),
                 new StringToBool("ManorHouse", false),
                 new StringToBool("JoshHouse", false),
@@ -99,7 +99,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             );
 
             // Special Locations
-            testBuilder.AddCases(
+            builder.AddCases(
                 new StringToBool("BeachNightMarket", true),
                 new StringToBool("Submarine", false),
                 new StringToBool("MermaidHouse", false),
@@ -110,11 +110,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 new StringToBool("Summit", true)
             );
 
-            return testBuilder;
+            return builder.Build();
         }
 
 
-        private IResult TestLocationExperiencesWinter(StringToBool @params)
+        private IResult Test_ExperiencesWinter(StringToBool @params)
         {
             string locationName = @params.String;
             bool shouldExperienceWinter = @params.Bool;

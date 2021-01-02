@@ -6,50 +6,73 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
 {
     public class CasedTestBuilder<TCaseParams> : ICasedTestBuilder<TCaseParams>
     {
-        private readonly CasedTest<TCaseParams> _test;
+        private readonly ITestFixtureBuilder _caseSuite;
 
+        private Func<TCaseParams, IResult> _testMethod;
         private readonly IList<TCaseParams> _cases = new List<TCaseParams>();
-        private readonly IList<Func<IResult>> _conditions = new List<Func<IResult>>();
-
-        private readonly IValidator _validator;
 
 
-        public CasedTestBuilder(IValidator validator)
+        private readonly IBuilderFactory _builderFactory;
+        // private readonly IValidator _validator;
+
+        private int _caseId = 0;
+        public Func<TCaseParams, string> KeyGenerator { get; set; }
+        public Func<TCaseParams, string> LongNameGenerator { get; set; } = null;
+
+
+        public CasedTestBuilder(IValidator validator, IBuilderFactory builderFactory)
         {
-            this._test = new CasedTest<TCaseParams>
-            {
-                Cases = this._cases,
-                Conditions = this._conditions
-            };
+            this._caseSuite = builderFactory.CreateFixtureBuilder();
+            this.KeyGenerator = caseParams => (_caseId++).ToString();
 
-            this._validator = validator;
+            this._builderFactory = builderFactory;
         }
 
 
-        public ICasedTest<TCaseParams> Build()
+        private ITest BuildCase(TCaseParams caseParams)
         {
-            this._validator.Validate<IIdentifiable>(this._test);
-            this._validator.Validate<IConditional>(this._test);
+            ITestBuilder testBuilder = this._builderFactory.CreateTestBuilder();
 
-            return this._test;
+            testBuilder.SetKey(this.KeyGenerator(caseParams));
+            if (this.LongNameGenerator != null) testBuilder.SetLongName(this.LongNameGenerator(caseParams));
+            testBuilder.SetTestMethod(() => this._testMethod(caseParams));
+
+            return testBuilder.Build();
+        }
+
+
+        public ITestSuite Build()
+        {
+            foreach (TCaseParams @case in this._cases)
+            {
+                this._caseSuite.AddChild(this.BuildCase(@case));
+            }
+
+            return this._caseSuite.Build();
         }
 
 
         public void SetKey(string value)
         {
-            this._test.Key = value;
+            this._caseSuite.SetKey(value);
         }
 
 
         public void SetLongName(string value)
         {
-            this._test.LongName = value;
+            this._caseSuite.SetLongName(value);
         }
+
+
+        // public void AddCondition(Func<IResult> condition)
+        // {
+        //     this._caseSuite.AddCondition(condition);
+        // }
 
 
         public void SetTestMethod(Func<TCaseParams, IResult> testMethod)
         {
-            this._test.TestMethod = testMethod;
+            this._testMethod = testMethod;
         }
 
 
@@ -59,12 +82,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
             {
                 this._cases.Add(@case);
             }
-        }
-
-
-        public void AddCondition(Func<IResult> condition)
-        {
-            this._conditions.Add(condition);
         }
     }
 }

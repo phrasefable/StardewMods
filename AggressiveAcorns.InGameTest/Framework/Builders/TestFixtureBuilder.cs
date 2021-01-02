@@ -1,35 +1,34 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
 {
     public class TestFixtureBuilder : ITestFixtureBuilder
     {
-        private readonly TestFixture _fixture;
+        private readonly TestSuite _fixture;
 
         private readonly IList<Func<IResult>> _conditions = new List<Func<IResult>>();
-        private readonly IList<IBuilder<IBaseTest>> _tests = new List<IBuilder<IBaseTest>>();
+
+        private readonly IList<TestNode> _children = new List<TestNode>();
 
         private readonly IValidator _validator;
 
 
         public TestFixtureBuilder(IValidator validator)
         {
-            _fixture = new TestFixture
+            _fixture = new TestSuite
             {
-                Conditions = this._conditions
+                Conditions = this._conditions,
+                Children = this._children
             };
 
             this._validator = validator;
         }
 
 
-        public ITestFixture Build()
+        public ITestSuite Build()
         {
-            this._fixture.Tests = this._tests.Select(builder => builder.Build());
-
             this._validator.Validate<IIdentifiable>(this._fixture);
             this._validator.Validate<IConditional>(this._fixture);
 
@@ -79,9 +78,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
         }
 
 
-        public void AddTest(IBuilder<IBaseTest> testBuilder)
+        public void AddChild(ITestSuite child)
         {
-            this._tests.Add(testBuilder);
+            this._children.Add(new TestNode.SuiteWrapper(child));
+        }
+
+
+        public void AddChild(ITest child)
+        {
+            this._children.Add(new TestNode.TestWrapper(child));
         }
     }
 }

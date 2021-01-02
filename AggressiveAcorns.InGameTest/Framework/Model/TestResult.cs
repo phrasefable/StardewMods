@@ -2,13 +2,6 @@ using System.Collections.Generic;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model
 {
-    public interface ITestResult : IIdentifiable
-    {
-        bool IsAggregate { get; }
-        IResult Result { get; }
-        IEnumerable<ITestResult> Children { get; }
-    }
-
     public class TestResult : ITestResult
     {
         private readonly IList<ITestResult> _children = new List<ITestResult>();

@@ -4,7 +4,7 @@ using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
 {
     public interface ITestFixtureBuilder :
-        IBuilder<ITestFixture>,
+        IBuilder<ITestSuite>,
         IIdentifiableBuilder,
         IConditionalBuilder
     {
@@ -13,6 +13,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
         public void SetAfterEachAction(Action value);
         public void SetAfterAllAction(Action value);
 
-        public void AddTest(IBuilder<IBaseTest> testBuilder);
+        public void AddChild(ITestSuite child);
+        public void AddChild(ITest child);
     }
 }

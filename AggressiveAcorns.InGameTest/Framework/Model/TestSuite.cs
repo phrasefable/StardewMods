@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model
 {
-    public class CasedTest<TCaseParams> : ICasedTest<TCaseParams>
+    public class TestSuite : ITestSuite
     {
         public string Key { get; set; }
         public string LongName { get; set; }
 
-        public IEnumerable<TCaseParams> Cases { get; set; }
         public IEnumerable<Func<IResult>> Conditions { get; set; }
 
-        public Func<TCaseParams, IResult> TestMethod { get; set; }
+        public Action BeforeAll { get; set; }
+        public Action BeforeEach { get; set; }
+        public Action AfterEach { get; set; }
+        public Action AfterAll { get; set; }
 
-        IEnumerable<object> ICasedTest.Cases => this.Cases.Cast<object>();
+        public IEnumerable<TestNode> Children { get; set; }
     }
 }

@@ -7,12 +7,12 @@ using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class Seed_Tests : ITestFixtureDefinition
+    internal class Seed_Tests
     {
         private ModConfig _config;
 
 
-        public ITestFixture GetFixture(IBuilderFactory factory)
+        public ITestSuite GetFixture(IBuilderFactory factory)
         {
             ITestFixtureBuilder fixtureBuilder = factory.CreateFixtureBuilder();
             fixtureBuilder.SetKey("seed_tests");
