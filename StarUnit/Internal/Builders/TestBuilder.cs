@@ -16,7 +16,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public TestBuilder()
         {
-            // set test
+            this._test = new Test();
 
             this._identifiableBuilder = new IdentifiableBuilder(this._test);
             this._conditions = new List<Func<Result>>();
@@ -54,6 +54,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._conditions.Add(condition);
         }
 
-        public Func<Result> TestMethod { get; set; }
+        public Func<Result> TestMethod
+        {
+            set => this._testMethod.Value = value;
+        }
     }
 }

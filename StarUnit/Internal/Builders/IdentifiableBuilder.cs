@@ -42,7 +42,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             if (!Regex.IsMatch(key, IdentifiableBuilder.ValidKeyPattern))
             {
                 throw new ArgumentException(
-                    $"An identifiable's key must match `{IdentifiableBuilder.ValidKeyPattern}`",
+                    $"An identifiable's key must match `{IdentifiableBuilder.ValidKeyPattern}`, which `{key}` does not.",
                     nameof(key)
                 );
             }
