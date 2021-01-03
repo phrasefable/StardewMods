@@ -8,6 +8,7 @@
         <TargetFramework>net452</TargetFramework>
 
         <EnableModZip>False</EnableModZip>
+        <CopyModReferencesToBuildOutput>False</CopyModReferencesToBuildOutput>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,6 +18,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" />
+        <ProjectReference Include="..\StarUnit\StarUnit.csproj" Private="false" />
     </ItemGroup>
 
     <Import Project="$(SolutionDir)\common.targets" />

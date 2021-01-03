@@ -1,28 +1,36 @@
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework;
+using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
     internal class TreeUtils_ExperiencesWinter_Test
     {
-        public ITestSuite BuildFixture(IBuilderFactory factory)
+        private readonly IBuilderFactory _factory;
+
+        public TreeUtils_ExperiencesWinter_Test(IBuilderFactory factory)
         {
-            ITestFixtureBuilder builder = factory.CreateFixtureBuilder();
-            builder.SetKey("tree_utils_experiences_winter");
-            builder.AddCondition(Utils.Condition_WorldReady);
-            builder.AddChild(this.BuildTest_ExperiencesWinter(factory));
+            this._factory = factory;
+        }
+
+        public ITraversable Build()
+        {
+            ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
+            builder.Key = "tree_utils_experiences_winter";
+            builder.AddCondition(Conditions.WorldReady);
+            builder.AddChild(this.BuildTest_ExperiencesWinter());
 
             return builder.Build();
         }
 
 
-        private ITestSuite BuildTest_ExperiencesWinter(IBuilderFactory factory)
+        private ITraversable BuildTest_ExperiencesWinter()
         {
-            ICasedTestBuilder<StringToBool> builder = factory.CreateCasedTestBuilder<StringToBool>();
-            builder.SetKey("location_experiences_winter");
-            builder.SetTestMethod(this.Test_ExperiencesWinter);
+            ICasedTestBuilder<StringToBool> builder = _factory.CreateCasedTestBuilder<StringToBool>();
+            builder.Key = "location_experiences_winter";
+            builder.TestMethod = this.Test_ExperiencesWinter;
+            builder.KeyGenerator = @case => @case.String.ToLower();
 
             // Base Cases
             builder.AddCases(
@@ -114,7 +122,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private IResult Test_ExperiencesWinter(StringToBool @params)
+        private Result Test_ExperiencesWinter(StringToBool @params)
         {
             string locationName = @params.String;
             bool shouldExperienceWinter = @params.Bool;

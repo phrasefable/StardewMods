@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
 using Phrasefable.StardewMods.Common;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -31,6 +29,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             tree.dayUpdate(tree.currentLocation, tree.currentTileLocation);
         }
 
+
         public static Tree PlantTree(
             GameLocation location,
             Vector2 position,
@@ -50,13 +49,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             Tree tree = new AggressiveTree(new Tree(growthStage, treeType));
             location.terrainFeatures.Add(position, tree);
             return tree;
-        }
-
-        public static IResult Condition_WorldReady()
-        {
-            return Context.IsWorldReady
-                ? new Result(Status.Pass)
-                : new Result(Status.Fail, "World not ready.");
         }
     }
 }

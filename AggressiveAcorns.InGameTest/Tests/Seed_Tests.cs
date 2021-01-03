@@ -1,7 +1,8 @@
+using System.Globalization;
 using Microsoft.Xna.Framework;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders;
-using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework;
+using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -9,48 +10,55 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
     internal class Seed_Tests
     {
+        private readonly IBuilderFactory _factory;
+
         private ModConfig _config;
 
-
-        public ITestSuite GetFixture(IBuilderFactory factory)
+        public Seed_Tests(IBuilderFactory factory)
         {
-            ITestFixtureBuilder fixtureBuilder = factory.CreateFixtureBuilder();
-            fixtureBuilder.SetKey("seed_tests");
-            fixtureBuilder.AddCondition(Utils.Condition_WorldReady);
-            fixtureBuilder.SetBeforeAllAction(
-                /* Note warps are not synchronous - printing the players position before and after the warp
-                 * statement does not show a difference. Still seems to work (the locations used in this test are
-                 * always loaded??), so have not bothered to make the test framework asynchronous.
-                 * */
-                () => Game1.player.warpFarmer(Utils.WarpFarm)
-            );
-            fixtureBuilder.SetBeforeEachAction(
-                () =>
-                {
-                    this._config = new ModConfig();
-                    AggressiveAcorns.Config = this._config;
-                }
-            );
+            this._factory = factory;
+        }
 
-            fixtureBuilder.AddTest(this.GetTestBuilder_HeldSeed(factory));
+        public ITraversable Build()
+        {
+            ITestFixtureBuilder fixtureBuilder = _factory.CreateFixtureBuilder();
+
+            fixtureBuilder.Key = "seed_tests";
+
+            fixtureBuilder.AddCondition(Conditions.WorldReady);
+
+            /* Note warps are not synchronous - printing the players position before and after the warp
+             * statement does not show a difference. Still seems to work (the locations used in this test are
+             * always loaded??), so have not bothered to make the test framework asynchronous.
+             * */
+            fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
+            fixtureBuilder.BeforeEach = () =>
+            {
+                this._config = new ModConfig();
+                AggressiveAcorns.Config = this._config;
+            };
+
+            fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
 
             return fixtureBuilder.Build();
         }
 
-        private Framework.Builders.ICasedTestBuilder<DoubleToBool> GetTestBuilder_HeldSeed(IBuilderFactory factory)
+        private ITraversable BuildTest_HeldSeed()
         {
-            ICasedTestBuilder<DoubleToBool> testBuilder = factory.CreateCasedTestBuilder<DoubleToBool>();
-            testBuilder.SetKey("tree_holds_seeds");
-            testBuilder.SetTestMethod(this.TestHeldSeed);
+            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
+
+            testBuilder.Key = "tree_holds_seeds";
+            testBuilder.TestMethod = this.TestHeldSeed;
+            testBuilder.KeyGenerator = @case => @case.Double.ToString(CultureInfo.InvariantCulture).Replace('.', '_');
             testBuilder.AddCases(
                 new DoubleToBool(0.0, false),
                 new DoubleToBool(1.0, true)
             );
-            return testBuilder;
+            return testBuilder.Build();
         }
 
 
-        private IResult TestHeldSeed(DoubleToBool @params)
+        private Result TestHeldSeed(DoubleToBool @params)
         {
             double seedChance = @params.Double;
             bool expectSeed = @params.Bool;
