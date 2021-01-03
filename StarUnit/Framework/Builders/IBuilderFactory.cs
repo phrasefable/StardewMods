@@ -1,4 +1,4 @@
-namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Framework.Builders
+namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
     public interface IBuilderFactory
     {
