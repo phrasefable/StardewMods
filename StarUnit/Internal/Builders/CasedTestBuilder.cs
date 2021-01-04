@@ -53,6 +53,12 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             this._grouping.Conditions = this._conditions;
 
+            var i = 1;
+            if (!this._keyGenerator.HasBeenSet)
+            {
+                KeyGenerator = @case => this._grouping.Key + i++;
+            }
+
             var branchBuilder = new BranchChildrenBuilder<ITest>();
             foreach (TCaseParams @case in this._cases)
             {
