@@ -5,7 +5,7 @@ using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
 {
-    public class TestRegistry
+    internal class TestRegistry
     {
         private readonly IDictionary<string, TestRoot> _testRoots = new Dictionary<string, TestRoot>();
 

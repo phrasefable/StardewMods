@@ -5,7 +5,7 @@ using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 {
-    public class ConciseLister : ILister
+    internal class ConciseLister : ILister
     {
         private readonly Action<string> _writer;
 

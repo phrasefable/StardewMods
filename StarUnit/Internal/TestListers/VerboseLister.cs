@@ -4,7 +4,7 @@ using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 {
-    public class VerboseLister : ILister
+    internal class VerboseLister : ILister
     {
         private readonly Action<string> _writer;
 
