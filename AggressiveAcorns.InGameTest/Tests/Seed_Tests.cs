@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
@@ -49,7 +48,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "tree_holds_seeds";
             testBuilder.TestMethod = this.TestHeldSeed;
-            testBuilder.KeyGenerator = @case => @case.Double.ToString(CultureInfo.InvariantCulture).Replace('.', '_');
+            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}";
             testBuilder.AddCases(
                 new DoubleToBool(0.0, false),
                 new DoubleToBool(1.0, true)
