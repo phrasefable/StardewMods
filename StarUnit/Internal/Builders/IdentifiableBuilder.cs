@@ -1,7 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
-using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
@@ -9,53 +8,52 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     /// <summary>
     /// Internal class used as component in other builders - handles building and validation of IIdentifiable's members
     /// </summary>
-    internal class IdentifiableBuilder : IBuilder<IIdentifiable>, IIdentifiableBuilder
+    internal class IdentifiableBuilder : IIdentifiableBuilder
     {
-        private readonly Identifiable _identifiable;
-
         private static readonly string ValidKeyPattern = @"^\w+$";
 
-        public IdentifiableBuilder(Identifiable identifiable)
-        {
-            this._identifiable = identifiable;
-            this._key = new SettableOnce<string>(this.SetKey, nameof(IdentifiableBuilder.Key));
-        }
-
         private readonly SettableOnce<string> _key;
+        private readonly SettableOnce<string> _longName;
+
+        public IdentifiableBuilder()
+        {
+            this._key = new SettableOnce<string>(nameof(IdentifiableBuilder.Key));
+            this._longName = new SettableOnce<string>(nameof(IdentifiableBuilder.LongName));
+        }
 
         public string Key
         {
-            set => this._key.Value = value;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(paramName: nameof(value));
+                }
+
+                if (!Regex.IsMatch(value, IdentifiableBuilder.ValidKeyPattern))
+                {
+                    throw new ArgumentException(
+                        $"An identifiable's key must match `{IdentifiableBuilder.ValidKeyPattern}`, which `{value}` does not.",
+                        nameof(value)
+                    );
+                }
+
+                this._key.Value = value;
+            }
         }
+
 
         public string LongName
         {
-            set => this._identifiable.LongName = value;
+            set => this._longName.Value = value;
         }
 
-        private void SetKey(string key)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(paramName: nameof(key));
-            }
-
-            if (!Regex.IsMatch(key, IdentifiableBuilder.ValidKeyPattern))
-            {
-                throw new ArgumentException(
-                    $"An identifiable's key must match `{IdentifiableBuilder.ValidKeyPattern}`, which `{key}` does not.",
-                    nameof(key)
-                );
-            }
-
-            this._identifiable.Key = key;
-        }
-
-        public IIdentifiable Build()
+        public void Build(Traversable identifiable)
         {
             if (!this._key.HasBeenSet) throw new InvalidOperationException("Identifiable must have a key set.");
 
-            return this._identifiable;
+            identifiable.Key = this._key.Value;
+            identifiable.LongName = this._longName.Value;
         }
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
-using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
@@ -72,18 +71,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
 
         private class TestRoot
         {
-            public ITestSuite TestSuite { get; }
-            public IList<ITraversable> Children { get; }
+            private readonly TestSuite _testSuite;
+            public ITestSuite TestSuite => this._testSuite;
+            public ICollection<ITraversable> Children => this._testSuite.Children;
 
             public TestRoot(string key)
             {
-                this.Children = new List<ITraversable>();
-                this.TestSuite = new TestSuite
-                {
-                    Key = key,
-                    Children = this.Children,
-                    Conditions = new Func<ITestResult>[] { }
-                };
+                this._testSuite = new TestSuite {Key = key};
             }
         }
     }

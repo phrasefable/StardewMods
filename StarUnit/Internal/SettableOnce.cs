@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
 {
@@ -7,14 +6,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
     {
         private T _value;
         private readonly string _name;
-
-        [CanBeNull] private readonly Action<T> _passThroughSetter;
-
-        public SettableOnce(Action<T> passThroughSetter, string name = null)
-        {
-            this._passThroughSetter = passThroughSetter;
-            this._name = name;
-        }
 
         public SettableOnce(string name)
         {
@@ -35,7 +26,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
                         : new InvalidOperationException($"`{this._name}` is only settable once.");
                 }
 
-                this._passThroughSetter?.Invoke(value);
                 this._value = value;
                 this.HasBeenSet = true;
             }

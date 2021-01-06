@@ -9,7 +9,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     {
         public ICasedTestBuilder<TCaseParams> CreateCasedTestBuilder<TCaseParams>()
         {
-            return new CasedTestBuilder<TCaseParams>(this.CreateTestBuilder);
+            return new CasedTestBuilder<TCaseParams>(this);
         }
 
         public ITestFixtureBuilder CreateFixtureBuilder()

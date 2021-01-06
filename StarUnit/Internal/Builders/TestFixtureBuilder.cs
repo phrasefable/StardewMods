@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
@@ -13,8 +12,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly IdentifiableBuilder _identifiableBuilder;
 
-        private readonly IList<Func<IResult>> _conditions;
-
         private readonly SettableOnce<Action> _beforeAll;
         private readonly SettableOnce<Action> _beforeEach;
         private readonly SettableOnce<Action> _afterEach;
@@ -27,9 +24,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         {
             this._fixture = new TestSuite();
 
-            this._identifiableBuilder = new IdentifiableBuilder(this._fixture);
-
-            this._conditions = new List<Func<IResult>>();
+            this._identifiableBuilder = new IdentifiableBuilder();
 
             this._beforeAll = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeAll));
             this._beforeEach = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeEach));
@@ -41,16 +36,17 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public ITestSuite Build()
         {
-            this._identifiableBuilder.Build();
-
-            this._fixture.Conditions = this._conditions;
+            this._identifiableBuilder.Build(this._fixture);
 
             this._fixture.BeforeAll = this._beforeAll.Value;
             this._fixture.BeforeEach = this._beforeEach.Value;
             this._fixture.AfterEach = this._afterEach.Value;
             this._fixture.AfterAll = this._afterAll.Value;
 
-            this._fixture.Children = this._branchChildrenBuilder.Build();
+            foreach (ITraversable traversable in this._branchChildrenBuilder.Build())
+            {
+                this._fixture.Children.Add(traversable);
+            }
 
             return this._fixture;
         }
@@ -67,7 +63,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public void AddCondition(Func<IResult> condition)
         {
-            this._conditions.Add(condition);
+            this._fixture.Conditions.Add(condition);
         }
 
         public Action BeforeAll
