@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
-namespace Phrasefable.StardewMods.StarUnit.Internal.Model
+namespace Phrasefable.StardewMods.StarUnit.Internal.Definitions
 {
     internal class Test : Identifiable, ITest
     {

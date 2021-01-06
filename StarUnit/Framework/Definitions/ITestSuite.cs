@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Phrasefable.StardewMods.StarUnit.Framework.Model
+namespace Phrasefable.StardewMods.StarUnit.Framework.Definitions
 {
     public interface ITestSuite : ITraversable
     {

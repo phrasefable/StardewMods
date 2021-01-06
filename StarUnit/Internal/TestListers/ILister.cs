@@ -1,4 +1,4 @@
-using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 {

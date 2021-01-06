@@ -1,8 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
-using Phrasefable.StardewMods.StarUnit.Framework.Model;
-using Phrasefable.StardewMods.StarUnit.Internal.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
+using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {

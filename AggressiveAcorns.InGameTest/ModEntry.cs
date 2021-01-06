@@ -2,7 +2,7 @@
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests;
 using Phrasefable.StardewMods.StarUnit;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
-using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
