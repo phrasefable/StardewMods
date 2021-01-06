@@ -29,7 +29,7 @@ namespace Phrasefable.StardewMods.StarUnit
         {
             return new StarUnitApi(this._tests.Register)
             {
-                BuilderFactory = new BuilderFactory()
+                TestDefinitionFactory = new TestDefinitionFactory()
             };
         }
 

@@ -5,7 +5,7 @@ namespace Phrasefable.StardewMods.StarUnit
 {
     public interface IStarUnitApi
     {
-        public IBuilderFactory BuilderFactory { get; set; }
+        public ITestDefinitionFactory TestDefinitionFactory { get; set; }
         public void Register(string modId, params ITraversable[] testNodes);
     }
 }

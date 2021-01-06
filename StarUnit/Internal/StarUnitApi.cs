@@ -14,7 +14,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
             this._registrationProxy = registrationProxy;
         }
 
-        public IBuilderFactory BuilderFactory { get; set; }
+        public ITestDefinitionFactory TestDefinitionFactory { get; set; }
 
         public void Register(string modId, params ITraversable[] testNodes)
         {

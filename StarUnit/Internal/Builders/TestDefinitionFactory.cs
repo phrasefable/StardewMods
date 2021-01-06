@@ -1,8 +1,9 @@
+using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
-    public class BuilderFactory : IBuilderFactory
+    internal class TestDefinitionFactory : ITestDefinitionFactory
     {
         public ICasedTestBuilder<TCaseParams> CreateCasedTestBuilder<TCaseParams>()
         {
@@ -17,6 +18,16 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         public ITestBuilder CreateTestBuilder()
         {
             return new TestBuilder();
+        }
+
+        public IResult BuildResult(Status status)
+        {
+            return new Result {Status = status};
+        }
+
+        public IResult BuildResult(Status status, string message)
+        {
+            return new Result {Status = status, Message = message};
         }
     }
 }

@@ -7,9 +7,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
     internal class TreeUtils_ExperiencesWinter_Test
     {
-        private readonly IBuilderFactory _factory;
+        private readonly ITestDefinitionFactory _factory;
 
-        public TreeUtils_ExperiencesWinter_Test(IBuilderFactory factory)
+        public TreeUtils_ExperiencesWinter_Test(ITestDefinitionFactory factory)
         {
             this._factory = factory;
         }
@@ -130,22 +130,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             GameLocation location = Game1.getLocationFromName(locationName);
             if (location == null)
             {
-                return new Result
-                {
-                    Status = Status.Error,
-                    Message = $"Unable to find location with name '{locationName}'"
-                };
+                return this._factory.BuildResult(Status.Error, $"Unable to find location with name '{locationName}'");
             }
 
             bool experiencesWinter = TreeUtils.ExperiencesWinter(location);
 
             return experiencesWinter == shouldExperienceWinter
-                ? new Result {Status = Status.Pass}
-                : new Result
-                {
-                    Status = Status.Fail,
-                    Message = $"Got {experiencesWinter}, expected {shouldExperienceWinter}."
-                };
+                ? this._factory.BuildResult(Status.Pass)
+                : this._factory.BuildResult(Status.Fail,
+                    $"Got {experiencesWinter}, expected {shouldExperienceWinter}.");
         }
     }
 }

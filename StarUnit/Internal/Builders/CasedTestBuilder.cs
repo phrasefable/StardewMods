@@ -21,10 +21,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly SettableOnce<Func<TCaseParams, string>> _longNameGenerator;
 
-        private readonly Func<ITestBuilder> _testBuilderGenerator;
+        private readonly Func<ITestBuilder> _testBuilderFactory;
 
 
-        public CasedTestBuilder(Func<ITestBuilder> testBuilderGenerator)
+        public CasedTestBuilder(Func<ITestBuilder> testBuilderFactory)
         {
             this._suite = new TestSuite();
 
@@ -45,7 +45,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
                 nameof(CasedTestBuilder<TCaseParams>.LongNameGenerator)
             );
 
-            this._testBuilderGenerator = testBuilderGenerator;
+            this._testBuilderFactory = testBuilderFactory;
         }
 
         public ITestSuite Build()
@@ -74,7 +74,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private ITest BuildCase(TCaseParams @case)
         {
-            ITestBuilder builder = this._testBuilderGenerator();
+            ITestBuilder builder = this._testBuilderFactory();
 
             builder.Key = this._keyGenerator.Value(@case);
             if (this._longNameGenerator.HasBeenSet) builder.LongName = this._longNameGenerator.Value(@case);

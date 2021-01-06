@@ -1,8 +1,9 @@
+using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Framework
+namespace Phrasefable.StardewMods.StarUnit.Internal
 {
-    public class Result : IResult
+    internal class Result : IResult
     {
         public Status Status { get; set; }
         public string Message { get; set; }

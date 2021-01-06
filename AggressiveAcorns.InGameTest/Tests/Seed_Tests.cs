@@ -9,11 +9,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
     internal class Seed_Tests
     {
-        private readonly IBuilderFactory _factory;
+        private readonly ITestDefinitionFactory _factory;
 
         private ModConfig _config;
 
-        public Seed_Tests(IBuilderFactory factory)
+        public Seed_Tests(ITestDefinitionFactory factory)
         {
             this._factory = factory;
         }
@@ -76,8 +76,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Assert
             return tree.hasSeed.Value == expectSeed
-                ? new Result{Status = Status.Pass}
-                : new Result{Status = Status.Fail, Message = expectSeed ? "Seed expected" : "Seed not expected"};
+                ? this._factory.BuildResult(Status.Pass, null)
+                : this._factory.BuildResult(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
         }
     }
 }

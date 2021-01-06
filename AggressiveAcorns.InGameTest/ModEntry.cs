@@ -19,15 +19,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         private void OnGameLoopOnGameLaunched(object sender, GameLaunchedEventArgs args)
         {
             var starUnitApi = this.Helper.ModRegistry.GetApi<IStarUnitApi>("Phrasefable.StarUnit");
-            starUnitApi.Register("aa", this.GetTestNodes(starUnitApi.BuilderFactory));
+            starUnitApi.Register("aa", this.GetTestNodes(starUnitApi.TestDefinitionFactory));
         }
 
-        private ITraversable[] GetTestNodes(IBuilderFactory builderFactory)
+        private ITraversable[] GetTestNodes(ITestDefinitionFactory testDefinitionFactory)
         {
             return new ITraversable[]
             {
-                new Seed_Tests(builderFactory).Build(),
-                new TreeUtils_ExperiencesWinter_Test(builderFactory).Build()
+                new Seed_Tests(testDefinitionFactory).Build(),
+                new TreeUtils_ExperiencesWinter_Test(testDefinitionFactory).Build()
             };
         }
     }
