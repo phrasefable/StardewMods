@@ -1,6 +1,8 @@
 using System;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
+using Phrasefable.StardewMods.StarUnit.Internal.Results;
 using StardewModdingAPI;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
@@ -82,7 +82,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
                 {
                     Key = key,
                     Children = this.Children,
-                    Conditions = new Func<IResult>[] { }
+                    Conditions = new Func<ITestResult>[] { }
                 };
             }
         }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
@@ -13,7 +13,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly IdentifiableBuilder _identifiableBuilder;
         private readonly IList<Func<IResult>> _conditions;
-        private readonly SettableOnce<Func<TCaseParams, IResult>> _testMethod;
+        private readonly SettableOnce<Func<TCaseParams, ITestResult>> _testMethod;
 
         private readonly IList<TCaseParams> _cases;
 
@@ -32,7 +32,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             this._conditions = new List<Func<IResult>>();
 
-            this._testMethod = new SettableOnce<Func<TCaseParams, IResult>>(
+            this._testMethod = new SettableOnce<Func<TCaseParams, ITestResult>>(
                 nameof(CasedTestBuilder<TCaseParams>.TestMethod)
             );
 
@@ -78,7 +78,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             builder.Key = this._keyGenerator.Value(@case);
             if (this._longNameGenerator.HasBeenSet) builder.LongName = this._longNameGenerator.Value(@case);
-            Func<TCaseParams, IResult> testMethod = this._testMethod.Value;
+            Func<TCaseParams, ITestResult> testMethod = this._testMethod.Value;
             builder.TestMethod = () => testMethod(@case);
 
             return builder.Build();
@@ -99,7 +99,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._conditions.Add(condition);
         }
 
-        public Func<TCaseParams, IResult> TestMethod
+        public Func<TCaseParams, ITestResult> TestMethod
         {
             set => this._testMethod.Value = value;
         }

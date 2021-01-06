@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
@@ -57,7 +58,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private IResult TestHeldSeed(DoubleToBool @params)
+        private ITestResult TestHeldSeed(DoubleToBool @params)
         {
             double seedChance = @params.Double;
             bool expectSeed = @params.Bool;
@@ -76,8 +77,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Assert
             return tree.hasSeed.Value == expectSeed
-                ? this._factory.BuildResult(Status.Pass, null)
-                : this._factory.BuildResult(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
+                ? this._factory.BuildTestResult(Status.Pass, null)
+                : this._factory.BuildTestResult(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
         }
     }
 }

@@ -1,3 +1,5 @@
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
+
 namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
     public interface ITestDefinitionFactory
@@ -6,8 +8,8 @@ namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
         public ITestFixtureBuilder CreateFixtureBuilder();
         public ITestBuilder CreateTestBuilder();
 
-        public IResult BuildResult(Status status);
-        public IResult BuildResult(Status status, string message);
+        public ITestResult BuildTestResult(Status status);
+        public ITestResult BuildTestResult(Status status, string message);
 
         public IConditionDefinitions Conditions { get; }
     }

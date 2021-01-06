@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
@@ -13,7 +14,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly IdentifiableBuilder _identifiableBuilder;
         private readonly IList<Func<IResult>> _conditions;
-        private readonly SettableOnce<Func<IResult>> _testMethod;
+        private readonly SettableOnce<Func<ITestResult>> _testMethod;
 
         public TestBuilder()
         {
@@ -21,7 +22,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             this._identifiableBuilder = new IdentifiableBuilder(this._test);
             this._conditions = new List<Func<IResult>>();
-            this._testMethod = new SettableOnce<Func<IResult>>(nameof(TestBuilder.TestMethod));
+            this._testMethod = new SettableOnce<Func<ITestResult>>(nameof(TestBuilder.TestMethod));
         }
 
         public ITest Build()
@@ -55,7 +56,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._conditions.Add(condition);
         }
 
-        public Func<IResult> TestMethod
+        public Func<ITestResult> TestMethod
         {
             set => this._testMethod.Value = value;
         }

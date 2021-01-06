@@ -1,5 +1,7 @@
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
+using Phrasefable.StardewMods.StarUnit.Internal.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
@@ -20,14 +22,14 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return new TestBuilder();
         }
 
-        public IResult BuildResult(Status status)
+        public ITestResult BuildTestResult(Status status)
         {
-            return new Result {Status = status};
+            return new TestResult {Status = status};
         }
 
-        public IResult BuildResult(Status status, string message)
+        public ITestResult BuildTestResult(Status status, string message)
         {
-            return new Result {Status = status, Message = message};
+            return new TestResult {Status = status, Message = message};
         }
 
         public IConditionDefinitions Conditions { get; } = new ConditionDefinitions();

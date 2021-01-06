@@ -1,6 +1,7 @@
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
@@ -122,7 +123,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private IResult Test_ExperiencesWinter(StringToBool @params)
+        private ITestResult Test_ExperiencesWinter(StringToBool @params)
         {
             string locationName = @params.String;
             bool shouldExperienceWinter = @params.Bool;
@@ -130,14 +131,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             GameLocation location = Game1.getLocationFromName(locationName);
             if (location == null)
             {
-                return this._factory.BuildResult(Status.Error, $"Unable to find location with name '{locationName}'");
+                return this._factory.BuildTestResult(Status.Error, $"Unable to find location with name '{locationName}'");
             }
 
             bool experiencesWinter = TreeUtils.ExperiencesWinter(location);
 
             return experiencesWinter == shouldExperienceWinter
-                ? this._factory.BuildResult(Status.Pass)
-                : this._factory.BuildResult(Status.Fail,
+                ? this._factory.BuildTestResult(Status.Pass)
+                : this._factory.BuildTestResult(Status.Fail,
                     $"Got {experiencesWinter}, expected {shouldExperienceWinter}.");
         }
     }
