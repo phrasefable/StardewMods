@@ -1,6 +1,6 @@
 namespace Phrasefable.StardewMods.StarUnit.Framework
 {
-    public class DoubleToBool
+    public readonly struct DoubleToBool
     {
         public double Double { get; }
         public bool Bool { get; }
@@ -12,7 +12,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework
         }
     }
 
-    public class StringToBool
+    public readonly struct StringToBool
     {
         public string String { get; }
         public bool Bool { get; }
