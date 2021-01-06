@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             fixtureBuilder.Key = "seed_tests";
 
-            fixtureBuilder.AddCondition(Conditions.WorldReady);
+            fixtureBuilder.AddCondition(this._factory.Conditions.WorldReady);
 
             /* Note warps are not synchronous - printing the players position before and after the warp
              * statement does not show a difference. Still seems to work (the locations used in this test are

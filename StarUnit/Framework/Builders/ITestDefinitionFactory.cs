@@ -8,5 +8,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 
         public IResult BuildResult(Status status);
         public IResult BuildResult(Status status, string message);
+
+        public IConditionDefinitions Conditions { get; }
     }
 }

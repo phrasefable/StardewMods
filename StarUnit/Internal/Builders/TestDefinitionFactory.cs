@@ -29,5 +29,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         {
             return new Result {Status = status, Message = message};
         }
+
+        public IConditionDefinitions Conditions { get; } = new ConditionDefinitions();
     }
 }

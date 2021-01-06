@@ -18,7 +18,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         {
             ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
             builder.Key = "tree_utils_experiences_winter";
-            builder.AddCondition(Conditions.WorldReady);
+            builder.AddCondition(this._factory.Conditions.WorldReady);
             builder.AddChild(this.BuildTest_ExperiencesWinter());
 
             return builder.Build();
