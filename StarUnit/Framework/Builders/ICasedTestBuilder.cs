@@ -5,7 +5,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
     public interface ICasedTestBuilder<TCaseParams> : IBuilder<ITestGrouping>, ITraversableBuilder
     {
-        public Func<TCaseParams, Result> TestMethod { set; }
+        public Func<TCaseParams, IResult> TestMethod { set; }
 
         public void AddCases(params TCaseParams[] cases);
 

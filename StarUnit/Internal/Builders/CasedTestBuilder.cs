@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Internal.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
@@ -11,8 +12,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         private readonly TestGrouping _grouping;
 
         private readonly IdentifiableBuilder _identifiableBuilder;
-        private readonly IList<Func<Result>> _conditions;
-        private readonly SettableOnce<Func<TCaseParams, Result>> _testMethod;
+        private readonly IList<Func<IResult>> _conditions;
+        private readonly SettableOnce<Func<TCaseParams, IResult>> _testMethod;
 
         private readonly IList<TCaseParams> _cases;
 
@@ -29,9 +30,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             this._identifiableBuilder = new IdentifiableBuilder(this._grouping);
 
-            this._conditions = new List<Func<Result>>();
+            this._conditions = new List<Func<IResult>>();
 
-            this._testMethod = new SettableOnce<Func<TCaseParams, Result>>(
+            this._testMethod = new SettableOnce<Func<TCaseParams, IResult>>(
                 nameof(CasedTestBuilder<TCaseParams>.TestMethod)
             );
 
@@ -77,7 +78,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             builder.Key = this._keyGenerator.Value(@case);
             if (this._longNameGenerator.HasBeenSet) builder.LongName = this._longNameGenerator.Value(@case);
-            Func<TCaseParams, Result> testMethod = this._testMethod.Value;
+            Func<TCaseParams, IResult> testMethod = this._testMethod.Value;
             builder.TestMethod = () => testMethod(@case);
 
             return builder.Build();
@@ -93,12 +94,12 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             set => this._identifiableBuilder.Key = value;
         }
 
-        public void AddCondition(Func<Result> condition)
+        public void AddCondition(Func<IResult> condition)
         {
             this._conditions.Add(condition);
         }
 
-        public Func<TCaseParams, Result> TestMethod
+        public Func<TCaseParams, IResult> TestMethod
         {
             set => this._testMethod.Value = value;
         }

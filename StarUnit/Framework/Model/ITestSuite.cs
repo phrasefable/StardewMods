@@ -1,12 +1,13 @@
 using System;
+using JetBrains.Annotations;
 
 namespace Phrasefable.StardewMods.StarUnit.Framework.Model
 {
     public interface ITestSuite : ITraversableBranch<ITraversable>
     {
-        public Action BeforeAll { get; }
-        public Action BeforeEach { get; }
-        public Action AfterEach { get; }
-        public Action AfterAll { get; }
+        [CanBeNull] public Action BeforeAll { get; }
+        [CanBeNull] public Action BeforeEach { get; }
+        [CanBeNull] public Action AfterEach { get; }
+        [CanBeNull] public Action AfterAll { get; }
     }
 }

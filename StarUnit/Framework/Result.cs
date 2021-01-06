@@ -1,14 +1,23 @@
+using Phrasefable.StardewMods.StarUnit.Framework.Model;
+
 namespace Phrasefable.StardewMods.StarUnit.Framework
 {
-    public class Result
+    public class Result : IResult
     {
-        public Status Status { get; }
-        public string Message { get; }
+        public Status Status { get; set; }
+        public string Message { get; set; }
 
-        public Result(Status status, string message = null)
+        public string Key { get; set; }
+        public string LongName { get; set; }
+
+        public Result()
         {
-            this.Status = status;
-            this.Message = message;
+        }
+
+        public Result(ITraversable traversable)
+        {
+            this.Key = traversable.Key;
+            this.LongName = traversable.LongName;
         }
     }
 }

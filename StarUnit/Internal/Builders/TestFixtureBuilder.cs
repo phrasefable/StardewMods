@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
+using Phrasefable.StardewMods.StarUnit.Internal.Model;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
@@ -12,7 +13,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly IdentifiableBuilder _identifiableBuilder;
 
-        private readonly IList<Func<Result>> _conditions;
+        private readonly IList<Func<IResult>> _conditions;
 
         private readonly SettableOnce<Action> _beforeAll;
         private readonly SettableOnce<Action> _beforeEach;
@@ -28,7 +29,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             this._identifiableBuilder = new IdentifiableBuilder(this._fixture);
 
-            this._conditions = new List<Func<Result>>();
+            this._conditions = new List<Func<IResult>>();
 
             this._beforeAll = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeAll));
             this._beforeEach = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeEach));
@@ -64,7 +65,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             set => this._identifiableBuilder.LongName = value;
         }
 
-        public void AddCondition(Func<Result> condition)
+        public void AddCondition(Func<IResult> condition)
         {
             this._conditions.Add(condition);
         }

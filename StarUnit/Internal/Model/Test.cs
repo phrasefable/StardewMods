@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Model;
 
-namespace Phrasefable.StardewMods.StarUnit.Internal
+namespace Phrasefable.StardewMods.StarUnit.Internal.Model
 {
     internal class Test : Identifiable, ITest
     {
-        public IEnumerable<Func<Result>> Conditions { get; set; }
+        public IEnumerable<Func<IResult>> Conditions { get; set; }
 
-        public Func<Result> TestMethod { get; set; }
+        public Func<IResult> TestMethod { get; set; }
     }
 }

@@ -122,7 +122,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private Result Test_ExperiencesWinter(StringToBool @params)
+        private IResult Test_ExperiencesWinter(StringToBool @params)
         {
             string locationName = @params.String;
             bool shouldExperienceWinter = @params.Bool;
@@ -130,17 +130,22 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             GameLocation location = Game1.getLocationFromName(locationName);
             if (location == null)
             {
-                return new Result(Status.Error, $"Unable to find location with name '{locationName}'");
+                return new Result
+                {
+                    Status = Status.Error,
+                    Message = $"Unable to find location with name '{locationName}'"
+                };
             }
 
             bool experiencesWinter = TreeUtils.ExperiencesWinter(location);
 
             return experiencesWinter == shouldExperienceWinter
-                ? new Result(Status.Pass)
-                : new Result(
-                    Status.Fail,
-                    $"Got {experiencesWinter}, expected {shouldExperienceWinter}"
-                );
+                ? new Result {Status = Status.Pass}
+                : new Result
+                {
+                    Status = Status.Fail,
+                    Message = $"Got {experiencesWinter}, expected {shouldExperienceWinter}."
+                };
         }
     }
 }

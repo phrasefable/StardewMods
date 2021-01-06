@@ -57,7 +57,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private Result TestHeldSeed(DoubleToBool @params)
+        private IResult TestHeldSeed(DoubleToBool @params)
         {
             double seedChance = @params.Double;
             bool expectSeed = @params.Bool;
@@ -76,8 +76,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Assert
             return tree.hasSeed.Value == expectSeed
-                ? new Result(Status.Pass)
-                : new Result(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
+                ? new Result{Status = Status.Pass}
+                : new Result{Status = Status.Fail, Message = expectSeed ? "Seed expected" : "Seed not expected"};
         }
     }
 }

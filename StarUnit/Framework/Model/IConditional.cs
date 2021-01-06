@@ -5,6 +5,6 @@ namespace Phrasefable.StardewMods.StarUnit.Framework.Model
 {
     public interface IConditional
     {
-        public IEnumerable<Func<Result>> Conditions { get; }
+        public IEnumerable<Func<IResult>> Conditions { get; }
     }
 }
