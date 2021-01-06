@@ -28,11 +28,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
         {
             this._writer(this.GetVerboseListing(node, parent));
 
-            if (node is ITraversableBranch<ITraversable> branch)
+            if (node is ITestSuite suite)
             {
-                foreach (ITraversable child in branch.Children)
+                foreach (ITraversable child in suite.Children)
                 {
-                    this.ListVerbose(child, branch);
+                    this.ListVerbose(child, suite);
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
         private string GetVerboseListing(IIdentifiable node, IIdentifiable parent)
         {
             string s = this.GetFullyQualifiedId(node, parent);
-            if (node is ITraversableBranch<ITraversable>) s += ".";
+            if (node is ITestSuite) s += ".";
             if (!string.IsNullOrWhiteSpace(node.LongName)) s += $"    ({node.LongName})";
             return s;
         }

@@ -9,7 +9,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     internal class CasedTestBuilder<TCaseParams> : ICasedTestBuilder<TCaseParams>
     {
-        private readonly TestGrouping _grouping;
+        private readonly TestSuite _suite;
 
         private readonly IdentifiableBuilder _identifiableBuilder;
         private readonly IList<Func<IResult>> _conditions;
@@ -26,9 +26,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public CasedTestBuilder(Func<ITestBuilder> testBuilderGenerator)
         {
-            this._grouping = new TestGrouping();
+            this._suite = new TestSuite();
 
-            this._identifiableBuilder = new IdentifiableBuilder(this._grouping);
+            this._identifiableBuilder = new IdentifiableBuilder(this._suite);
 
             this._conditions = new List<Func<IResult>>();
 
@@ -48,16 +48,16 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._testBuilderGenerator = testBuilderGenerator;
         }
 
-        public ITestGrouping Build()
+        public ITestSuite Build()
         {
             this._identifiableBuilder.Build();
 
-            this._grouping.Conditions = this._conditions;
+            this._suite.Conditions = this._conditions;
 
             var i = 1;
             if (!this._keyGenerator.HasBeenSet)
             {
-                KeyGenerator = @case => this._grouping.Key + i++;
+                KeyGenerator = @case => this._suite.Key + i++;
             }
 
             var branchBuilder = new BranchChildrenBuilder<ITest>();
@@ -66,10 +66,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
                 branchBuilder.AddChild(this.BuildCase(@case));
             }
 
-            this._grouping.Children = branchBuilder.Build();
+            this._suite.Children = branchBuilder.Build();
 
 
-            return this._grouping;
+            return this._suite;
         }
 
         private ITest BuildCase(TCaseParams @case)
