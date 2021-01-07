@@ -50,7 +50,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 
         private string GetMessageLine(string line)
         {
-            return $" > {this.GetPrefix(this.Level + 1)}{line}";
+            return $"{this.GetPrefix(this.Level + 1)} > {line}";
         }
 
 
