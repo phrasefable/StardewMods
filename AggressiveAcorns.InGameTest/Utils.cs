@@ -46,7 +46,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
                 }
             }
 
-            Tree tree = new AggressiveTree(new Tree(growthStage, treeType));
+            Tree tree = new AggressiveTree(new Tree(treeType, growthStage));
             location.terrainFeatures.Add(position, tree);
             return tree;
         }
