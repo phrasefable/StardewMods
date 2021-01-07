@@ -2,7 +2,7 @@ using System;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
 {
-    internal class SettableOnce<T>
+    public class SettableOnce<T>
     {
         private T _value;
         private readonly string _name;

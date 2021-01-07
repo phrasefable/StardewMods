@@ -12,25 +12,30 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return new CasedTestBuilder<TCaseParams>(this);
         }
 
+
         public ITestFixtureBuilder CreateFixtureBuilder()
         {
             return new TestFixtureBuilder();
         }
+
 
         public ITestBuilder CreateTestBuilder()
         {
             return new TestBuilder();
         }
 
+
         public ITestResult BuildTestResult(Status status)
         {
             return new TestResult {Status = status};
         }
 
+
         public ITestResult BuildTestResult(Status status, string message)
         {
             return new TestResult {Status = status, Message = message};
         }
+
 
         public IConditionDefinitions Conditions { get; } = new ConditionDefinitions();
     }

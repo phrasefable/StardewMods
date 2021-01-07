@@ -7,9 +7,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 {
     internal class ResultListingContext
     {
-        public ColumnWidthInfo ColumnWidths { get; }
-        private int Level { get; }
-
         private readonly int _indentationPerLevel = 3;
 
 
@@ -25,6 +22,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
             this.ColumnWidths = parentContext.ColumnWidths;
             this.Level = parentContext.Level + 1;
         }
+
+
+        public ColumnWidthInfo ColumnWidths { get; }
+        private int Level { get; }
 
 
         public ResultListingContext CreateChildContext()

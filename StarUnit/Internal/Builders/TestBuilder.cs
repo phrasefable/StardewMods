@@ -13,6 +13,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         private readonly IdentifiableBuilder _identifiableBuilder;
         private readonly SettableOnce<Func<ITestResult>> _testMethod;
 
+
         public TestBuilder()
         {
             this._test = new Test();
@@ -20,6 +21,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._identifiableBuilder = new IdentifiableBuilder();
             this._testMethod = new SettableOnce<Func<ITestResult>>(nameof(TestBuilder.TestMethod));
         }
+
 
         public ITest Build()
         {
@@ -35,20 +37,24 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return this._test;
         }
 
+
         public string Key
         {
             set => this._identifiableBuilder.Key = value;
         }
+
 
         public string LongName
         {
             set => this._identifiableBuilder.LongName = value;
         }
 
+
         public void AddCondition(Func<IResult> condition)
         {
             this._test.Conditions.Add(condition);
         }
+
 
         public Func<ITestResult> TestMethod
         {

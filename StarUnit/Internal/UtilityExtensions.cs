@@ -14,8 +14,14 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
 
         public static void AddToValue<T>(this IDictionary<T, int> @this, T key, int value)
         {
-            if (@this.ContainsKey(key)) @this[key] += value;
-            else @this[key] = value;
+            if (@this.ContainsKey(key))
+            {
+                @this[key] += value;
+            }
+            else
+            {
+                @this[key] = value;
+            }
         }
     }
 }

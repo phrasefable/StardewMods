@@ -34,6 +34,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._branchChildrenBuilder = new BranchChildrenBuilder<ITraversable>();
         }
 
+
         public ITestSuite Build()
         {
             this._identifiableBuilder.Build(this._fixture);
@@ -51,40 +52,48 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return this._fixture;
         }
 
+
         public string Key
         {
             set => this._identifiableBuilder.Key = value;
         }
+
 
         public string LongName
         {
             set => this._identifiableBuilder.LongName = value;
         }
 
+
         public void AddCondition(Func<IResult> condition)
         {
             this._fixture.Conditions.Add(condition);
         }
+
 
         public Action BeforeAll
         {
             set => this._beforeAll.Value = value;
         }
 
+
         public Action BeforeEach
         {
             set => this._beforeEach.Value = value;
         }
+
 
         public Action AfterEach
         {
             set => this._afterEach.Value = value;
         }
 
+
         public Action AfterAll
         {
             set => this._afterAll.Value = value;
         }
+
 
         public void AddChild(ITraversable child)
         {

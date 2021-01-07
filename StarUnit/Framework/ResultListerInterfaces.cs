@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
-namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
+namespace Phrasefable.StardewMods.StarUnit.Framework
 {
     public interface IResultLister
     {

@@ -11,7 +11,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Definitions
         public Action AfterEach { get; set; }
         public Action AfterAll { get; set; }
 
-        IEnumerable<ITraversable> ITestSuite.Children => Children;
+        IEnumerable<ITraversable> ITestSuite.Children => this.Children;
         public ICollection<ITraversable> Children { get; } = new List<ITraversable>();
     }
 }

@@ -25,8 +25,8 @@ namespace Phrasefable.StardewMods.StarUnit
                 s => this.Monitor.Log(s, LogLevel.Error)
             );
 
-            helper.ConsoleCommands.Add("list_tests", "Lists test fixtures.", ListTests);
-            helper.ConsoleCommands.Add("run_tests", "Runs test fixtures.", RunTests);
+            helper.ConsoleCommands.Add("list_tests", "Lists test fixtures.", this.ListTests);
+            helper.ConsoleCommands.Add("run_tests", "Runs test fixtures.", this.RunTests);
         }
 
 
@@ -45,24 +45,27 @@ namespace Phrasefable.StardewMods.StarUnit
             // TODO: filter via args
 
             ILister lister;
-            void ConsoleWriter(string s) => this.Monitor.Log(s, LogLevel.Info);
 
-            if (arg2.Length == 0)
+            void ConsoleWriter(string s)
             {
-                lister = new ConciseLister(ConsoleWriter);
-            }
-            else if (arg2.Length == 1 && arg2[0] == "-v")
-            {
-                lister = new VerboseLister(ConsoleWriter);
-            }
-            else
-            {
-                this.Monitor.Log("Invalid arguments.", LogLevel.Error);
-                return;
+                this.Monitor.Log(s, LogLevel.Info);
             }
 
-            Monitor.Log("Registered tests:", LogLevel.Info);
-            Monitor.Log("", LogLevel.Info);
+            switch (arg2.Length)
+            {
+                case 0:
+                    lister = new ConciseLister(ConsoleWriter);
+                    break;
+                case 1 when arg2[0] == "-v":
+                    lister = new VerboseLister(ConsoleWriter);
+                    break;
+                default:
+                    this.Monitor.Log("Invalid arguments.", LogLevel.Error);
+                    return;
+            }
+
+            this.Monitor.Log("Registered tests:", LogLevel.Info);
+            this.Monitor.Log("", LogLevel.Info);
 
             foreach (ITestSuite suite in this._tests.TestRoots)
             {

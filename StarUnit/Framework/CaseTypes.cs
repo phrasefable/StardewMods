@@ -12,6 +12,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework
         }
     }
 
+
     public readonly struct StringToBool
     {
         public string String { get; }

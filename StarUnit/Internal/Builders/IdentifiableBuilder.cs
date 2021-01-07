@@ -6,7 +6,7 @@ using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     /// <summary>
-    /// Internal class used as component in other builders - handles building and validation of IIdentifiable's members
+    ///     Internal class used as component in other builders - handles building and validation of IIdentifiable's members
     /// </summary>
     internal class IdentifiableBuilder : IIdentifiableBuilder
     {
@@ -15,11 +15,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         private readonly SettableOnce<string> _key;
         private readonly SettableOnce<string> _longName;
 
+
         public IdentifiableBuilder()
         {
             this._key = new SettableOnce<string>(nameof(IdentifiableBuilder.Key));
             this._longName = new SettableOnce<string>(nameof(IdentifiableBuilder.LongName));
         }
+
 
         public string Key
         {
@@ -27,7 +29,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(paramName: nameof(value));
+                    throw new ArgumentNullException(nameof(value));
                 }
 
                 if (!Regex.IsMatch(value, IdentifiableBuilder.ValidKeyPattern))
@@ -47,6 +49,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         {
             set => this._longName.Value = value;
         }
+
 
         public void Build(Traversable identifiable)
         {

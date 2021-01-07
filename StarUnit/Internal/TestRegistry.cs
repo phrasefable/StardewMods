@@ -53,7 +53,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
             if (duplicates.Any())
             {
                 this._errorWriter(
-                    $"Failed to register {testNodes.Count()} items at '{modId}' due to {duplicates.Count()} duplicates:"
+                    $"Failed to register {testNodes.Length} items at '{modId}' due to {duplicates.Count()} duplicates:"
                 );
                 this._errorWriter("    " + string.Join(" ", duplicates));
                 return;
@@ -64,7 +64,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
                 root.Children.Add(node);
             }
 
-            this._writer($"Registered {testNodes.Count()} test node(s) to root '{modId}'.");
+            this._writer($"Registered {testNodes.Length} test node(s) to root '{modId}'.");
         }
 
         // ============================================================================================================

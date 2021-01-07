@@ -10,6 +10,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework
         Skipped
     }
 
+
     public static class StatusExtensions
     {
         public static string GetPrintName(this Status status)

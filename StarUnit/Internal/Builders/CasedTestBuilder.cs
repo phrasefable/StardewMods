@@ -43,12 +43,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._testBuilderFactory = factory.CreateTestBuilder;
         }
 
+
         public ITestSuite Build()
         {
             var i = 1;
             if (!this._keyGenerator.HasBeenSet)
             {
-                KeyGenerator = @case => this._key + i++;
+                this.KeyGenerator = @case => this._key + i++;
             }
 
             var branchBuilder = new BranchChildrenBuilder<ITest>();
@@ -65,6 +66,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return this._fixtureBuilder.Build();
         }
 
+
         private ITest BuildCase(TCaseParams @case)
         {
             ITestBuilder builder = this._testBuilderFactory();
@@ -77,6 +79,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             return builder.Build();
         }
 
+
         public string Key
         {
             set
@@ -86,20 +89,24 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             }
         }
 
+
         public string LongName
         {
             set => this._fixtureBuilder.Key = value;
         }
+
 
         public void AddCondition(Func<IResult> condition)
         {
             this._fixtureBuilder.AddCondition(condition);
         }
 
+
         public Func<TCaseParams, ITestResult> TestMethod
         {
             set => this._testMethod.Value = value;
         }
+
 
         // be sure that if the cases are the same that they will still get unique keys.
         public void AddCases(params TCaseParams[] cases)
@@ -110,10 +117,12 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             }
         }
 
+
         public Func<TCaseParams, string> KeyGenerator
         {
             set => this._keyGenerator.Value = value;
         }
+
 
         public Func<TCaseParams, string> LongNameGenerator
         {

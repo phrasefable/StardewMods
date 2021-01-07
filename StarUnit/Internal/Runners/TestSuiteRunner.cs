@@ -23,7 +23,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             ITraversableResult testResult = TestSuiteRunner.ActOnChildren(
                 Status.Pass,
                 suite,
-                child => RunChild(suite, child)
+                child => this.RunChild(suite, child)
             );
             suite.AfterAll?.Invoke();
             return testResult;

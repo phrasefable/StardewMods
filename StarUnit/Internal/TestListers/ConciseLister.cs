@@ -28,7 +28,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 
                 if (info.IsLeaf) continue;
 
-                string line = new string(' ', info.Level * 3);
+                var line = new string(' ', info.Level * 3);
                 if (info.Node != null) line += info.Node.Key + " ";
                 line += $"({info.DescendantLeaves} test";
                 if (info.DescendantLeaves > 1) line += "s";
@@ -76,7 +76,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
             public bool IsLeaf { get; set; }
 
             /// <summary>
-            /// Includes direct and indirect descendants
+            ///     Includes direct and indirect descendants
             /// </summary>
             public int DescendantLeaves { get; set; }
 
