@@ -50,5 +50,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             location.terrainFeatures.Add(position, tree);
             return tree;
         }
+
+
+        public static void ClearLocation(GameLocation location)
+        {
+            location.debris.Clear();
+            location.objects.Clear();
+            location.terrainFeatures.Clear();
+            location.largeTerrainFeatures.Clear();
+        }
     }
 }

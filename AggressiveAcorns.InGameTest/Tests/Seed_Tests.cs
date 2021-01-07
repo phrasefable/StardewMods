@@ -65,12 +65,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             this._config.DailySeedChance = seedChance;
-            Tree tree = Utils.PlantTree(
-                Utils.WarpFarm.GetLocation(),
-                Utils.WarpFarm.GetTargetTile() + new Vector2(0, -2),
-                Tree.pineTree,
-                Tree.treeStage
-            );
+            GameLocation location = Utils.WarpFarm.GetLocation();
+            Vector2 position = Utils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
+            Utils.ClearLocation(location);
+            Tree tree = Utils.PlantTree(location, position, Tree.pineTree, Tree.treeStage);
 
             // Act
             tree.Update();
