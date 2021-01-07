@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
-using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal;
 using Phrasefable.StardewMods.StarUnit.Internal.Builders;
+using Phrasefable.StardewMods.StarUnit.Internal.Runners;
 using Phrasefable.StardewMods.StarUnit.Internal.TestListers;
 using StardewModdingAPI;
 
@@ -23,6 +23,7 @@ namespace Phrasefable.StardewMods.StarUnit
             );
 
             helper.ConsoleCommands.Add("list_tests", "Lists test fixtures.", ListTests);
+            helper.ConsoleCommands.Add("run_tests", "Runs test fixtures.", RunTests);
         }
 
 
@@ -64,6 +65,26 @@ namespace Phrasefable.StardewMods.StarUnit
             {
                 lister.List(suite);
             }
+        }
+
+
+        private void RunTests(string arg1, string[] arg2)
+        {
+            ICompositeRunner runner = this.BuildTestRunner();
+
+            foreach (ITestSuite suite in this._tests.TestRoots)
+            {
+                ITraversableResult testResult = runner.Run(suite);
+            }
+        }
+
+
+        private ICompositeRunner BuildTestRunner()
+        {
+            ICompositeRunner runner = new CompositeRunner();
+            runner.Add(new TestRunner());
+            runner.Add(new TestSuiteRunner(runner));
+            return runner;
         }
     }
 }
