@@ -10,4 +10,4 @@
 * Passed
 * Failed: Explicit failure - should only be set in test methods.
 * Error: Try as much as possible to avoid having tests return this - use conditions and before/after each/all
-* Skipped
+* Skipped - Only used if a test/suite is not attempted due to a problem with a parent.

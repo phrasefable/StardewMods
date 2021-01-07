@@ -1,8 +1,11 @@
+using System;
+using System.Linq;
 using JetBrains.Annotations;
+using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
-using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal;
 using Phrasefable.StardewMods.StarUnit.Internal.Builders;
+using Phrasefable.StardewMods.StarUnit.Internal.ResultListers;
 using Phrasefable.StardewMods.StarUnit.Internal.Runners;
 using Phrasefable.StardewMods.StarUnit.Internal.TestListers;
 using StardewModdingAPI;
@@ -70,21 +73,43 @@ namespace Phrasefable.StardewMods.StarUnit
 
         private void RunTests(string arg1, string[] arg2)
         {
-            ICompositeRunner runner = this.BuildTestRunner();
+            // TODO: filter via args
+            ICompositeRunner runner = StarUnit.BuildTestRunner();
+            IResultLister lister = this.BuildResultLister();
 
-            foreach (ITestSuite suite in this._tests.TestRoots)
-            {
-                ITraversableResult testResult = runner.Run(suite);
-            }
+            lister.List(this._tests.TestRoots.Select(suite => runner.Run(suite)));
         }
 
 
-        private ICompositeRunner BuildTestRunner()
+        private static ICompositeRunner BuildTestRunner()
         {
             ICompositeRunner runner = new CompositeRunner();
             runner.Add(new TestRunner());
             runner.Add(new TestSuiteRunner(runner));
             return runner;
+        }
+
+        private IResultLister BuildResultLister()
+        {
+            var lister = new CompositeResultLister<ResultListingContext>();
+            lister.Add(new TestResultLister(this.WriteToConsole));
+            lister.Add(new TestSuiteResultLister(this.WriteToConsole, lister));
+            return lister;
+        }
+
+        private void WriteToConsole(string message, Status status)
+        {
+            this.Monitor.Log(
+                message,
+                status switch
+                {
+                    Status.Pass => LogLevel.Info,
+                    Status.Fail => LogLevel.Warn,
+                    Status.Error => LogLevel.Warn,
+                    Status.Skipped => LogLevel.Warn,
+                    _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+                }
+            );
         }
     }
 }
