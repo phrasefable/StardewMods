@@ -28,11 +28,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
         {
             this._writer(this.GetVerboseListing(node, parent));
 
-            if (node is ITestSuite suite)
+            if (node is ITraversableBranch branch)
             {
-                foreach (ITraversable child in suite.Children)
+                foreach (ITraversable child in branch.Children)
                 {
-                    this.ListVerbose(child, suite);
+                    this.ListVerbose(child, branch);
                 }
             }
         }
