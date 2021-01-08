@@ -10,44 +10,35 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     {
         private readonly TestSuite _fixture;
 
-        private readonly IdentifiableBuilder _identifiableBuilder;
+        private readonly TraversableBranchBuilder _branchBuilder;
 
         private readonly SettableOnce<Action> _beforeAll;
         private readonly SettableOnce<Action> _beforeEach;
         private readonly SettableOnce<Action> _afterEach;
         private readonly SettableOnce<Action> _afterAll;
 
-        private readonly BranchChildrenBuilder<ITraversable> _branchChildrenBuilder;
-
 
         public TestFixtureBuilder()
         {
             this._fixture = new TestSuite();
 
-            this._identifiableBuilder = new IdentifiableBuilder();
+            this._branchBuilder = new TraversableBranchBuilder();
 
             this._beforeAll = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeAll));
             this._beforeEach = new SettableOnce<Action>(nameof(TestFixtureBuilder.BeforeEach));
             this._afterEach = new SettableOnce<Action>(nameof(TestFixtureBuilder.AfterEach));
             this._afterAll = new SettableOnce<Action>(nameof(TestFixtureBuilder.AfterAll));
-
-            this._branchChildrenBuilder = new BranchChildrenBuilder<ITraversable>();
         }
 
 
         public ITestSuite Build()
         {
-            this._identifiableBuilder.Build(this._fixture);
+            this._branchBuilder.Build(this._fixture);
 
             this._fixture.BeforeAll = this._beforeAll.Value;
             this._fixture.BeforeEach = this._beforeEach.Value;
             this._fixture.AfterEach = this._afterEach.Value;
             this._fixture.AfterAll = this._afterAll.Value;
-
-            foreach (ITraversable traversable in this._branchChildrenBuilder.Build())
-            {
-                this._fixture.Children.Add(traversable);
-            }
 
             return this._fixture;
         }
@@ -55,13 +46,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public string Key
         {
-            set => this._identifiableBuilder.Key = value;
+            set => this._branchBuilder.Key = value;
         }
 
 
         public string LongName
         {
-            set => this._identifiableBuilder.LongName = value;
+            set => this._branchBuilder.LongName = value;
         }
 
 
@@ -97,7 +88,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public void AddChild(ITraversable child)
         {
-            this._branchChildrenBuilder.AddChild(child);
+            this._branchBuilder.AddChild(child);
         }
     }
 }

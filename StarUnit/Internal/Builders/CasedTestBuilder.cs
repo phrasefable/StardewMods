@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
+using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     internal class CasedTestBuilder<TCaseParams> : ICasedTestBuilder<TCaseParams>
     {
-        private readonly ITestFixtureBuilder _fixtureBuilder;
+        // private readonly ITestFixtureBuilder _fixtureBuilder;
+        private readonly TraversableGrouping _grouping;
+
+        private readonly TraversableBranchBuilder _branchBuilder;
 
         private readonly SettableOnce<Func<TCaseParams, ITestResult>> _testMethod;
 
@@ -25,7 +29,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public CasedTestBuilder(ITestDefinitionFactory factory)
         {
-            this._fixtureBuilder = factory.CreateFixtureBuilder();
+            // this._fixtureBuilder = factory.CreateFixtureBuilder();
+            this._grouping = new TraversableGrouping();
+
+            this._branchBuilder = new TraversableBranchBuilder();
 
             this._testMethod = new SettableOnce<Func<TCaseParams, ITestResult>>(
                 nameof(CasedTestBuilder<TCaseParams>.TestMethod)
@@ -44,7 +51,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         }
 
 
-        public ITestSuite Build()
+        public ITraversableGrouping Build()
         {
             var i = 1;
             if (!this._keyGenerator.HasBeenSet)
@@ -52,18 +59,14 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
                 this.KeyGenerator = @case => this._key + i++;
             }
 
-            var branchBuilder = new BranchChildrenBuilder<ITest>();
             foreach (TCaseParams @case in this._cases)
             {
-                branchBuilder.AddChild(this.BuildCase(@case));
+                this._branchBuilder.AddChild(this.BuildCase(@case));
             }
 
-            foreach (ITest test in branchBuilder.Build())
-            {
-                this._fixtureBuilder.AddChild(test);
-            }
+            this._branchBuilder.Build(this._grouping);
 
-            return this._fixtureBuilder.Build();
+            return this._grouping;
         }
 
 
@@ -84,7 +87,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         {
             set
             {
-                this._fixtureBuilder.Key = value;
+                this._branchBuilder.Key = value;
                 this._key = value;
             }
         }
@@ -92,13 +95,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public string LongName
         {
-            set => this._fixtureBuilder.Key = value;
+            set => this._branchBuilder.Key = value;
         }
 
 
         public void AddCondition(Func<IResult> condition)
         {
-            this._fixtureBuilder.AddCondition(condition);
+            this._grouping.Conditions.Add(condition);
         }
 
 

@@ -5,7 +5,7 @@ using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 {
-    internal class TestSuiteResultLister : TraversableResultLister<ISuiteResult>
+    internal class TestSuiteResultLister : TraversableResultLister<IBranchResult>
     {
         private readonly IContextualResultLister<ResultListingContext> _childLister;
 
@@ -19,7 +19,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         }
 
 
-        protected override void List(ISuiteResult result, in ResultListingContext context)
+        protected override void List(IBranchResult result, in ResultListingContext context)
         {
             this.Writer(TestSuiteResultLister.BuildLine(result, context), result.Status);
 
@@ -35,7 +35,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         }
 
 
-        private static bool ShouldListChildren(ISuiteResult result)
+        private static bool ShouldListChildren(IBranchResult result)
         {
             if (result.Status == Status.Skipped) return false;
             if (result.DescendantLeafTallies.ContainsKey(Status.Pass) &&
@@ -48,14 +48,14 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         }
 
 
-        private static string BuildLine(ISuiteResult result, ResultListingContext context)
+        private static string BuildLine(IBranchResult result, ResultListingContext context)
         {
             var buffer = new string(' ', Math.Max(1, context.ColumnWidths.TotalsColumn));
             return string.Join(buffer, TestSuiteResultLister.BuildColumns(result, context));
         }
 
 
-        private static IEnumerable<string> BuildColumns(ISuiteResult result, ResultListingContext context)
+        private static IEnumerable<string> BuildColumns(IBranchResult result, ResultListingContext context)
         {
             yield return context.GetColumn1(result).PadRight(context.ColumnWidths.Column1);
 
@@ -82,7 +82,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         }
 
 
-        private static string GetTally(ISuiteResult result, Status status)
+        private static string GetTally(IBranchResult result, Status status)
         {
             return result.DescendantLeafTallies.ContainsKey(status)
                 ? result.DescendantLeafTallies[status].ToString()
@@ -90,7 +90,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         }
 
 
-        protected override void PreProcess(ISuiteResult result, in ResultListingContext context)
+        protected override void PreProcess(IBranchResult result, in ResultListingContext context)
         {
             // Done before children, as children unlikely to override
             context.ColumnWidths.UpdateTotalsColumn(TestSuiteResultLister.CalcNumDigits(result.TotalDescendantLeaves));

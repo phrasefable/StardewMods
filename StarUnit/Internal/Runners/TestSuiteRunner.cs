@@ -54,7 +54,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             ITestSuite suite,
             Func<ITraversable, ITraversableResult> action)
         {
-            var result = new SuiteResult(suite) {Status = status};
+            var result = new BranchResult(suite) {Status = status};
 
             foreach (ITraversable child in suite.Children)
             {
@@ -68,13 +68,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         private static void ActOnChild(
             Func<ITraversable, ITraversableResult> action,
             ITraversable child,
-            SuiteResult result)
+            BranchResult result)
         {
             ITraversableResult childTestResult = action(child);
 
             result.Children.Add(childTestResult);
 
-            if (childTestResult is ISuiteResult suiteResult)
+            if (childTestResult is IBranchResult suiteResult)
             {
                 result.DescendantLeafTallies.AddToValues(suiteResult.DescendantLeafTallies);
                 result.TotalDescendantLeaves += suiteResult.TotalDescendantLeaves;
