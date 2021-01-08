@@ -15,10 +15,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Results
 
         public int TotalDescendantLeaves { get; set; }
 
-        public BranchResult(ITestSuite suite)
+        public BranchResult(ITraversableBranch branch)
         {
-            this.Key = suite.Key;
-            this.LongName = suite.LongName;
+            this.Key = branch.Key;
+            this.LongName = branch.LongName;
         }
     }
 }
