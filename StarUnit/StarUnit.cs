@@ -77,20 +77,22 @@ namespace Phrasefable.StardewMods.StarUnit
         private void RunTests(string arg1, string[] arg2)
         {
             // TODO: filter via args
-            ICompositeRunner runner = StarUnit.BuildTestRunner();
+            IRunner runner = StarUnit.BuildTestRunner();
             IResultLister lister = this.BuildResultLister();
 
             lister.List(this._tests.TestRoots.Select(suite => runner.Run(suite)));
         }
 
 
-        private static ICompositeRunner BuildTestRunner()
+        private static IRunner BuildTestRunner()
         {
-            ICompositeRunner runner = new CompositeRunner();
+            ICompositeRunner runner = new TraversableRunner();
             runner.Add(new TestRunner());
+            runner.Add(new GroupingRunner(runner));
             runner.Add(new TestSuiteRunner(runner));
             return runner;
         }
+
 
         private IResultLister BuildResultLister()
         {
@@ -99,6 +101,7 @@ namespace Phrasefable.StardewMods.StarUnit
             lister.Add(new TestSuiteResultLister(this.WriteToConsole, lister));
             return lister;
         }
+
 
         private void WriteToConsole(string message, Status status)
         {

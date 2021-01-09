@@ -6,7 +6,7 @@ using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
-    public class CompositeRunner : ICompositeRunner
+    internal class CompositeRunner : ICompositeRunner
     {
         private readonly ICollection<IComponentRunner> _runners = new List<IComponentRunner>();
 
@@ -23,15 +23,21 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
-        public ITraversableResult Skip(ITraversable node)
-        {
-            return this.RunnerFor(node).Skip(node);
-        }
-
-
         public ITraversableResult Run(ITraversable node)
         {
             return this.RunnerFor(node).Run(node);
+        }
+
+
+        public ITraversableResult Run(ITraversable node, IExecutionContext context)
+        {
+            return this.RunnerFor(node).Run(node, context);
+        }
+
+
+        public ITraversableResult Skip(ITraversable node)
+        {
+            return this.RunnerFor(node).Skip(node);
         }
     }
 }

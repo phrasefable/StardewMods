@@ -5,14 +5,21 @@ using Phrasefable.StardewMods.StarUnit.Internal.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
-    internal class TestRunner : TraversableRunner<ITest>
+    internal class TestRunner : ComponentRunner<ITest>
     {
         protected override ITraversableResult _Run(ITest test)
         {
-            var result = (TestResult) test.TestMethod.Invoke();
-            result.Key = test.Key;
-            result.LongName = test.LongName;
+            var result = new TestResult(test);
+            IResult rawResult = test.TestMethod.Invoke();
+            result.Status = rawResult.Status;
+            result.Message = rawResult.Message;
             return result;
+        }
+
+
+        protected override ITraversableResult _Run(ITest test, IExecutionContext context)
+        {
+            return context.Execute(test, this.Run);
         }
 
 

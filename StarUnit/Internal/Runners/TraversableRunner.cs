@@ -7,31 +7,46 @@ using Phrasefable.StardewMods.StarUnit.Internal.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
-    public abstract class TraversableRunner<T> : IComponentRunner where T : ITraversable
+    internal class TraversableRunner : ICompositeRunner
     {
-        public bool MayHandle(ITraversable node)
-        {
-            return node is T;
-        }
+        private readonly ICompositeRunner _runners = new CompositeRunner();
+
 
         public ITraversableResult Run(ITraversable node)
         {
-            return this.CheckConditions((T) node) ?? this.TryRunNode((T) node);
+            return this.TryRunNodeIfAble(node, () => this._runners.Run(node));
         }
+
+
+        public ITraversableResult Run(ITraversable node, IExecutionContext context)
+        {
+            return this.TryRunNodeIfAble(node, () => this._runners.Run(node, context));
+        }
+
 
         public ITraversableResult Skip(ITraversable node)
         {
-            return this._Skip((T) node);
+            return this._runners.Skip(node);
         }
 
-        protected abstract ITraversableResult _Skip(T test);
-        protected abstract ITraversableResult _Run(T test);
 
-        private ITraversableResult TryRunNode(T node)
+        public void Add(IComponentRunner component)
+        {
+            this._runners.Add(component);
+        }
+
+
+        private ITraversableResult TryRunNodeIfAble(ITraversable node, Func<ITraversableResult> runner)
+        {
+            return this.CheckConditions(node) ?? this.TryRunNode(node, runner);
+        }
+
+
+        private ITraversableResult TryRunNode(ITraversable node, Func<ITraversableResult> runner)
         {
             try
             {
-                return this._Run(node);
+                return runner.Invoke();
             }
             catch (Exception e)
             {
@@ -39,8 +54,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             }
         }
 
+
         [CanBeNull]
-        private ITraversableResult CheckConditions(T node)
+        private ITraversableResult CheckConditions(ITraversable node)
         {
             var i = 0;
             foreach (Func<IResult> condition in node.Conditions)
@@ -71,7 +87,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
-        private ITraversableResult SkipAndOverrideResult(T node, Status status, string message)
+        private ITraversableResult SkipAndOverrideResult(ITraversable node, Status status, string message)
         {
             var result = (TraversableResult) this.Skip(node);
             result.Status = status;
