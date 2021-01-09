@@ -42,6 +42,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             };
 
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
+            fixtureBuilder.AddChild(this.BuildTest_HeldSeed_Override());
 
             return fixtureBuilder.Build();
         }
@@ -91,6 +92,45 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange, act, assert
             return CheckTreeHasSeed(expectSeed);
+        }
+
+
+        // ========== Held seed, overriding random function ============================================================
+
+        private ITraversable BuildTest_HeldSeed_Override()
+        {
+            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
+
+            testBuilder.Key = "tree_holds_seeds_override_random";
+            testBuilder.TestMethod = this.Test_HeldSeed_Override;
+            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}_random_always_{@case.Bool}";
+            testBuilder.AddCases(
+                new DoubleToBool(0.0, true),
+                new DoubleToBool(0.5, true),
+                new DoubleToBool(1.0, true),
+                new DoubleToBool(0.0, false),
+                new DoubleToBool(0.5, false),
+                new DoubleToBool(1.0, false)
+            );
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_HeldSeed_Override(DoubleToBool @params)
+        {
+            double configChance = @params.Double;
+            bool expectSeed = @params.Bool;
+
+            this._config.DailySeedChance = configChance;
+            return Utils.WithValue(
+                ref TreeUtils.RandomChance,
+                _ => expectSeed,
+                () => Utils.WithValue(
+                    ref TreeUtils.TrySpread,
+                    (_, __, ___) => { },
+                    () => this.CheckTreeHasSeed(expectSeed)
+                )
+            );
         }
     }
 }
