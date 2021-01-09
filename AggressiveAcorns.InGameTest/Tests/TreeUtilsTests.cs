@@ -6,11 +6,11 @@ using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class TreeUtils_ExperiencesWinter_Test
+    internal class TreeUtilsTests
     {
         private readonly ITestDefinitionFactory _factory;
 
-        public TreeUtils_ExperiencesWinter_Test(ITestDefinitionFactory factory)
+        public TreeUtilsTests(ITestDefinitionFactory factory)
         {
             this._factory = factory;
         }
@@ -18,7 +18,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         public ITraversable Build()
         {
             ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
-            builder.Key = "tree_utils_experiences_winter";
+            builder.Key = "tree_utils_methods";
             builder.AddCondition(this._factory.Conditions.WorldReady);
             builder.AddChild(this.BuildTest_ExperiencesWinter());
 
@@ -131,15 +131,20 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             GameLocation location = Game1.getLocationFromName(locationName);
             if (location == null)
             {
-                return this._factory.BuildTestResult(Status.Error, $"Unable to find location with name '{locationName}'");
+                return this._factory.BuildTestResult(
+                    Status.Error,
+                    $"Unable to find location with name '{locationName}'"
+                );
             }
 
             bool experiencesWinter = TreeUtils.ExperiencesWinter(location);
 
             return experiencesWinter == shouldExperienceWinter
                 ? this._factory.BuildTestResult(Status.Pass)
-                : this._factory.BuildTestResult(Status.Fail,
-                    $"Got {experiencesWinter}, expected {shouldExperienceWinter}.");
+                : this._factory.BuildTestResult(
+                    Status.Fail,
+                    $"Got {experiencesWinter}, expected {shouldExperienceWinter}."
+                );
         }
     }
 }

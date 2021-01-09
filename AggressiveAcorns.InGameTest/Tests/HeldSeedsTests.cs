@@ -7,14 +7,14 @@ using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class Seed_Tests
+    internal class HeldSeedsTests
     {
         private readonly ITestDefinitionFactory _factory;
 
         private MutableConfigAdaptor _config;
 
 
-        public Seed_Tests(ITestDefinitionFactory factory)
+        public HeldSeedsTests(ITestDefinitionFactory factory)
         {
             this._factory = factory;
         }
@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         {
             ITestFixtureBuilder fixtureBuilder = _factory.CreateFixtureBuilder();
 
-            fixtureBuilder.Key = "seed_tests";
+            fixtureBuilder.Key = "held_seeds";
 
             fixtureBuilder.AddCondition(this._factory.Conditions.WorldReady);
 
