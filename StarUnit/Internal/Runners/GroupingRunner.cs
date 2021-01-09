@@ -6,9 +6,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
     internal class GroupingRunner : BranchRunner<ITraversableGrouping>
     {
-        public GroupingRunner(ITraversableRunner childRunner) : base(childRunner)
-        {
-        }
+        public GroupingRunner(ITraversableRunner childRunner) : base(childRunner) { }
 
 
         protected override ITraversableResult _Run(ITraversableGrouping grouping)

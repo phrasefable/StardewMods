@@ -7,9 +7,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
     internal class TestSuiteRunner : BranchRunner<ITestSuite>
     {
-        public TestSuiteRunner(ITraversableRunner childRunner) : base(childRunner)
-        {
-        }
+        public TestSuiteRunner(ITraversableRunner childRunner) : base(childRunner) { }
 
 
         protected override ITraversableResult _Run(ITestSuite suite)
