@@ -14,16 +14,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="5.10.3"/>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime"/>
-        <PackageReference Include="NUnit" Version="3.12.0"/>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0"/>
+        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj"/>
+        <ProjectReference Include="..\AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj" />
+        <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" />
     </ItemGroup>
 
-    <Import Project="$(SolutionDir)\common.targets"/>
+    <Import Project="$(SolutionDir)\common.targets" />
 
 </Project>
