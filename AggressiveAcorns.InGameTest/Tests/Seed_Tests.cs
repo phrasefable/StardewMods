@@ -14,10 +14,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ModConfig _config;
 
+
         public Seed_Tests(ITestDefinitionFactory factory)
         {
             this._factory = factory;
         }
+
 
         public ITraversable Build()
         {
@@ -36,6 +38,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             {
                 this._config = new ModConfig();
                 AggressiveAcorns.Config = this._config;
+                this._config.DailySpreadChance = 0.0;
             };
 
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
@@ -43,28 +46,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             return fixtureBuilder.Build();
         }
 
-        private ITraversable BuildTest_HeldSeed()
+
+        private ITestResult CheckTreeHasSeed(bool expectSeed)
         {
-            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
-
-            testBuilder.Key = "tree_holds_seeds";
-            testBuilder.TestMethod = this.TestHeldSeed;
-            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}";
-            testBuilder.AddCases(
-                new DoubleToBool(0.0, false),
-                new DoubleToBool(1.0, true)
-            );
-            return testBuilder.Build();
-        }
-
-
-        private ITestResult TestHeldSeed(DoubleToBool @params)
-        {
-            double seedChance = @params.Double;
-            bool expectSeed = @params.Bool;
-
-            // Arrange
-            this._config.DailySeedChance = seedChance;
             GameLocation location = Utils.WarpFarm.GetLocation();
             Vector2 position = Utils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
             Utils.ClearLocation(location);
@@ -77,6 +61,36 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             return tree.hasSeed.Value == expectSeed
                 ? this._factory.BuildTestResult(Status.Pass, null)
                 : this._factory.BuildTestResult(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
+        }
+
+
+        // ========== Held seed, varying config chance ================================================================
+
+        private ITraversable BuildTest_HeldSeed()
+        {
+            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
+
+            testBuilder.Key = "tree_holds_seeds";
+            testBuilder.TestMethod = this.Test_HeldSeed;
+            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}";
+            testBuilder.AddCases(
+                new DoubleToBool(0.0, false),
+                new DoubleToBool(1.0, true)
+            );
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_HeldSeed(DoubleToBool @params)
+        {
+            double seedChance = @params.Double;
+            bool expectSeed = @params.Bool;
+
+            // Arrange
+            this._config.DailySeedChance = seedChance;
+
+            // Arrange, act, assert
+            return CheckTreeHasSeed(expectSeed);
         }
     }
 }
