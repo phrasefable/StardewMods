@@ -13,7 +13,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
     {
         internal static Func<double, bool> RandomChance = TreeUtils._RandomChance;
 
-
         internal static bool _RandomChance(double chance)
         {
             return Game1.random.NextDouble() < chance;
@@ -113,7 +112,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TrySpread(Tree tree, GameLocation location, Vector2 position)
+        internal static Action<Tree, GameLocation, Vector2> TrySpread = TreeUtils._TrySpread;
+
+        internal static void _TrySpread(Tree tree, GameLocation location, Vector2 position)
         {
             if (!(location is Farm) ||
                 !TreeUtils.IsFullyGrown(tree) ||
