@@ -62,6 +62,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         }
 
 
+        public static Tree GetFarmTreeLonely(int stage = Tree.treeStage, int type = Tree.pineTree)
+        {
+            GameLocation location = Utils.WarpFarm.GetLocation();
+            Vector2 position = Utils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
+
+            Utils.ClearLocation(location);
+            return Utils.PlantTree(location, position, Tree.pineTree, Tree.treeStage);
+        }
+
+
         /// <summary>
         ///     Runs <paramref name="action" /> with <paramref name="@ref" /> set to <paramref name="tempValue" />, then
         ///     reverts <paramref name="@ref" /> to its original value.

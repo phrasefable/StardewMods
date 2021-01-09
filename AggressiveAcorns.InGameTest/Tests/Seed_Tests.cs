@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -36,9 +35,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
             fixtureBuilder.BeforeEach = () =>
             {
-                this._config = new ModConfig();
+                this._config = new ModConfig
+                {
+                    DailySpreadChance = 0.0
+                };
                 AggressiveAcorns.Config = this._config;
-                this._config.DailySpreadChance = 0.0;
             };
 
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
@@ -48,13 +49,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private ITestResult CheckTreeHasSeed(bool expectSeed)
+        private ITestResult CheckTreeHasSeedAfterUpdate(Tree tree, bool expectSeed)
         {
-            GameLocation location = Utils.WarpFarm.GetLocation();
-            Vector2 position = Utils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
-            Utils.ClearLocation(location);
-            Tree tree = Utils.PlantTree(location, position, Tree.pineTree, Tree.treeStage);
-
             // Act
             tree.Update();
 
@@ -91,7 +87,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DailySeedChance = seedChance;
 
             // Arrange, act, assert
-            return CheckTreeHasSeed(expectSeed);
+            return CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
         }
 
 
@@ -128,7 +124,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 () => Utils.WithValue(
                     ref TreeUtils.TrySpread,
                     (_, __, ___) => { },
-                    () => this.CheckTreeHasSeed(expectSeed)
+                    () => this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed)
                 )
             );
         }
