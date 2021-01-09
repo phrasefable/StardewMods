@@ -8,41 +8,26 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
 {
     internal class TestRegistry
     {
-        private readonly IDictionary<string, TestRoot> _testRoots = new Dictionary<string, TestRoot>();
-
         private readonly Action<string> _writer;
         private readonly Action<string> _errorWriter;
 
-        public IEnumerable<ITestSuite> TestRoots => this._testRoots.Values.Select(root => root.TestSuite);
+        private readonly IDictionary<string, TraversableGrouping> _testRoots;
+
+        public IEnumerable<ITraversable> TestRoots => this._testRoots.Values;
+
 
         public TestRegistry(Action<string> writer, Action<string> errorWriter)
         {
+            this._testRoots = new Dictionary<string, TraversableGrouping>();
+
             this._writer = writer;
             this._errorWriter = errorWriter;
-        }
-
-        private static IEnumerable<string> FindDuplicates(IEnumerable<string> list1, IEnumerable<string> list2)
-        {
-            ICollection<string> uniqueStrings = new HashSet<string>(list1);
-            foreach (string s in list2)
-            {
-                if (uniqueStrings.Contains(s))
-                {
-                    yield return s;
-                }
-
-                uniqueStrings.Add(s);
-            }
         }
 
 
         public void Register(string modId, params ITraversable[] testNodes)
         {
-            if (!this._testRoots.TryGetValue(modId, out TestRoot root))
-            {
-                root = new TestRoot(modId);
-                this._testRoots[modId] = root;
-            }
+            TraversableGrouping root = this.GetRoot(modId);
 
             IEnumerable<string> duplicates = TestRegistry.FindDuplicates(
                     root.Children.Select(c => c.Key),
@@ -67,17 +52,31 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
             this._writer($"Registered {testNodes.Length} test node(s) to root '{modId}'.");
         }
 
-        // ============================================================================================================
 
-        private class TestRoot
+        private TraversableGrouping GetRoot(string modId)
         {
-            private readonly TestSuite _testSuite;
-            public ITestSuite TestSuite => this._testSuite;
-            public ICollection<ITraversable> Children => this._testSuite.Children;
-
-            public TestRoot(string key)
+            if (this._testRoots.TryGetValue(modId, out TraversableGrouping root))
             {
-                this._testSuite = new TestSuite {Key = key};
+                return root;
+            }
+
+            root = new TraversableGrouping {Key = modId};
+            this._testRoots[modId] = root;
+            return root;
+        }
+
+
+        private static IEnumerable<string> FindDuplicates(IEnumerable<string> list1, IEnumerable<string> list2)
+        {
+            ICollection<string> uniqueStrings = new HashSet<string>(list1);
+            foreach (string s in list2)
+            {
+                if (uniqueStrings.Contains(s))
+                {
+                    yield return s;
+                }
+
+                uniqueStrings.Add(s);
             }
         }
     }

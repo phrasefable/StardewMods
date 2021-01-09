@@ -67,9 +67,9 @@ namespace Phrasefable.StardewMods.StarUnit
             this.Monitor.Log("Registered tests:", LogLevel.Info);
             this.Monitor.Log("", LogLevel.Info);
 
-            foreach (ITestSuite suite in this._tests.TestRoots)
+            foreach (ITraversable root in this._tests.TestRoots)
             {
-                lister.List(suite);
+                lister.List(root);
             }
         }
 
