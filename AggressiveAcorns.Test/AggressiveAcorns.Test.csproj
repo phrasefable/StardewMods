@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj" />
         <ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" />
     </ItemGroup>
 
