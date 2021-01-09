@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.Common;
 using StardewValley;
@@ -58,6 +59,30 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             location.objects.Clear();
             location.terrainFeatures.Clear();
             location.largeTerrainFeatures.Clear();
+        }
+
+
+        /// <summary>
+        ///     Runs <paramref name="action" /> with <paramref name="@ref" /> set to <paramref name="tempValue" />, then
+        ///     reverts <paramref name="@ref" /> to its original value.
+        /// </summary>
+        /// <remarks>
+        ///     <paramref name="action" /> is marked <c>in</c> to ensure correct behaviour if it refers to the same
+        ///     as <paramref name="@ref" />.
+        /// </remarks>
+        public static TOut WithValue<TValue, TOut>(ref TValue @ref, TValue tempValue, in Func<TOut> action)
+        {
+            TValue originalValue = @ref;
+            @ref = tempValue;
+
+            try
+            {
+                return action.Invoke();
+            }
+            finally
+            {
+                @ref = originalValue;
+            }
         }
     }
 }
