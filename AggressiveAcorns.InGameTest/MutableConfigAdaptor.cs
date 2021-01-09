@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Decorators
+namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
