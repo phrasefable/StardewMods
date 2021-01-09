@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests;
 using Phrasefable.StardewMods.StarUnit;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
@@ -11,6 +13,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
     [UsedImplicitly]
     public class ModEntry : Mod
     {
+        private ITestDefinitionFactory _factory;
+
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.GameLaunched += OnGameLoopOnGameLaunched;
@@ -19,16 +23,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         private void OnGameLoopOnGameLaunched(object sender, GameLaunchedEventArgs args)
         {
             var starUnitApi = this.Helper.ModRegistry.GetApi<IStarUnitApi>("Phrasefable.StarUnit");
-            starUnitApi.Register("aa", this.GetTestNodes(starUnitApi.TestDefinitionFactory));
+            this._factory = starUnitApi.TestDefinitionFactory;
+
+            starUnitApi.Register("aa", this.GetTestNodes().ToArray());
         }
 
-        private ITraversable[] GetTestNodes(ITestDefinitionFactory testDefinitionFactory)
+        private IEnumerable<ITraversable> GetTestNodes()
         {
-            return new ITraversable[]
-            {
-                new Seed_Tests(testDefinitionFactory).Build(),
-                new TreeUtils_ExperiencesWinter_Test(testDefinitionFactory).Build()
-            };
+            yield return new Seed_Tests(this._factory).Build();
+            yield return new TreeUtils_ExperiencesWinter_Test(this._factory).Build();
         }
     }
 }
