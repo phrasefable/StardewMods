@@ -8,14 +8,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
     public class PassabilityTests
     {
         private AggressiveTree _tree;
-        private ModConfig _config;
 
 
         [SetUp]
         public void SetUp()
         {
-            _config = new ModConfig();
-            AggressiveAcorns.Config = _config;
+            AggressiveAcorns.Config = new ConfigAdapter(new ModConfig());
             _tree = new AggressiveTree();
         }
 
@@ -41,7 +39,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(Tree.treeStage)]
         public void MayOnlyPassLowerOrEqualStage(int maxPassableStage)
         {
-            _config.MaxPassibleGrowthStage = maxPassableStage;
+            AggressiveAcorns.Config = new ConfigAdapter(new ModConfig {MaxPassibleGrowthStage = maxPassableStage});
 
             for (int stage = Tree.seedStage; stage <= Tree.treeStage; stage++)
             {
@@ -58,7 +56,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(10, false)]
         public void MayPassDeadTrees(int health, bool expectedPassability)
         {
-            _config.MaxPassibleGrowthStage = -1;
+            AggressiveAcorns.Config = new ConfigAdapter(new ModConfig {MaxPassibleGrowthStage = -1});
             _tree.growthStage.Value = Tree.treeStage;
             _tree.health.Value = health;
 

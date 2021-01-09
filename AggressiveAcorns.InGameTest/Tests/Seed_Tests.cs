@@ -1,3 +1,4 @@
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Decorators;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -11,7 +12,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
     {
         private readonly ITestDefinitionFactory _factory;
 
-        private ModConfig _config;
+        private MutableConfigAdaptor _config;
 
 
         public Seed_Tests(ITestDefinitionFactory factory)
@@ -35,10 +36,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
             fixtureBuilder.BeforeEach = () =>
             {
-                this._config = new ModConfig
-                {
-                    DailySpreadChance = 0.0
-                };
+                this._config = new MutableConfigAdaptor {DailySpreadChance = 0.0};
                 AggressiveAcorns.Config = this._config;
             };
 
@@ -118,15 +116,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             bool expectSeed = @params.Bool;
 
             this._config.DailySeedChance = configChance;
-            return Utils.WithValue(
-                ref TreeUtils.RandomChance,
-                _ => expectSeed,
-                () => Utils.WithValue(
-                    ref TreeUtils.TrySpread,
-                    (_, __, ___) => { },
-                    () => this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed)
-                )
-            );
+            this._config.SeedRoller = () => expectSeed;
+
+            return this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
         }
     }
 }

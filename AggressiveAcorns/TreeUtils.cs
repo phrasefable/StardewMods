@@ -1,24 +1,14 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
-using Object = StardewValley.Object;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal static class TreeUtils
     {
-        internal static Func<double, bool> RandomChance = TreeUtils._RandomChance;
-
-        internal static bool _RandomChance(double chance)
-        {
-            return Game1.random.NextDouble() < chance;
-        }
-
-
         public static void ValidateTapped(Tree tree, GameLocation environment, Vector2 tileLocation)
         {
             if (!tree.tapped.Value) return;
@@ -29,6 +19,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 tree.tapped.Value = false;
             }
         }
+
 
         public static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
         {
@@ -54,7 +45,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                     ? AggressiveAcorns.Config.MaxShadedGrowthStage
                     : Tree.treeStage;
             }
-            else if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailyGrowthChance) || tree.fertilized.Value)
+            else if (AggressiveAcorns.Config.RollForGrowth || tree.fertilized.Value)
             {
                 tree.growthStage.Value += 1;
             }
@@ -89,8 +80,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 tree.stump.Value &&
                 (!TreeUtils.ExperiencingWinter(location) || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
                                                              AggressiveAcorns.Config.DoGrowInWinter)) &&
-                (AggressiveAcorns.Config.DoGrowInstantly ||
-                 TreeUtils.RandomChance(AggressiveAcorns.Config.DailyGrowthChance / 2)))
+                (AggressiveAcorns.Config.DoGrowInstantly || AggressiveAcorns.Config.RollForMushroomRegrowth))
             {
                 TreeUtils.RegrowStumpIfNotShaded(tree, location, position);
             }
@@ -112,9 +102,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        internal static Action<Tree, GameLocation, Vector2> TrySpread = TreeUtils._TrySpread;
-
-        internal static void _TrySpread(Tree tree, GameLocation location, Vector2 position)
+        public static void TrySpread(Tree tree, GameLocation location, Vector2 position)
         {
             if (!(location is Farm) ||
                 !TreeUtils.IsFullyGrown(tree) ||
@@ -158,7 +146,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         public static IEnumerable<Vector2> GetSpreadLocations(Vector2 position)
         {
             // pick random tile within +-3 x/y.
-            if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailySpreadChance))
+            if (AggressiveAcorns.Config.RollForSpread)
             {
                 int tileX = Game1.random.Next(-3, 4) + (int) position.X;
                 int tileY = Game1.random.Next(-3, 4) + (int) position.Y;
@@ -177,7 +165,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 tree.hasSeed.Value = false;
             }
 
-            if (TreeUtils.RandomChance(AggressiveAcorns.Config.DailySeedChance))
+            if (AggressiveAcorns.Config.RollForSeed)
             {
                 tree.hasSeed.Value = true;
             }

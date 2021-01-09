@@ -68,7 +68,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override bool isPassable([CanBeNull] Character c = null)
         {
-            return health.Value <= -99 || growthStage.Value <= AggressiveAcorns.Config.MaxPassibleGrowthStage;
+            return health.Value <= -99 || growthStage.Value <= AggressiveAcorns.Config.MaxPassableGrowthStage;
         }
 
 
@@ -104,7 +104,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override bool performToolAction(Tool t, int explosion, Vector2 tileLocation, GameLocation location)
         {
-            if (AggressiveAcorns.Config.PreventScythe && t is MeleeWeapon)
+            if (AggressiveAcorns.Config.ProtectFromMelee && t is MeleeWeapon)
             {
                 return false;
             }
