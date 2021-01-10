@@ -41,6 +41,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed_Override());
+            fixtureBuilder.AddChild(this.BuildTest_SeedPersistence());
 
             return fixtureBuilder.Build();
         }
@@ -120,6 +121,45 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, assert
             return this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
+        }
+
+
+        // ========== Seed persistence =================================================================================
+
+        private ITraversable BuildTest_SeedPersistence()
+        {
+            ICasedTestBuilder<(bool DoPersist, bool InitialSeed)> testBuilder =
+                _factory.CreateCasedTestBuilder<(bool, bool)>();
+
+            testBuilder.Key = "seed_persistence";
+            testBuilder.TestMethod = this.Test_SeedPersistence;
+            testBuilder.KeyGenerator = @case =>
+                $"{(@case.DoPersist ? "do" : "dont")}_persist_with{(@case.InitialSeed ? "" : "out")}_initial_seed";
+            testBuilder.AddCases(
+                (DoPersist: true, InitialSeed: true),
+                (DoPersist: true, InitialSeed: false),
+                (DoPersist: false, InitialSeed: true),
+                (DoPersist: false, InitialSeed: false)
+            );
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_SeedPersistence((bool DoPersist, bool InitialSeed) @params)
+        {
+            (bool doPersist, bool initialSeed) = @params;
+            bool expectSeed = doPersist && initialSeed;
+
+            // Arrange
+            this._config.DailySeedChance = 0;
+            this._config.DailySpreadChance = 0;
+            this._config.DoSeedsPersist = doPersist;
+
+            Tree tree = Utils.GetFarmTreeLonely();
+            tree.hasSeed.Value = initialSeed;
+
+            // Act, assert
+            return this.CheckTreeHasSeedAfterUpdate(tree, expectSeed);
         }
     }
 }
