@@ -62,28 +62,28 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_HeldSeed()
         {
-            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
+            ICasedTestBuilder<(double SeedChance, bool ExpectSeed)> testBuilder =
+                _factory.CreateCasedTestBuilder<(double, bool)>();
 
             testBuilder.Key = "tree_holds_seeds";
             testBuilder.TestMethod = this.Test_HeldSeed;
-            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}";
+            testBuilder.KeyGenerator = @case => $"chance_{@case.SeedChance * 100}";
             testBuilder.AddCases(
-                new DoubleToBool(0.0, false),
-                new DoubleToBool(1.0, true)
+                (SeedChance: 0.0, ExpectSeed: false),
+                (SeedChance: 1.0, ExpectSeed: true)
             );
             return testBuilder.Build();
         }
 
 
-        private ITestResult Test_HeldSeed(DoubleToBool @params)
+        private ITestResult Test_HeldSeed((double, bool) @params)
         {
-            double seedChance = @params.Double;
-            bool expectSeed = @params.Bool;
+            (double seedChance, bool expectSeed) = @params;
 
             // Arrange
             this._config.DailySeedChance = seedChance;
 
-            // Arrange, act, assert
+            // Act, assert
             return CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
         }
 
@@ -92,31 +92,33 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_HeldSeed_Override()
         {
-            ICasedTestBuilder<DoubleToBool> testBuilder = _factory.CreateCasedTestBuilder<DoubleToBool>();
+            ICasedTestBuilder<(double Chance, bool ExpectSeed)> testBuilder =
+                _factory.CreateCasedTestBuilder<(double, bool)>();
 
             testBuilder.Key = "tree_holds_seeds_override_random";
             testBuilder.TestMethod = this.Test_HeldSeed_Override;
-            testBuilder.KeyGenerator = @case => $"chance_{@case.Double * 100}_random_always_{@case.Bool}";
+            testBuilder.KeyGenerator = @case => $"chance_{@case.Chance * 100}_random_always_{@case.ExpectSeed}";
             testBuilder.AddCases(
-                new DoubleToBool(0.0, true),
-                new DoubleToBool(0.5, true),
-                new DoubleToBool(1.0, true),
-                new DoubleToBool(0.0, false),
-                new DoubleToBool(0.5, false),
-                new DoubleToBool(1.0, false)
+                (Chance: 0.0, ExpectSeed: true),
+                (Chance: 0.5, ExpectSeed: true),
+                (Chance: 1.0, ExpectSeed: true),
+                (Chance: 0.0, ExpectSeed: false),
+                (Chance: 0.5, ExpectSeed: false),
+                (Chance: 1.0, ExpectSeed: false)
             );
             return testBuilder.Build();
         }
 
 
-        private ITestResult Test_HeldSeed_Override(DoubleToBool @params)
+        private ITestResult Test_HeldSeed_Override((double Chance, bool ExpectSeed) @params)
         {
-            double configChance = @params.Double;
-            bool expectSeed = @params.Bool;
+            (double configChance, bool expectSeed) = @params;
 
+            // Arrange
             this._config.DailySeedChance = configChance;
             this._config.SeedRoller = () => expectSeed;
 
+            // Act, assert
             return this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
         }
     }

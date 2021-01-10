@@ -28,105 +28,105 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_ExperiencesWinter()
         {
-            ICasedTestBuilder<StringToBool> builder = _factory.CreateCasedTestBuilder<StringToBool>();
+            ICasedTestBuilder<(string LocationName, bool ShouldExperienceWinter)> builder =
+                _factory.CreateCasedTestBuilder<(string, bool)>();
             builder.Key = "location_experiences_winter";
             builder.TestMethod = this.Test_ExperiencesWinter;
-            builder.KeyGenerator = @case => @case.String.ToLower();
+            builder.KeyGenerator = @case => @case.LocationName.ToLower();
 
             // Base Cases
             builder.AddCases(
-                new StringToBool("Farm", true),
-                new StringToBool("Greenhouse", false),
-                new StringToBool("Desert", false)
+                ("Farm", true),
+                ("Greenhouse", false),
+                ("Desert", false)
             );
 
             // Farm Locations
             builder.AddCases(
-                new StringToBool("FarmHouse", false),
-                new StringToBool("FarmCave", false),
-                new StringToBool("Cellar", false),
-                new StringToBool("Cellar2", false),
-                new StringToBool("Cellar3", false),
-                new StringToBool("Cellar4", false)
+                ("FarmHouse", false),
+                ("FarmCave", false),
+                ("Cellar", false),
+                ("Cellar2", false),
+                ("Cellar3", false),
+                ("Cellar4", false)
             );
 
             // Outdoors
             builder.AddCases(
-                new StringToBool("Town", true),
-                new StringToBool("Beach", true),
-                new StringToBool("Mountain", true),
-                new StringToBool("Forest", true),
-                new StringToBool("BusStop", true),
-                new StringToBool("Woods", true),
-                new StringToBool("Railroad", true),
-                new StringToBool("Backwoods", true)
+                ("Town", true),
+                ("Beach", true),
+                ("Mountain", true),
+                ("Forest", true),
+                ("BusStop", true),
+                ("Woods", true),
+                ("Railroad", true),
+                ("Backwoods", true)
             );
 
             // Misc Indoors
             builder.AddCases(
-                new StringToBool("Tunnel", false),
-                new StringToBool("SkullCave", false),
-                new StringToBool("Mine", false),
-                new StringToBool("Sewer", false)
+                ("Tunnel", false),
+                ("SkullCave", false),
+                ("Mine", false),
+                ("Sewer", false)
             );
 
             // Buildings
             builder.AddCases(
-                new StringToBool("Blacksmith", false),
-                new StringToBool("ManorHouse", false),
-                new StringToBool("JoshHouse", false),
-                new StringToBool("HaleyHouse", false),
-                new StringToBool("SamHouse", false),
-                new StringToBool("SeedShop", false),
-                new StringToBool("Saloon", false),
-                new StringToBool("Trailer", false),
-                new StringToBool("Hospital", false),
-                new StringToBool("HarveyRoom", false),
-                new StringToBool("ElliottHouse", false),
-                new StringToBool("ScienceHouse", false),
-                new StringToBool("SebastianRoom", false),
-                new StringToBool("Tent", false),
-                new StringToBool("WizardHouse", false),
-                new StringToBool("AnimalShop", false),
-                new StringToBool("LeahHouse", false),
-                new StringToBool("SandyHouse", false),
-                new StringToBool("Club", false),
-                new StringToBool("ArchaeologyHouse", false),
-                new StringToBool("WizardHouseBasement", false),
-                new StringToBool("AdventureGuild", false),
-                new StringToBool("FishShop", false),
-                new StringToBool("BathHouse_Entry", false),
-                new StringToBool("BathHouse_MensLocker", false),
-                new StringToBool("BathHouse_WomensLocker", false),
-                new StringToBool("BathHouse_Pool", false),
-                new StringToBool("CommunityCenter", false),
-                new StringToBool("JojaMart", false),
-                new StringToBool("Trailer_Big", false),
-                new StringToBool("AbandonedJojaMart", false),
-                new StringToBool("MovieTheater", false),
-                new StringToBool("Sunroom", false)
+                ("Blacksmith", false),
+                ("ManorHouse", false),
+                ("JoshHouse", false),
+                ("HaleyHouse", false),
+                ("SamHouse", false),
+                ("SeedShop", false),
+                ("Saloon", false),
+                ("Trailer", false),
+                ("Hospital", false),
+                ("HarveyRoom", false),
+                ("ElliottHouse", false),
+                ("ScienceHouse", false),
+                ("SebastianRoom", false),
+                ("Tent", false),
+                ("WizardHouse", false),
+                ("AnimalShop", false),
+                ("LeahHouse", false),
+                ("SandyHouse", false),
+                ("Club", false),
+                ("ArchaeologyHouse", false),
+                ("WizardHouseBasement", false),
+                ("AdventureGuild", false),
+                ("FishShop", false),
+                ("BathHouse_Entry", false),
+                ("BathHouse_MensLocker", false),
+                ("BathHouse_WomensLocker", false),
+                ("BathHouse_Pool", false),
+                ("CommunityCenter", false),
+                ("JojaMart", false),
+                ("Trailer_Big", false),
+                ("AbandonedJojaMart", false),
+                ("MovieTheater", false),
+                ("Sunroom", false)
             );
 
             // Special Locations
             builder.AddCases(
-                new StringToBool("BeachNightMarket", true),
-                new StringToBool("Submarine", false),
-                new StringToBool("MermaidHouse", false),
-                new StringToBool("WitchSwamp", false),
-                new StringToBool("WitchHut", false),
-                new StringToBool("WitchWarpCave", false),
-                new StringToBool("BugLand", false),
-                new StringToBool("Summit", true)
+                ("BeachNightMarket", true),
+                ("Submarine", false),
+                ("MermaidHouse", false),
+                ("WitchSwamp", false),
+                ("WitchHut", false),
+                ("WitchWarpCave", false),
+                ("BugLand", false),
+                ("Summit", true)
             );
 
             return builder.Build();
         }
 
 
-        private ITestResult Test_ExperiencesWinter(StringToBool @params)
+        private ITestResult Test_ExperiencesWinter((string LocationName, bool ShouldExperienceWinter) @params)
         {
-            string locationName = @params.String;
-            bool shouldExperienceWinter = @params.Bool;
+            (string locationName, bool shouldExperienceWinter) = @params;
 
             GameLocation location = Game1.getLocationFromName(locationName);
             if (location == null)
