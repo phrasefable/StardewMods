@@ -42,6 +42,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed());
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed_Override());
             fixtureBuilder.AddChild(this.BuildTest_SeedPersistence());
+            fixtureBuilder.AddChild(this.BuildTest_HeldSeed_ByStage());
+            fixtureBuilder.AddChild(this.BuildTest_HeldSeed_StumpByStage());
 
             return fixtureBuilder.Build();
         }
@@ -152,7 +154,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             this._config.DailySeedChance = 0;
-            this._config.DailySpreadChance = 0;
             this._config.DoSeedsPersist = doPersist;
 
             Tree tree = Utils.GetFarmTreeLonely();
@@ -160,6 +161,78 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, assert
             return this.CheckTreeHasSeedAfterUpdate(tree, expectSeed);
+        }
+
+
+        // ========== No seeds for immature trees ======================================================================
+
+        private ITraversable BuildTest_HeldSeed_ByStage()
+        {
+            ICasedTestBuilder<(int Stage, bool ExpectSeed)>
+                testBuilder = _factory.CreateCasedTestBuilder<(int, bool)>();
+
+            testBuilder.Key = "immature_trees_dont_hold_seeds";
+            testBuilder.TestMethod = this.Test_HeldSeed_ByStage;
+            testBuilder.KeyGenerator = @case => $"stage_{@case.Stage}";
+            testBuilder.AddCases(
+                (Stage: Tree.seedStage, ExpectSeed: false),
+                (Stage: Tree.sproutStage, ExpectSeed: false),
+                (Stage: Tree.saplingStage, ExpectSeed: false),
+                (Stage: Tree.bushStage, ExpectSeed: false),
+                (Stage: Tree.bushStage + 1, ExpectSeed: false),
+                (Stage: Tree.treeStage, ExpectSeed: true)
+            );
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_HeldSeed_ByStage((int Stage, bool ExpectSeed) @params)
+        {
+            (int stage, bool expectSeed) = @params;
+
+            // Arrange
+            this._config.DailySeedChance = 1.0;
+
+            Tree tree = Utils.GetFarmTreeLonely();
+            tree.growthStage.Value = stage;
+
+            // Act, assert
+            return this.CheckTreeHasSeedAfterUpdate(tree, expectSeed);
+        }
+
+
+        // ========== No seeds for immature trees ======================================================================
+
+        private ITraversable BuildTest_HeldSeed_StumpByStage()
+        {
+            ICasedTestBuilder<int> testBuilder = _factory.CreateCasedTestBuilder<int>();
+
+            testBuilder.Key = "stumps_dont_hold_seeds";
+            testBuilder.TestMethod = this.Test_HeldSeed_ByStage;
+            testBuilder.KeyGenerator = @case => $"stump_stage_{@case}";
+            testBuilder.AddCases(
+                Tree.seedStage,
+                Tree.sproutStage,
+                Tree.saplingStage,
+                Tree.bushStage,
+                Tree.bushStage + 1,
+                Tree.treeStage
+            );
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_HeldSeed_ByStage(int stage)
+        {
+            // Arrange
+            this._config.DailySeedChance = 1.0;
+
+            Tree tree = Utils.GetFarmTreeLonely();
+            tree.growthStage.Value = stage;
+            tree.stump.Value = true;
+
+            // Act, assert
+            return this.CheckTreeHasSeedAfterUpdate(tree, false);
         }
     }
 }
