@@ -6,6 +6,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 {
     internal class VerboseLister : ILister
     {
+        private const char Separator = '/';
         private readonly Action<string> _writer;
 
         private readonly IDictionary<IIdentifiable, string>
@@ -41,7 +42,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
         private string GetVerboseListing(IIdentifiable node, IIdentifiable parent)
         {
             string s = this.GetFullyQualifiedId(node, parent);
-            if (node is ITestSuite) s += ".";
+            if (node is ITraversableBranch) s += VerboseLister.Separator;
             if (!string.IsNullOrWhiteSpace(node.LongName)) s += $"    ({node.LongName})";
             return s;
         }
@@ -54,7 +55,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
             id = parent switch
             {
                 null => node.Key,
-                _ => $"{this._fullyQualifiedIds[parent]}.{node.Key}"
+                _ => $"{this._fullyQualifiedIds[parent]}{VerboseLister.Separator}{node.Key}"
             };
 
             this._fullyQualifiedIds[node] = id;
