@@ -5,12 +5,12 @@ using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 {
-    internal class TestSuiteResultLister : TraversableResultLister<IBranchResult>
+    internal class BranchResultLister : TraversableResultLister<IBranchResult>
     {
         private readonly IContextualResultLister<ResultListingContext> _childLister;
 
 
-        public TestSuiteResultLister(
+        public BranchResultLister(
             Action<string, Status> writer,
             IContextualResultLister<ResultListingContext> childLister
         ) : base(writer)
@@ -21,11 +21,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 
         protected override void List(IBranchResult result, in ResultListingContext context)
         {
-            this.Writer(TestSuiteResultLister.BuildLine(result, context), result.Status);
+            this.Writer(BranchResultLister.BuildLine(result, context), result.Status);
 
             this.WriteMessage(result, context);
 
-            if (TestSuiteResultLister.ShouldListChildren(result))
+            if (BranchResultLister.ShouldListChildren(result))
             {
                 foreach (ITraversableResult cResult in result.Children)
                 {
@@ -51,7 +51,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         private static string BuildLine(IBranchResult result, ResultListingContext context)
         {
             var buffer = new string(' ', Math.Max(1, context.ColumnWidths.TotalsColumn));
-            return string.Join(buffer, TestSuiteResultLister.BuildColumns(result, context));
+            return string.Join(buffer, BranchResultLister.BuildColumns(result, context));
         }
 
 
@@ -59,7 +59,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         {
             yield return context.GetColumn1(result).PadRight(context.ColumnWidths.Column1);
 
-            yield return TestSuiteResultLister.GetTallyColumn(
+            yield return BranchResultLister.GetTallyColumn(
                 "Total",
                 result.TotalDescendantLeaves.ToString(),
                 context.ColumnWidths
@@ -67,9 +67,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 
             foreach (Status status in new[] {Status.Pass, Status.Fail, Status.Skipped, Status.Error})
             {
-                yield return TestSuiteResultLister.GetTallyColumn(
+                yield return BranchResultLister.GetTallyColumn(
                     status.GetPrintName(),
-                    TestSuiteResultLister.GetTally(result, status),
+                    BranchResultLister.GetTally(result, status),
                     context.ColumnWidths
                 );
             }
@@ -93,7 +93,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         protected override void PreProcess(IBranchResult result, in ResultListingContext context)
         {
             // Done before children, as children unlikely to override
-            context.ColumnWidths.UpdateTotalsColumn(TestSuiteResultLister.CalcNumDigits(result.TotalDescendantLeaves));
+            context.ColumnWidths.UpdateTotalsColumn(BranchResultLister.CalcNumDigits(result.TotalDescendantLeaves));
 
             foreach (ITraversableResult child in result.Children)
             {

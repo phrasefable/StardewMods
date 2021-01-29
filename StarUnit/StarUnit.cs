@@ -98,7 +98,7 @@ namespace Phrasefable.StardewMods.StarUnit
         {
             var lister = new CompositeResultLister<ResultListingContext>();
             lister.Add(new TestResultLister(this.WriteToConsole));
-            lister.Add(new TestSuiteResultLister(this.WriteToConsole, lister));
+            lister.Add(new BranchResultLister(this.WriteToConsole, lister));
             return lister;
         }
 
