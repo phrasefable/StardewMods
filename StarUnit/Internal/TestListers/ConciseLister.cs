@@ -50,7 +50,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
             if (node is ITraversableBranch branch)
             {
                 info.IsLeaf = false;
-                foreach (NodeInfo child in branch.Children.Select(child => this.Process(child, level + 1)))
+                foreach (NodeInfo child in branch.Children.Reverse().Select(child => this.Process(child, level + 1)))
                 {
                     if (child.IsLeaf)
                     {
