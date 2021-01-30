@@ -8,6 +8,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework
     {
         public ITraversableResult Run(ITraversable node);
         public ITraversableResult Skip(ITraversable node);
+        public ITraversableResult Skip(ITraversable node, Status status, string message);
     }
 
 

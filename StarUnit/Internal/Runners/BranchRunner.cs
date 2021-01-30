@@ -20,20 +20,28 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override ITraversableResult _Skip(T branch)
         {
+            return this._Skip(branch, Status.Skipped, null);
+        }
+
+
+        protected override ITraversableResult _Skip(T branch, Status status, string message)
+        {
             return this.HandleChildren(
                 branch,
-                Status.Skipped,
-                this.ChildRunner.Skip
+                this.ChildRunner.Skip,
+                status,
+                message
             );
         }
 
 
         protected IBranchResult HandleChildren(
             ITraversableBranch branch,
+            Func<ITraversable, ITraversableResult> childConsumer,
             Status status,
-            Func<ITraversable, ITraversableResult> childConsumer)
+            string message = null)
         {
-            var result = new SelfAggregatingBranchResult(branch) {Status = status};
+            var result = new SelfAggregatingBranchResult(branch) {Status = status, Message = message};
 
             foreach (ITraversableResult childResult in branch.Children.Select(childConsumer))
             {

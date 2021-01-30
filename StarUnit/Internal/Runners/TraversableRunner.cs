@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
-using Phrasefable.StardewMods.StarUnit.Internal.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
@@ -30,6 +29,12 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
+        public ITraversableResult Skip(ITraversable node, Status status, string message)
+        {
+            return this._runners.Skip(node, status, message);
+        }
+
+
         public void Add(IComponentRunner component)
         {
             this._runners.Add(component);
@@ -50,7 +55,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             }
             catch (Exception e)
             {
-                return this.SkipAndOverrideResult(node, Status.Error, e.ToString());
+                return this.Skip(node, Status.Error, e.ToString());
             }
         }
 
@@ -68,7 +73,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
                 }
                 catch (Exception e)
                 {
-                    return this.SkipAndOverrideResult(
+                    return this.Skip(
                         node,
                         Status.Error,
                         $"Error evaluating condition {i}: {e.Message}"
@@ -77,22 +82,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
                 if (testResult.Status != Status.Pass)
                 {
-                    return this.SkipAndOverrideResult(node, Status.Fail, $"Condition {i} failed: {testResult.Message}");
+                    return this.Skip(node, Status.Fail, $"Condition {i} failed: {testResult.Message}");
                 }
 
                 i++;
             }
 
             return null;
-        }
-
-
-        private ITraversableResult SkipAndOverrideResult(ITraversable node, Status status, string message)
-        {
-            var result = (TraversableResult) this.Skip(node);
-            result.Status = status;
-            result.Message = message;
-            return result;
         }
     }
 }

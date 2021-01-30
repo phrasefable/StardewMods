@@ -39,5 +39,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         {
             return this.RunnerFor(node).Skip(node);
         }
+
+
+        public ITraversableResult Skip(ITraversable node, Status status, string message)
+        {
+            return this.RunnerFor(node).Skip(node, status, message);
+        }
     }
 }

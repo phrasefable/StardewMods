@@ -6,15 +6,15 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
     internal abstract class ComponentRunner<T> : IComponentRunner where T : ITraversable
     {
-        public ITraversableResult Run(ITraversable node)
+        public bool MayHandle(ITraversable node)
         {
-            return this._Run((T) node);
+            return node is T;
         }
 
 
-        public ITraversableResult Skip(ITraversable node)
+        public ITraversableResult Run(ITraversable node)
         {
-            return this._Skip((T) node);
+            return this._Run((T) node);
         }
 
 
@@ -24,14 +24,21 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
-        public bool MayHandle(ITraversable node)
+        public ITraversableResult Skip(ITraversable node)
         {
-            return node is T;
+            return this._Skip((T) node);
+        }
+
+
+        public ITraversableResult Skip(ITraversable node, Status status, string message)
+        {
+            return this._Skip((T) node, status, message);
         }
 
 
         protected abstract ITraversableResult _Run(T node);
         protected abstract ITraversableResult _Run(T node, IExecutionContext context);
         protected abstract ITraversableResult _Skip(T node);
+        protected abstract ITraversableResult _Skip(T node, Status status, string message);
     }
 }

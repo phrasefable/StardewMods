@@ -13,8 +13,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         {
             return this.HandleChildren(
                 grouping,
-                Status.Pass,
-                this.ChildRunner.Run
+                this.ChildRunner.Run,
+                Status.Pass
             );
         }
 
@@ -23,8 +23,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         {
             return this.HandleChildren(
                 grouping,
-                Status.Pass,
-                child => this.ChildRunner.Run(child, context)
+                child => this.ChildRunner.Run(child, context),
+                Status.Pass
             );
         }
     }

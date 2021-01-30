@@ -17,8 +17,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             IExecutionContext context = new SuiteChildContext(suite);
             ITraversableResult result = this.HandleChildren(
                 suite,
-                Status.Pass,
-                child => this.ChildRunner.Run(child, context)
+                child => this.ChildRunner.Run(child, context),
+                Status.Pass
             );
 
             suite.AfterAll?.Invoke();

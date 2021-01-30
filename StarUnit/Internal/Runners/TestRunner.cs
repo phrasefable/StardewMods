@@ -25,7 +25,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override ITraversableResult _Skip(ITest test)
         {
-            return new TestResult(test) {Status = Status.Skipped};
+            return this._Skip(test, Status.Skipped, null);
+        }
+
+
+        protected override ITraversableResult _Skip(ITest test, Status status, string message)
+        {
+            return new TestResult(test) {Status = status, Message = message};
         }
     }
 }
