@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal
@@ -60,7 +61,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
                 return root;
             }
 
-            root = new TraversableGrouping {Key = modId};
+            root = new TraversableGrouping {Key = modId, Conditions = new Func<IResult>[0]};
             this._testRoots[modId] = root;
             return root;
         }

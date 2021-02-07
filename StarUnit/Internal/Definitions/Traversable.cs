@@ -10,7 +10,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Definitions
         public string Key { get; set; }
         public string LongName { get; set; }
 
-        IEnumerable<Func<IResult>> IConditional.Conditions => this.Conditions;
-        public ICollection<Func<IResult>> Conditions { get; } = new List<Func<IResult>>();
+        public IEnumerable<Func<IResult>> Conditions { get; set; }
+
+        public Delay Delay { get; set; }
     }
 }

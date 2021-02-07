@@ -2,26 +2,39 @@ using System;
 using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
-    internal class TraversableBranchBuilder : IIdentifiableBuilder
+    internal class TraversableBranchBuilder : ITraversableBuilder
     {
         private readonly IList<ITraversable> _children = new List<ITraversable>();
-        private readonly IdentifiableBuilder _identifiableBuilder = new IdentifiableBuilder();
+        private readonly TraversableBuilder _traversableBuilder = new TraversableBuilder();
         private ICollection<string> Keys { get; } = new HashSet<string>();
 
 
         public string Key
         {
-            set => this._identifiableBuilder.Key = value;
+            set => this._traversableBuilder.Key = value;
         }
 
 
         public string LongName
         {
-            set => this._identifiableBuilder.LongName = value;
+            set => this._traversableBuilder.LongName = value;
+        }
+
+
+        public Delay Delay
+        {
+            set => this._traversableBuilder.Delay = value;
+        }
+
+
+        public void AddCondition(Func<IResult> condition)
+        {
+            this._traversableBuilder.AddCondition(condition);
         }
 
 
@@ -39,7 +52,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public void Build(TraversableBranch branch)
         {
-            this._identifiableBuilder.Build(branch);
+            this._traversableBuilder.Build(branch);
 
             foreach (ITraversable traversable in this._children)
             {

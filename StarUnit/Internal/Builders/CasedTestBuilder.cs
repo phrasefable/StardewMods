@@ -9,9 +9,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     internal class CasedTestBuilder<TCaseParams> : ICasedTestBuilder<TCaseParams>
     {
-        // private readonly ITestFixtureBuilder _fixtureBuilder;
-        private readonly TraversableGrouping _grouping;
-
         private readonly TraversableBranchBuilder _branchBuilder;
 
         private readonly SettableOnce<Func<TCaseParams, ITestResult>> _testMethod;
@@ -19,7 +16,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
         private readonly IList<TCaseParams> _cases;
 
         private readonly SettableOnce<Func<TCaseParams, string>> _keyGenerator;
-
         private readonly SettableOnce<Func<TCaseParams, string>> _longNameGenerator;
 
         private readonly Func<ITestBuilder> _testBuilderFactory;
@@ -29,9 +25,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public CasedTestBuilder(ITestDefinitionFactory factory)
         {
-            // this._fixtureBuilder = factory.CreateFixtureBuilder();
-            this._grouping = new TraversableGrouping();
-
             this._branchBuilder = new TraversableBranchBuilder();
 
             this._testMethod = new SettableOnce<Func<TCaseParams, ITestResult>>(
@@ -64,9 +57,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
                 this._branchBuilder.AddChild(this.BuildCase(@case));
             }
 
-            this._branchBuilder.Build(this._grouping);
+            var grouping = new TraversableGrouping();
+            this._branchBuilder.Build(grouping);
 
-            return this._grouping;
+            return grouping;
         }
 
 
@@ -101,7 +95,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public void AddCondition(Func<IResult> condition)
         {
-            this._grouping.Conditions.Add(condition);
+            this._branchBuilder.AddCondition(condition);
+        }
+
+
+        public Delay Delay
+        {
+            set => this._branchBuilder.Delay = value;
         }
 
 

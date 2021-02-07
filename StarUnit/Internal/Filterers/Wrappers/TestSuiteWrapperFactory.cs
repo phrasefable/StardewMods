@@ -28,10 +28,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers.Wrappers
             public string Key => this._testSuite.Key;
             public string LongName => this._testSuite.LongName;
             public IEnumerable<Func<IResult>> Conditions => this._testSuite.Conditions;
-            public Action BeforeAll => this._testSuite.BeforeAll;
-            public Action BeforeEach => this._testSuite.BeforeEach;
-            public Action AfterEach => this._testSuite.AfterEach;
-            public Action AfterAll => this._testSuite.AfterAll;
+            public Delay Delay => this._testSuite.Delay;
+            public IAction BeforeAll => this._testSuite.BeforeAll;
+            public IAction BeforeEach => this._testSuite.BeforeEach;
+            public IAction AfterEach => this._testSuite.AfterEach;
+            public IAction AfterAll => this._testSuite.AfterAll;
 
             public IEnumerable<ITraversable> Children { get; }
         }

@@ -12,7 +12,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override ITraversableResult _Run(ITestSuite suite)
         {
-            suite.BeforeAll?.Invoke();
+            suite.BeforeAll?.Action.Invoke();
 
             IExecutionContext context = new SuiteChildContext(suite);
             ITraversableResult result = this.HandleChildren(
@@ -21,7 +21,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
                 Status.Pass
             );
 
-            suite.AfterAll?.Invoke();
+            suite.AfterAll?.Action.Invoke();
 
             return result;
         }
@@ -49,9 +49,9 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
                 Func<ITraversable, ITraversableResult> executable
             )
             {
-                this._suite.BeforeEach?.Invoke();
+                this._suite.BeforeEach?.Action.Invoke();
                 ITraversableResult result = executable.Invoke(traversable);
-                this._suite.AfterEach?.Invoke();
+                this._suite.AfterEach?.Action.Invoke();
 
                 return result;
             }

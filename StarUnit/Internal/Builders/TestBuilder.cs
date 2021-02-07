@@ -8,51 +8,54 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 {
     internal class TestBuilder : ITestBuilder
     {
-        private readonly Test _test;
-
-        private readonly IdentifiableBuilder _identifiableBuilder;
+        private readonly TraversableBuilder _traversableBuilder;
         private readonly SettableOnce<Func<ITestResult>> _testMethod;
 
 
         public TestBuilder()
         {
-            this._test = new Test();
-
-            this._identifiableBuilder = new IdentifiableBuilder();
+            this._traversableBuilder = new TraversableBuilder();
             this._testMethod = new SettableOnce<Func<ITestResult>>(nameof(TestBuilder.TestMethod));
         }
 
 
         public ITest Build()
         {
-            this._identifiableBuilder.Build(this._test);
+            var test = new Test();
+            this._traversableBuilder.Build(test);
 
             if (!this._testMethod.HasBeenSet)
             {
                 throw new InvalidOperationException($"{nameof(this.TestMethod)} must be set before building.");
             }
 
-            this._test.TestMethod = this._testMethod.Value;
+            test.TestMethod = this._testMethod.Value;
 
-            return this._test;
+            return test;
         }
 
 
         public string Key
         {
-            set => this._identifiableBuilder.Key = value;
+            set => this._traversableBuilder.Key = value;
         }
 
 
         public string LongName
         {
-            set => this._identifiableBuilder.LongName = value;
+            set => this._traversableBuilder.LongName = value;
         }
 
 
         public void AddCondition(Func<IResult> condition)
         {
-            this._test.Conditions.Add(condition);
+            this._traversableBuilder.AddCondition(condition);
+        }
+
+
+        public Delay Delay
+        {
+            set => this._traversableBuilder.Delay = value;
         }
 
 

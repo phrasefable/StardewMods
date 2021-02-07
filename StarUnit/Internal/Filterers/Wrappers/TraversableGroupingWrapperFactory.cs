@@ -28,6 +28,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers.Wrappers
             public string Key => this._grouping.Key;
             public string LongName => this._grouping.LongName;
             public IEnumerable<Func<IResult>> Conditions => this._grouping.Conditions;
+            public Delay Delay => this._grouping.Delay;
 
             public IEnumerable<ITraversable> Children { get; }
         }
