@@ -33,6 +33,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
              * always loaded??), so have not bothered to make the test framework asynchronous.
              * */
             fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
+            fixtureBuilder.BeforeAllDelay = Delay.Second;
+
             fixtureBuilder.BeforeEach = () =>
             {
                 this._config = new MutableConfigAdaptor {DailySpreadChance = 0.0};
