@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -118,8 +117,9 @@ namespace Phrasefable.StardewMods.StarUnit
         private IResultLister BuildResultLister()
         {
             var lister = new CompositeResultLister<ResultListingContext>();
-            lister.Add(new TestResultLister(this.WriteToConsole));
-            lister.Add(new BranchResultLister(this.WriteToConsole, lister));
+            var writer = new ConsoleWriter(this.Monitor);
+            lister.Add(new TestResultLister(writer.WriteToConsole));
+            lister.Add(new BranchResultLister(writer.WriteToConsole, lister));
             return lister;
         }
 
@@ -131,22 +131,6 @@ namespace Phrasefable.StardewMods.StarUnit
             filterer.Add(new BranchFilterer<ITraversableGrouping>(filterer, new TraversableGroupingWrapperFactory()));
             filterer.Add(new TestFilterer());
             return filterer;
-        }
-
-
-        private void WriteToConsole(string message, Status status)
-        {
-            this.Monitor.Log(
-                message,
-                status switch
-                {
-                    Status.Pass => LogLevel.Info,
-                    Status.Fail => LogLevel.Warn,
-                    Status.Error => LogLevel.Warn,
-                    Status.Skipped => LogLevel.Warn,
-                    _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
-                }
-            );
         }
     }
 }
