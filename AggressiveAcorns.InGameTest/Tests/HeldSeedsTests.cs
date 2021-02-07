@@ -58,7 +58,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Assert
             return tree.hasSeed.Value == expectSeed
-                ? this._factory.BuildTestResult(Status.Pass, null)
+                ? this._factory.BuildTestResult(Status.Pass)
                 : this._factory.BuildTestResult(Status.Fail, expectSeed ? "Seed expected" : "Seed not expected");
         }
 
