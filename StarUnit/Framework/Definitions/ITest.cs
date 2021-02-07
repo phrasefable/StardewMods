@@ -5,6 +5,6 @@ namespace Phrasefable.StardewMods.StarUnit.Framework.Definitions
 {
     public interface ITest : ITraversable
     {
-        public Func<ITestResult> TestMethod { get; set; }
+        public Func<ITestResult> TestMethod { get; }
     }
 }
