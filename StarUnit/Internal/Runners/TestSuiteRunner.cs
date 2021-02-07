@@ -1,59 +1,66 @@
 using System;
+using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
-using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
     internal class TestSuiteRunner : BranchRunner<ITestSuite>
     {
-        public TestSuiteRunner(ITraversableRunner childRunner) : base(childRunner) { }
+        public TestSuiteRunner(IRunnerDelegator delegator) : base(delegator) { }
 
 
-        protected override ITraversableResult _Run(ITestSuite suite)
+        protected override void Run(OnCompleted @return, ITestSuite suite, IExecutionContext context)
         {
-            suite.BeforeAll?.Action.Invoke();
-
-            IExecutionContext context = new SuiteChildContext(suite);
-            ITraversableResult result = this.HandleChildren(
-                suite,
-                child => this.ChildRunner.Run(child, context),
-                Status.Pass
-            );
-
-            suite.AfterAll?.Action.Invoke();
-
-            return result;
+            context.Execute(@return, this.RunSuite, suite);
         }
 
 
-        protected override ITraversableResult _Run(ITestSuite suite, IExecutionContext context)
+        private void RunSuite(OnCompleted @return, ITestSuite suite)
         {
-            return context.Execute(suite, this.Run);
+            IExecutionContext suiteLifetimeContext = this.BuildSuiteContext(suite.BeforeAll, suite.AfterAll);
+            suiteLifetimeContext.Execute(@return, this.RunSuiteContents, suite);
         }
 
 
-        private class SuiteChildContext : IExecutionContext
+        private void RunSuiteContents(OnCompleted @return, ITestSuite suite)
         {
-            private readonly ITestSuite _suite;
+            IExecutionContext descendantsContext = this.BuildSuiteContext(suite.BeforeEach, suite.AfterEach);
+            base.Run(@return, suite, descendantsContext);
+        }
 
 
-            public SuiteChildContext(ITestSuite suite)
+        private IExecutionContext BuildSuiteContext([CanBeNull] IAction before, [CanBeNull] IAction after)
+        {
+            return before is null && after is null
+                ? (IExecutionContext) new EmptyExecutionContext()
+                : new BeforeAfterContext(this.CallbackFor(before), this.CallbackFor(after));
+        }
+
+
+        private Action<Action> CallbackFor(IAction action)
+        {
+            return action is null
+                ? (Action<Action>) (callback => callback())
+                : callback => this.Delegator.Run(callback, action.Action, action.Delay);
+        }
+
+
+        private class BeforeAfterContext : IExecutionContext
+        {
+            private readonly Action<Action> Before;
+            private readonly Action<Action> After;
+
+            public BeforeAfterContext(Action<Action> before, Action<Action> after)
             {
-                this._suite = suite;
+                this.Before = before;
+                this.After = after;
             }
 
-
-            public ITraversableResult Execute(
-                ITraversable traversable,
-                Func<ITraversable, ITraversableResult> executable
-            )
+            public void Execute<T>(OnCompleted @return, Action<OnCompleted, T> executable, T node)
+                where T : ITraversable
             {
-                this._suite.BeforeEach?.Action.Invoke();
-                ITraversableResult result = executable.Invoke(traversable);
-                this._suite.AfterEach?.Action.Invoke();
-
-                return result;
+                this.Before(() => executable.Invoke(result => this.After(() => @return(result)), node));
             }
         }
     }

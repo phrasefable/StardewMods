@@ -1,54 +1,49 @@
 using System;
-using System.Linq;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
-using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
-    internal abstract class BranchRunner<T> : ComponentRunner<T> where T : ITraversableBranch
+    internal abstract class BranchRunner<T> : TraversableRunner<T> where T : ITraversableBranch
     {
-        protected readonly ITraversableRunner ChildRunner;
+        protected readonly IRunnerDelegator Delegator;
 
 
-        protected BranchRunner(ITraversableRunner childRunner)
+        protected BranchRunner(IRunnerDelegator delegator)
         {
-            this.ChildRunner = childRunner;
+            this.Delegator = delegator;
         }
 
 
-        protected override ITraversableResult _Skip(T branch)
+        protected override void Run(OnCompleted @return, T branch, IExecutionContext childContext)
         {
-            return this._Skip(branch, Status.Skipped, null);
-        }
-
-
-        protected override ITraversableResult _Skip(T branch, Status status, string message)
-        {
-            return this.HandleChildren(
+            this.HandleChildren(
+                @return,
                 branch,
-                this.ChildRunner.Skip,
-                status,
-                message
+                (returnChild, child) => this.Delegator.Run(returnChild, child, childContext),
+                Status.Pass
             );
         }
 
 
-        protected IBranchResult HandleChildren(
+        protected override void Skip(OnCompleted @return, T branch, Status status, string message)
+        {
+            this.HandleChildren(@return, branch, this.Delegator.Skip, status, message);
+        }
+
+
+        private void HandleChildren(
+            OnCompleted @return,
             ITraversableBranch branch,
-            Func<ITraversable, ITraversableResult> childConsumer,
+            Action<OnCompleted, ITraversable> childConsumer,
             Status status,
-            string message = null)
+            string message = null
+        )
         {
             var result = new SelfAggregatingBranchResult(branch) {Status = status, Message = message};
 
-            foreach (ITraversableResult childResult in branch.Children.Select(childConsumer))
-            {
-                result.AddChild(childResult);
-            }
-
-            return result;
+            branch.Children.ForEach(() => @return(result), childConsumer, result.AddChild);
         }
     }
 }

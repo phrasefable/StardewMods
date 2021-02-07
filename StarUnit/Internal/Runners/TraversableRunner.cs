@@ -1,94 +1,107 @@
 using System;
-using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 {
-    internal class TraversableRunner : ICompositeRunner
+    internal abstract class TraversableRunner<T> : IComponentRunner where T : ITraversable
     {
-        private readonly ICompositeRunner _runners = new CompositeRunner();
-
-
-        public ITraversableResult Run(ITraversable node)
+        public bool MayHandle(ITraversable node)
         {
-            return this.TryRunNodeIfAble(node, () => this._runners.Run(node));
+            return node is T;
         }
 
 
-        public ITraversableResult Run(ITraversable node, IExecutionContext context)
+        public void Run(OnCompleted @return, ITraversable node, IExecutionContext context)
         {
-            return this.TryRunNodeIfAble(node, () => this._runners.Run(node, context));
+            this.TryRunNodeIfAble(@return, (T) node, context);
         }
 
 
-        public ITraversableResult Skip(ITraversable node)
+        public void Skip(OnCompleted @return, ITraversable node)
         {
-            return this._runners.Skip(node);
+            this.Skip(@return, node, Status.Skipped, null);
         }
 
 
-        public ITraversableResult Skip(ITraversable node, Status status, string message)
+        public void Skip(OnCompleted @return, ITraversable node, Status status, string message)
         {
-            return this._runners.Skip(node, status, message);
+            this.Skip(@return, (T) node, status, message);
         }
 
 
-        public void Add(IComponentRunner component)
+        // ========== Abstract Methods (more specific traversable) =====================================================
+
+
+        protected abstract void Run(OnCompleted @return, T grouping, IExecutionContext context);
+        protected abstract void Skip(OnCompleted @return, T grouping, Status status, string message);
+
+
+        // ========== Traversable Handling =============================================================================
+
+
+        private void TryRunNodeIfAble(OnCompleted @return, T traversable, IExecutionContext context)
         {
-            this._runners.Add(component);
+            if (this.CheckConditions(@return, traversable))
+            {
+                this.TryRunNode(@return, traversable, context);
+            }
         }
 
 
-        private ITraversableResult TryRunNodeIfAble(ITraversable node, Func<ITraversableResult> runner)
-        {
-            return this.CheckConditions(node) ?? this.TryRunNode(node, runner);
-        }
-
-
-        private ITraversableResult TryRunNode(ITraversable node, Func<ITraversableResult> runner)
+        private void TryRunNode(OnCompleted @return, T traversable, IExecutionContext context)
         {
             try
             {
-                return runner.Invoke();
+                this.Run(@return, traversable, context);
             }
             catch (Exception e)
             {
-                return this.Skip(node, Status.Error, e.ToString());
+                this.Skip(@return, traversable, Status.Error, e.ToString());
             }
         }
 
 
-        [CanBeNull]
-        private ITraversableResult CheckConditions(ITraversable node)
+        private bool CheckConditions(OnCompleted @return, ITraversable node)
         {
             var i = 0;
+
             foreach (Func<IResult> condition in node.Conditions)
             {
-                IResult testResult;
-                try
+                IResult testResult = this.TryRunCondition(condition, out string errorMessage);
+
+                if (testResult == null)
                 {
-                    testResult = condition.Invoke();
-                }
-                catch (Exception e)
-                {
-                    return this.Skip(
-                        node,
-                        Status.Error,
-                        $"Error evaluating condition {i}: {e.Message}"
-                    );
+                    this.Skip(@return, node, Status.Error, $"Error evaluating condition {i}: {errorMessage}");
+                    return false;
                 }
 
                 if (testResult.Status != Status.Pass)
                 {
-                    return this.Skip(node, Status.Fail, $"Condition {i} failed: {testResult.Message}");
+                    this.Skip(@return, node, Status.Fail, $"Condition {i} failed: {testResult.Message}");
+                    return false;
                 }
 
                 i++;
             }
 
-            return null;
+            return true;
+        }
+
+
+        private IResult TryRunCondition(Func<IResult> condition, out string errorMessage)
+        {
+            try
+            {
+                errorMessage = null;
+                return condition.Invoke();
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+                return null;
+            }
         }
     }
 }

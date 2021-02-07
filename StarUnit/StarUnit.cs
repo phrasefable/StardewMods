@@ -4,12 +4,14 @@ using System.Linq;
 using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
+using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using Phrasefable.StardewMods.StarUnit.Internal;
 using Phrasefable.StardewMods.StarUnit.Internal.Builders;
 using Phrasefable.StardewMods.StarUnit.Internal.Filterers;
 using Phrasefable.StardewMods.StarUnit.Internal.Filterers.Wrappers;
 using Phrasefable.StardewMods.StarUnit.Internal.ResultListers;
 using Phrasefable.StardewMods.StarUnit.Internal.Runners;
+using Phrasefable.StardewMods.StarUnit.Internal.SmapiAdaptors;
 using Phrasefable.StardewMods.StarUnit.Internal.TestListers;
 using StardewModdingAPI;
 
@@ -29,6 +31,7 @@ namespace Phrasefable.StardewMods.StarUnit
         public override void Entry(IModHelper helper)
         {
             this._tests = new TestRegistry(
+                // ReSharper disable once RedundantArgumentDefaultValue
                 s => this.Monitor.Log(s, LogLevel.Trace),
                 s => this.Monitor.Log(s, LogLevel.Error)
             );
@@ -81,12 +84,14 @@ namespace Phrasefable.StardewMods.StarUnit
 
         private void RunTests(string arg1, string[] arg2)
         {
-            IEnumerable<ITraversable> testsToRun = GetFilteredTestsRoots(arg2);
+            ITraversable[] testsToRun = GetFilteredTestsRoots(arg2).ToArray();
 
-            IRunner runner = StarUnit.BuildTestRunner();
             IResultLister lister = this.BuildResultLister();
+            ITreeRunner runner = this.BuildTestRunner();
 
-            lister.List(testsToRun.Select(suite => runner.Run(suite)));
+            ICollection<ITraversableResult> results = new List<ITraversableResult>(testsToRun.Length);
+
+            testsToRun.ForEach(() => lister.List(results), runner.Run, results.Add);
         }
 
 
@@ -100,9 +105,9 @@ namespace Phrasefable.StardewMods.StarUnit
         }
 
 
-        private static IRunner BuildTestRunner()
+        private ITreeRunner BuildTestRunner()
         {
-            ICompositeRunner runner = new TraversableRunner();
+            var runner = new Runner(new SmapiTicker(this.Helper.Events.GameLoop));
             runner.Add(new TestRunner());
             runner.Add(new GroupingRunner(runner));
             runner.Add(new TestSuiteRunner(runner));
