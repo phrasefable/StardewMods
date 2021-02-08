@@ -13,6 +13,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         private readonly SettableOnce<Func<TCaseParams, ITestResult>> _testMethod;
 
+        private readonly SettableOnce<Delay> _delay;
+
         private readonly IList<TCaseParams> _cases;
 
         private readonly SettableOnce<Func<TCaseParams, string>> _keyGenerator;
@@ -30,6 +32,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             this._testMethod = new SettableOnce<Func<TCaseParams, ITestResult>>(
                 nameof(CasedTestBuilder<TCaseParams>.TestMethod)
             );
+
+            this._delay = new SettableOnce<Delay>(nameof(CasedTestBuilder<TCaseParams>.Delay));
 
             this._cases = new List<TCaseParams>();
 
@@ -70,8 +74,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
             builder.Key = this._keyGenerator.Value(@case);
             if (this._longNameGenerator.HasBeenSet) builder.LongName = this._longNameGenerator.Value(@case);
-            Func<TCaseParams, ITestResult> testMethod = this._testMethod.Value;
-            builder.TestMethod = () => testMethod(@case);
+            builder.TestMethod = () => this._testMethod.Value(@case);
+            builder.Delay = this._delay.Value;
 
             return builder.Build();
         }
@@ -101,7 +105,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public Delay Delay
         {
-            set => this._branchBuilder.Delay = value;
+            set => this._delay.Value = value;
         }
 
 
