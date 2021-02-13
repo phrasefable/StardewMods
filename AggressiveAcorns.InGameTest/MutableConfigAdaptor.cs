@@ -7,21 +7,21 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class MutableConfigAdaptor : IConfigAdapter
+    public class MutableConfigAdaptor : IConfigAdaptor
     {
         private readonly ModConfig _config;
-        private readonly IConfigAdapter _adapter;
+        private readonly IConfigAdaptor _adaptor;
 
 
         public MutableConfigAdaptor()
         {
             this._config = new ModConfig();
-            this._adapter = new ConfigAdapter(this._config);
+            this._adaptor = new ConfigAdaptor(this._config);
 
-            this.SpreadRoller = () => this._adapter.RollForSpread;
-            this.GrowthRoller = () => this._adapter.RollForGrowth;
-            this.SeedRoller = () => this._adapter.RollForSeed;
-            this.MushroomRegrowthRoller = () => this._adapter.RollForMushroomRegrowth;
+            this.SpreadRoller = () => this._adaptor.RollForSpread;
+            this.GrowthRoller = () => this._adaptor.RollForGrowth;
+            this.SeedRoller = () => this._adaptor.RollForSeed;
+            this.MushroomRegrowthRoller = () => this._adaptor.RollForMushroomRegrowth;
         }
 
 
@@ -33,71 +33,71 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         [NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
 
 
-        // ======= IConfigAdapter members ==============================================================================
+        // ======= IConfigAdaptor members ==============================================================================
 
         public bool ProtectFromMelee
         {
-            get => this._adapter.ProtectFromMelee;
+            get => this._adaptor.ProtectFromMelee;
             set => this._config.PreventScythe = value;
         }
 
         public bool SeedsReplaceGrass
         {
-            get => this._adapter.SeedsReplaceGrass;
+            get => this._adaptor.SeedsReplaceGrass;
             set => this._config.SeedsReplaceGrass = value;
         }
 
         public int MaxShadedGrowthStage
         {
-            get => this._adapter.MaxShadedGrowthStage;
+            get => this._adaptor.MaxShadedGrowthStage;
             set => this._config.MaxShadedGrowthStage = value;
         }
 
         public bool DoGrowInWinter
         {
-            get => this._adapter.DoGrowInWinter;
+            get => this._adaptor.DoGrowInWinter;
             set => this._config.DoGrowInWinter = value;
         }
 
         public bool DoTappedSpread
         {
-            get => this._adapter.DoTappedSpread;
+            get => this._adaptor.DoTappedSpread;
             set => this._config.DoTappedSpread = value;
         }
 
         public bool DoSpreadInWinter
         {
-            get => this._adapter.DoSpreadInWinter;
+            get => this._adaptor.DoSpreadInWinter;
             set => this._config.DoSpreadInWinter = value;
         }
 
         public bool DoGrowInstantly
         {
-            get => this._adapter.DoGrowInstantly;
+            get => this._adaptor.DoGrowInstantly;
             set => this._config.DoGrowInstantly = value;
         }
 
         public bool DoSeedsPersist
         {
-            get => this._adapter.DoSeedsPersist;
+            get => this._adaptor.DoSeedsPersist;
             set => this._config.DoSeedsPersist = value;
         }
 
         public bool DoMushroomTreesHibernate
         {
-            get => this._adapter.DoMushroomTreesHibernate;
+            get => this._adaptor.DoMushroomTreesHibernate;
             set => this._config.DoMushroomTreesHibernate = value;
         }
 
         public bool DoMushroomTreesRegrow
         {
-            get => this._adapter.DoMushroomTreesRegrow;
+            get => this._adaptor.DoMushroomTreesRegrow;
             set => this._config.DoMushroomTreesRegrow = value;
         }
 
         public int MaxPassableGrowthStage
         {
-            get => this._adapter.MaxPassableGrowthStage;
+            get => this._adaptor.MaxPassableGrowthStage;
             set => this._config.MaxPassibleGrowthStage = value;
         }
 

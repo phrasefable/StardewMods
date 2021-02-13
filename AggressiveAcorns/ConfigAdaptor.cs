@@ -2,12 +2,12 @@ using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
-    internal class ConfigAdapter : IConfigAdapter
+    internal class ConfigAdaptor : IConfigAdaptor
     {
         private readonly IModConfig _base;
 
 
-        public ConfigAdapter(IModConfig config)
+        public ConfigAdaptor(IModConfig config)
         {
             this._base = config;
         }
@@ -25,10 +25,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         public bool DoMushroomTreesHibernate => this._base.DoMushroomTreesHibernate;
         public bool DoMushroomTreesRegrow => this._base.DoMushroomTreesRegrow;
 
-        public bool RollForSpread => ConfigAdapter.RandomChance(this._base.DailySpreadChance);
-        public bool RollForGrowth => ConfigAdapter.RandomChance(this._base.DailyGrowthChance);
-        public bool RollForSeed => ConfigAdapter.RandomChance(this._base.DailySeedChance);
-        public bool RollForMushroomRegrowth => ConfigAdapter.RandomChance(this._base.DailyGrowthChance / 2);
+        public bool RollForSpread => ConfigAdaptor.RandomChance(this._base.DailySpreadChance);
+        public bool RollForGrowth => ConfigAdaptor.RandomChance(this._base.DailyGrowthChance);
+        public bool RollForSeed => ConfigAdaptor.RandomChance(this._base.DailySeedChance);
+        public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.DailyGrowthChance / 2);
 
 
         private static bool RandomChance(double chance)

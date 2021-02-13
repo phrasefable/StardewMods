@@ -18,7 +18,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(true, false)] // Modded - blanket-prevent melee on trees
         public void MeleeWeaponDependsOnConfig(bool configValue, bool effectsTree)
         {
-            AggressiveAcorns.Config = new ConfigAdapter(new ModConfig {PreventScythe = configValue});
+            AggressiveAcorns.Config = new ConfigAdaptor(new ModConfig {PreventScythe = configValue});
             var shim = new ToolActionShim(effectsTree);
             var tree = new AggressiveTree(shim.Shim);
 
@@ -41,7 +41,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(false)]
         public void OtherToolsDelegateCallAndUseResult(bool configValue)
         {
-            AggressiveAcorns.Config = new ConfigAdapter(new ModConfig {PreventScythe = configValue});
+            AggressiveAcorns.Config = new ConfigAdaptor(new ModConfig {PreventScythe = configValue});
 
             this.AssertDelegatesCallAndUsesResult(ToolFactory.axe);
             this.AssertDelegatesCallAndUsesResult(ToolFactory.pickAxe);

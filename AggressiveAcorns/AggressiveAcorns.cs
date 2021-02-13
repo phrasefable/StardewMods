@@ -14,7 +14,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
     public class AggressiveAcorns : Mod
     {
         internal static IReflectionHelper ReflectionHelper;
-        internal static IConfigAdapter Config;
+        internal static IConfigAdaptor Config;
 
 
         private bool _manageTrees;
@@ -34,7 +34,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override void Entry([NotNull] IModHelper helper)
         {
-            AggressiveAcorns.Config = new ConfigAdapter(helper.ReadConfig<ModConfig>());
+            AggressiveAcorns.Config = new ConfigAdaptor(helper.ReadConfig<ModConfig>());
             AggressiveAcorns.ReflectionHelper = helper.Reflection;
 
             helper.Events.GameLoop.DayStarted += OnDayStarted;

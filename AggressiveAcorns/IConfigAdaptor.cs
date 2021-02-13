@@ -1,6 +1,6 @@
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
-    public interface IConfigAdapter
+    public interface IConfigAdaptor
     {
         bool ProtectFromMelee { get; }
         bool SeedsReplaceGrass { get; }
