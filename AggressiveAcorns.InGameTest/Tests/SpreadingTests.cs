@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
@@ -13,6 +15,28 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private readonly ITestDefinitionFactory _factory;
 
         private MutableConfigAdaptor _config;
+        private SeedLocator _seedLocator;
+
+        private class SeedLocator
+        {
+            public readonly ICollection<Vector2> GeneratedOffsets = new List<Vector2>();
+
+            public IEnumerable<Vector2> GenerateOffsets()
+            {
+                Vector2[] offsets;
+                do
+                {
+                    offsets = TreeUtils.GetSpreadOffsets().ToArray();
+                } while (offsets.Any(offset => offset == Vector2.Zero));
+
+                foreach (Vector2 offset in offsets)
+                {
+                    this.GeneratedOffsets.Add(offset);
+                }
+
+                return offsets;
+            }
+        }
 
 
         public SpreadingTests(ITestDefinitionFactory factory)
@@ -36,6 +60,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             {
                 this._config = new MutableConfigAdaptor();
                 AggressiveAcorns.Config = this._config;
+
+                this._seedLocator = new SeedLocator();
+                this._config.SpreadOffsetGenerator = () => this._seedLocator.GenerateOffsets();
             };
 
             fixtureBuilder.Delay = Delay.Tick;
@@ -55,27 +82,28 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             tree.Update();
 
             // Assert
-            var foundSeeds = 0;
-            foreach (Vector2 possiblePosition in Common.Utilities.GetTilesInRadius(tree.currentTileLocation, 3))
+            if (expectSpread)
             {
-                if (possiblePosition == tree.currentTileLocation) continue;
-
-                if (tree.currentLocation.terrainFeatures.TryGetValue(possiblePosition, out TerrainFeature feature) &&
-                    feature is Tree possibleSeed)
+                if (this._seedLocator.GeneratedOffsets.Count == 1 &&
+                    SpreadingTests.CouldBeSeedOf(tree, this._seedLocator.GeneratedOffsets.First()))
                 {
-                    if (SpreadingTests.CouldBeSeedOf(tree, possibleSeed)) foundSeeds++;
+                    return this._factory.BuildTestResult(Status.Pass);
                 }
             }
+            else
+            {
+                if (this._seedLocator.GeneratedOffsets.Count == 0) return this._factory.BuildTestResult(Status.Pass);
+            }
 
-            int expectedSeeds = expectSpread ? 1 : 0;
-            return foundSeeds == expectedSeeds
-                ? this._factory.BuildTestResult(Status.Pass)
-                : this._factory.BuildTestResult(Status.Fail, $"Found {foundSeeds} seeds, expected {expectedSeeds}");
+            return this._factory.BuildTestResult(Status.Fail);
         }
 
 
-        private static bool CouldBeSeedOf(Tree tree, Tree possibleSeed)
+        private static bool CouldBeSeedOf(Tree tree, Vector2 offset)
         {
+            Vector2 position = tree.currentTileLocation + offset;
+            if (!tree.currentLocation.terrainFeatures.TryGetValue(position, out TerrainFeature feature)) return false;
+            if (!(feature is Tree possibleSeed)) return false;
             return possibleSeed.growthStage.Value == Tree.seedStage &&
                    possibleSeed.treeType == tree.treeType;
         }
