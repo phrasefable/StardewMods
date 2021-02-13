@@ -113,8 +113,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 return;
             }
 
-            foreach (Vector2 seedPos in TreeUtils.GetSpreadLocations(position))
+            foreach (Vector2 offset in AggressiveAcorns.Config.SpreadSeedOffsets)
             {
+                Vector2 seedPos = position + offset;
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
                 if (AggressiveAcorns.Config.SeedsReplaceGrass &&
@@ -143,16 +144,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static IEnumerable<Vector2> GetSpreadLocations(Vector2 position)
+        public static IEnumerable<Vector2> GetSpreadOffsets()
         {
-            // pick random tile within +-3 x/y.
-            if (AggressiveAcorns.Config.RollForSpread)
-            {
-                int tileX = Game1.random.Next(-3, 4) + (int) position.X;
-                int tileY = Game1.random.Next(-3, 4) + (int) position.Y;
-                var seedPos = new Vector2(tileX, tileY);
-                yield return seedPos;
-            }
+            if (!AggressiveAcorns.Config.RollForSpread) yield break;
+
+            static int GetOffset() => Game1.random.Next(-3, 4);
+            yield return new Vector2(GetOffset(), GetOffset());
         }
 
 

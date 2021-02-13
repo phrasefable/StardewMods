@@ -1,22 +1,27 @@
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
-    public interface IConfigAdaptor
+    internal interface IConfigAdaptor
     {
-        bool ProtectFromMelee { get; }
-        bool SeedsReplaceGrass { get; }
-        int MaxShadedGrowthStage { get; }
-        int MaxPassableGrowthStage { get; }
-        bool DoGrowInWinter { get; }
-        bool DoTappedSpread { get; }
-        bool DoSpreadInWinter { get; }
-        bool DoGrowInstantly { get; }
-        bool DoSeedsPersist { get; }
-        bool DoMushroomTreesHibernate { get; }
-        bool DoMushroomTreesRegrow { get; }
+        public bool ProtectFromMelee { get; }
+        public bool SeedsReplaceGrass { get; }
+        public int MaxShadedGrowthStage { get; }
+        public int MaxPassableGrowthStage { get; }
+        public bool DoGrowInWinter { get; }
+        public bool DoTappedSpread { get; }
+        public bool DoSpreadInWinter { get; }
+        public bool DoGrowInstantly { get; }
+        public bool DoSeedsPersist { get; }
+        public bool DoMushroomTreesHibernate { get; }
+        public bool DoMushroomTreesRegrow { get; }
 
-        bool RollForSpread { get; }
-        bool RollForGrowth { get; }
-        bool RollForSeed { get; }
-        bool RollForMushroomRegrowth { get; }
+        public bool RollForSpread { get; }
+        public bool RollForGrowth { get; }
+        public bool RollForSeed { get; }
+        public bool RollForMushroomRegrowth { get; }
+
+        public IEnumerable<Vector2> SpreadSeedOffsets { get; }
     }
 }

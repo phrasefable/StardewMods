@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
@@ -30,6 +32,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         public bool RollForSeed => ConfigAdaptor.RandomChance(this._base.DailySeedChance);
         public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.DailyGrowthChance / 2);
 
+        public IEnumerable<Vector2> SpreadSeedOffsets => TreeUtils.GetSpreadOffsets();
 
         private static bool RandomChance(double chance)
         {

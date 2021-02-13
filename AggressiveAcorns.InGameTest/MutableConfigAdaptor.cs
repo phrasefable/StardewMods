@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using Microsoft.Xna.Framework;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 {
@@ -22,6 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             this.GrowthRoller = () => this._adaptor.RollForGrowth;
             this.SeedRoller = () => this._adaptor.RollForSeed;
             this.MushroomRegrowthRoller = () => this._adaptor.RollForMushroomRegrowth;
+            this.SpreadOffsetGenerator = () => this._adaptor.SpreadSeedOffsets;
         }
 
 
@@ -31,6 +34,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         [NotNull] public Func<bool> GrowthRoller { private get; set; }
         [NotNull] public Func<bool> SeedRoller { private get; set; }
         [NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
+        [NotNull] public Func<IEnumerable<Vector2>> SpreadOffsetGenerator { private get; set; }
 
 
         // ======= IConfigAdaptor members ==============================================================================
@@ -123,5 +127,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         public bool RollForSeed => this.SeedRoller();
 
         public bool RollForMushroomRegrowth => this.MushroomRegrowthRoller();
+
+        public IEnumerable<Vector2> SpreadSeedOffsets => this.SpreadOffsetGenerator();
     }
 }
