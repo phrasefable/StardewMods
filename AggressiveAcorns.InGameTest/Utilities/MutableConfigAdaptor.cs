@@ -4,12 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
+namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class MutableConfigAdaptor : IConfigAdaptor
+    internal class MutableConfigAdaptor : IConfigAdaptor
     {
         private readonly ModConfig _config;
         private readonly IConfigAdaptor _adaptor;

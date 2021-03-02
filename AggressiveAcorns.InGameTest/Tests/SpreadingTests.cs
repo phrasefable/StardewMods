@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -10,33 +10,12 @@ using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    public class SpreadingTests
+    internal partial class SpreadingTests
     {
         private readonly ITestDefinitionFactory _factory;
 
         private MutableConfigAdaptor _config;
         private SeedLocator _seedLocator;
-
-        private class SeedLocator
-        {
-            public readonly ICollection<Vector2> GeneratedOffsets = new List<Vector2>();
-
-            public IEnumerable<Vector2> GenerateOffsets()
-            {
-                Vector2[] offsets;
-                do
-                {
-                    offsets = TreeUtils.GetSpreadOffsets().ToArray();
-                } while (offsets.Any(offset => offset == Vector2.Zero));
-
-                foreach (Vector2 offset in offsets)
-                {
-                    this.GeneratedOffsets.Add(offset);
-                }
-
-                return offsets;
-            }
-        }
 
 
         public SpreadingTests(ITestDefinitionFactory factory)
@@ -47,13 +26,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         public ITraversable Build()
         {
-            ITestFixtureBuilder fixtureBuilder = _factory.CreateFixtureBuilder();
+            ITestFixtureBuilder fixtureBuilder = this._factory.CreateFixtureBuilder();
 
             fixtureBuilder.Key = "spreading";
 
             fixtureBuilder.AddCondition(this._factory.Conditions.WorldReady);
 
-            fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
+            fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(LocationUtils.WarpFarm);
             fixtureBuilder.BeforeAllDelay = Delay.Second;
 
             fixtureBuilder.BeforeEach = () =>
@@ -71,6 +50,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_TreeSpreads_Override());
             fixtureBuilder.AddChild(this.BuildTest_StumpNeverSpreads());
             fixtureBuilder.AddChild(this.BuildTest_OnlyMatureTreesSpread());
+            fixtureBuilder.AddChild(this.BuildFixture_Seasonal());
 
             return fixtureBuilder.Build();
         }
@@ -137,7 +117,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DailySpreadChance = spreadChance;
 
             // Act, Assert
-            return this.UpdateAndCheckTreeHasSpread(Utils.GetFarmTreeLonely(), expectSpread);
+            return this.UpdateAndCheckTreeHasSpread(Utilities.TreeUtils.GetFarmTreeLonely(), expectSpread);
         }
 
 
@@ -173,7 +153,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.SpreadRoller = () => expectSpread;
 
             // Act, assert
-            return this.UpdateAndCheckTreeHasSpread(Utils.GetFarmTreeLonely(), expectSpread);
+            return this.UpdateAndCheckTreeHasSpread(Utilities.TreeUtils.GetFarmTreeLonely(), expectSpread);
         }
 
 
@@ -194,7 +174,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITestResult Test_StumpNeverSpreads()
         {
             // Arrange
-            Tree tree = Utils.GetFarmTreeLonely();
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.stump.Value = true;
 
             this._config.DailySpreadChance = 1.0;
@@ -233,8 +213,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int growthStage, bool expectSpread) = args;
 
             // Arrange
-            Tree tree = Utils.GetFarmTreeLonely();
-            tree.growthStage.Value = growthStage;
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(growthStage);
             this._config.DailySpreadChance = 1.0;
 
             // Act, Assert

@@ -1,3 +1,4 @@
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -32,7 +33,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
              * statement does not show a difference. Still seems to work (the locations used in this test are
              * always loaded??), so have not bothered to make the test framework asynchronous.
              * */
-            fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(Utils.WarpFarm);
+            fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(LocationUtils.WarpFarm);
             fixtureBuilder.BeforeAllDelay = Delay.Second;
 
             fixtureBuilder.BeforeEach = () =>
@@ -89,7 +90,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DailySeedChance = seedChance;
 
             // Act, assert
-            return CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
+            return CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
         }
 
 
@@ -124,7 +125,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.SeedRoller = () => expectSeed;
 
             // Act, assert
-            return this.CheckTreeHasSeedAfterUpdate(Utils.GetFarmTreeLonely(), expectSeed);
+            return this.CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
         }
 
 
@@ -158,7 +159,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DailySeedChance = 0;
             this._config.DoSeedsPersist = doPersist;
 
-            Tree tree = Utils.GetFarmTreeLonely();
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.hasSeed.Value = initialSeed;
 
             // Act, assert
@@ -195,7 +196,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.DailySeedChance = 1.0;
 
-            Tree tree = Utils.GetFarmTreeLonely();
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
 
             // Act, assert
@@ -229,7 +230,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.DailySeedChance = 1.0;
 
-            Tree tree = Utils.GetFarmTreeLonely();
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
             tree.stump.Value = true;
 
