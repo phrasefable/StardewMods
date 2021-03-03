@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
@@ -62,30 +63,82 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             tree.Update();
 
             // Assert
-            if (expectSpread)
+            if (!expectSpread && this._seedLocator.GeneratedOffsets.Count == 0)
             {
-                if (this._seedLocator.GeneratedOffsets.Count == 1 &&
-                    SpreadingTests.CouldBeSeedOf(tree, this._seedLocator.GeneratedOffsets.First()))
-                {
-                    return this._factory.BuildTestResult(Status.Pass);
-                }
-            }
-            else
-            {
-                if (this._seedLocator.GeneratedOffsets.Count == 0) return this._factory.BuildTestResult(Status.Pass);
+                return this._factory.BuildTestResult(Status.Pass);
             }
 
-            return this._factory.BuildTestResult(Status.Fail);
+            IList<(bool IsSeed, Vector2 Offset, string Message)> potentialSeeds = this._seedLocator.GeneratedOffsets
+                .Select(
+                    offset => (
+                        IsSeed: SpreadingTests.CouldBeSeedOf(tree, offset, out string message),
+                        Offset: offset,
+                        Message: message
+                    )
+                )
+                .ToList();
+
+            IList<(Vector2 Offset, string Message)> validSeeds = potentialSeeds
+                .Where(tuple => tuple.IsSeed)
+                .Select(tuple => (tuple.Offset, tuple.Message))
+                .ToList();
+
+            string MakeMessage(string expected) => $"Expected {expected} but found {validSeeds.Count} seed(s).";
+
+            if (!expectSpread)
+            {
+                return validSeeds.Count == 0
+                    ? this._factory.BuildTestResult(Status.Pass)
+                    : this._factory.BuildTestResult(Status.Fail, MakeMessage("0"));
+            }
+
+            // else expected spread
+            if (validSeeds.Count == 1) return this._factory.BuildTestResult(Status.Pass);
+
+            string failureReason = MakeMessage("exactly 1");
+            if (validSeeds.Count == 0 && potentialSeeds.Count > 0)
+            {
+                foreach ((_, Vector2 offset, string message) in potentialSeeds)
+                {
+                    failureReason += $"\n\tOffset={offset}: {message}";
+                }
+            }
+
+            return this._factory.BuildTestResult(Status.Fail, failureReason);
         }
 
 
-        private static bool CouldBeSeedOf(Tree tree, Vector2 offset)
+        private static bool CouldBeSeedOf(Tree tree, Vector2 offset, out string message)
         {
             Vector2 position = tree.currentTileLocation + offset;
-            if (!tree.currentLocation.terrainFeatures.TryGetValue(position, out TerrainFeature feature)) return false;
-            if (!(feature is Tree possibleSeed)) return false;
-            return possibleSeed.growthStage.Value == Tree.seedStage &&
-                   possibleSeed.treeType == tree.treeType;
+            if (!tree.currentLocation.terrainFeatures.TryGetValue(position, out TerrainFeature feature))
+            {
+                message = "No seed present at expected position.";
+                return false;
+            }
+
+            if (!(feature is Tree possibleSeed))
+            {
+                message = "No seed present at expected position.";
+                return false;
+            }
+
+            var result = true;
+            var messages = new List<string>(2);
+            if (possibleSeed.growthStage.Value != Tree.seedStage)
+            {
+                messages.Add($"Not a seed; growthStage={possibleSeed.growthStage.Value}, expected={Tree.seedStage}.");
+                result = false;
+            }
+
+            if (possibleSeed.treeType != tree.treeType)
+            {
+                messages.Add($"Incorrect type; treeType={possibleSeed.treeType.Value}, expected={tree.treeType}.");
+                result = false;
+            }
+
+            message = string.Join(" ", messages);
+            return result;
         }
 
 
