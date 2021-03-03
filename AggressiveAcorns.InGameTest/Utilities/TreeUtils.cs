@@ -40,7 +40,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             Vector2 position = LocationUtils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
 
             LocationUtils.ClearLocation(location);
-            return TreeUtils.PlantTree(location, position, Tree.pineTree, Tree.treeStage);
+            return TreeUtils.PlantTree(location, position, type, stage);
         }
     }
 }
