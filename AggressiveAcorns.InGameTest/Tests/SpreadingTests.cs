@@ -52,6 +52,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_StumpNeverSpreads());
             fixtureBuilder.AddChild(this.BuildTest_OnlyMatureTreesSpread());
             fixtureBuilder.AddChild(this.BuildFixture_Seasonal());
+            fixtureBuilder.AddChild(this.BuildTest_SpreadOverGrass());
 
             return fixtureBuilder.Build();
         }
@@ -271,6 +272,45 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, Assert
             return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);
+        }
+
+
+        // ========== Spread seeds do/don't replace long grass ===========================================================
+
+        private ITraversable BuildTest_SpreadOverGrass()
+        {
+            ICasedTestBuilder<bool> testBuilder = this._factory.CreateCasedTestBuilder<bool>();
+
+            testBuilder.Key = "tree_spreads_over_grass";
+            testBuilder.TestMethod = this.Test_SpreadOverGrass;
+            testBuilder.Delay = Delay.Second;
+            testBuilder.KeyGenerator = spreadOverGrass => $"{(spreadOverGrass ? "do" : "dont")}_replace_grass";
+            testBuilder.AddCases(true, false);
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_SpreadOverGrass(bool spreadOverGrass)
+        {
+            // Arrange
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            this._config.DailySpreadChance = 1.0;
+            this._config.SeedsReplaceGrass = spreadOverGrass;
+
+            var radius = 5;
+            for (int dX = -radius; dX <= radius; dX++)
+            {
+                for (int dY = -radius; dY < radius; dY++)
+                {
+                    if (dX == 0 && dY == 0) continue;
+                    var position = new Vector2(tree.currentTileLocation.X + dX, tree.currentTileLocation.Y + dY);
+                    tree.currentLocation.terrainFeatures[position] = new Grass(Grass.springGrass, 4);
+                }
+            }
+
+            // Act, Assert
+            return this.UpdateAndCheckTreeHasSpread(tree, spreadOverGrass);
         }
     }
 }
