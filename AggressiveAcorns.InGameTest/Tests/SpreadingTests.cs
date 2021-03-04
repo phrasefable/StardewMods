@@ -53,6 +53,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_OnlyMatureTreesSpread());
             fixtureBuilder.AddChild(this.BuildFixture_Seasonal());
             fixtureBuilder.AddChild(this.BuildTest_SpreadOverGrass());
+            fixtureBuilder.AddChild(this.BuildTest_OnlyFarmTreesSpread());
 
             return fixtureBuilder.Build();
         }
@@ -311,6 +312,51 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, Assert
             return this.UpdateAndCheckTreeHasSpread(tree, spreadOverGrass);
+        }
+
+
+        // ========== Only trees on the farm spread ====================================================================
+
+        private ITraversable BuildTest_OnlyFarmTreesSpread()
+        {
+            ICasedTestBuilder<(Warp Warp, bool ExpectSpread)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(Warp, bool)>();
+
+            testBuilder.Key = "spreading_by_game_location";
+            testBuilder.TestMethod = this.Test_OnlyFarmTreesSpread;
+            testBuilder.Delay = Delay.Second;
+            testBuilder.KeyGenerator = args => $"{args.Warp.TargetName}";
+            testBuilder.AddCases(
+                (Warp: LocationUtils.WarpFarm, ExpectSpread: true),
+                (Warp: LocationUtils.WarpDesert, ExpectSpread: false),
+                (Warp: LocationUtils.WarpGreenhouse, ExpectSpread: false),
+                (Warp: LocationUtils.WarpBackwoods, ExpectSpread: false),
+                (Warp: LocationUtils.WarpRailroad, ExpectSpread: false),
+                (Warp: LocationUtils.WarpMountain, ExpectSpread: false),
+                (Warp: LocationUtils.WarpFarmCave, ExpectSpread: false),
+                (Warp: LocationUtils.WarpCellar4, ExpectSpread: false),
+                (Warp: LocationUtils.WarpTown, ExpectSpread: false),
+                (Warp: LocationUtils.WarpBeach, ExpectSpread: false),
+                (Warp: LocationUtils.WarpBusStop, ExpectSpread: false),
+                (Warp: LocationUtils.WarpWoods, ExpectSpread: false),
+                (Warp: LocationUtils.WarpForest, ExpectSpread: false)
+            );
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_OnlyFarmTreesSpread((Warp Warp, bool ExpectSpread) args)
+        {
+            // (Warp warp, bool expectSpread) = args;
+
+            Game1.player.warpFarmer(args.Warp);
+            // Arrange
+            Tree tree = Utilities.TreeUtils.GetLonelyTree(args.Warp);
+            this._config.DailySpreadChance = 1.0;
+
+            // Act, Assert
+            return this.UpdateAndCheckTreeHasSpread(tree, args.ExpectSpread);
         }
     }
 }
