@@ -35,6 +35,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             fixtureBuilder.BeforeAll = () => Game1.player.warpFarmer(LocationUtils.WarpFarm);
             fixtureBuilder.BeforeAllDelay = Delay.Second;
+            fixtureBuilder.AfterAll = () => Game1.player.warpFarmer(LocationUtils.WarpFarm);
+            fixtureBuilder.AfterAllDelay = Delay.Second;
 
             fixtureBuilder.BeforeEach = () =>
             {
@@ -284,7 +286,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "tree_spreads_over_grass";
             testBuilder.TestMethod = this.Test_SpreadOverGrass;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = spreadOverGrass => $"{(spreadOverGrass ? "do" : "dont")}_replace_grass";
             testBuilder.AddCases(true, false);
 
@@ -324,7 +326,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "spreading_by_game_location";
             testBuilder.TestMethod = this.Test_OnlyFarmTreesSpread;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => $"{args.Warp.TargetName}";
             testBuilder.AddCases(
                 (Warp: LocationUtils.WarpFarm, ExpectSpread: true),
@@ -348,15 +350,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITestResult Test_OnlyFarmTreesSpread((Warp Warp, bool ExpectSpread) args)
         {
-            // (Warp warp, bool expectSpread) = args;
+            (Warp warp, bool expectSpread) = args;
 
-            Game1.player.warpFarmer(args.Warp);
             // Arrange
-            Tree tree = Utilities.TreeUtils.GetLonelyTree(args.Warp);
+            Game1.player.warpFarmer(warp);
+            Tree tree = Utilities.TreeUtils.GetLonelyTree(warp);
             this._config.DailySpreadChance = 1.0;
 
             // Act, Assert
-            return this.UpdateAndCheckTreeHasSpread(tree, args.ExpectSpread);
+            return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);
         }
     }
 }
