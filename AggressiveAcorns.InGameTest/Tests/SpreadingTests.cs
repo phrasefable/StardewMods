@@ -56,6 +56,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildFixture_Seasonal());
             fixtureBuilder.AddChild(this.BuildTest_SpreadOverGrass());
             fixtureBuilder.AddChild(this.BuildTest_OnlyFarmTreesSpread());
+            fixtureBuilder.AddChild(this.BuildTest_TappedSpread());
 
             return fixtureBuilder.Build();
         }
@@ -358,6 +359,61 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DailySpreadChance = 1.0;
 
             // Act, Assert
+            return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);
+        }
+
+
+        // ========== Tapped Spreading =================================================================================
+
+        private ITraversable BuildTest_TappedSpread()
+        {
+            ICasedTestBuilder<(bool TappedMaySpread, bool IsTapped, bool ExpectSpread)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(bool, bool, bool)>();
+
+            testBuilder.Key = "tapped";
+            testBuilder.TestMethod = this.Test_TappedSpread;
+            testBuilder.Delay = Delay.Second;
+            testBuilder.KeyGenerator = args =>
+                $"Is{(args.IsTapped ? "" : "_not")}_tapped_and_may{(args.TappedMaySpread ? "" : "_not")}_spread";
+            testBuilder.AddCases(
+                (TappedMaySpread: false, IsTapped: false, ExpectSpread: true),
+                (TappedMaySpread: false, IsTapped: true, ExpectSpread: false),
+                (TappedMaySpread: true, IsTapped: false, ExpectSpread: true),
+                (TappedMaySpread: true, IsTapped: true, ExpectSpread: true)
+            );
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_TappedSpread((bool TappedMaySpread, bool IsTapped, bool ExpectSpread) args)
+        {
+            (bool tappedMaySpread, bool isTapped, bool expectSpread) = args;
+
+            // Arrange
+            this._config.DailySpreadChance = 1.0;
+            this._config.DoTappedSpread = tappedMaySpread;
+
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            if (isTapped)
+            {
+                new Object(Vector2.Zero, 105).placementAction(
+                    tree.currentLocation,
+                    (int) tree.currentTileLocation.X * 64,
+                    (int) tree.currentTileLocation.Y * 64,
+                    Game1.player
+                );
+            }
+
+            // Act, Assert
+            if (isTapped != tree.tapped.Value)
+            {
+                return this._factory.BuildTestResult(
+                    Status.Error,
+                    tree.tapped.Value ? "Is tapped unexpectedly." : "Is not tapped when expected."
+                );
+            }
+
             return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);
         }
     }
