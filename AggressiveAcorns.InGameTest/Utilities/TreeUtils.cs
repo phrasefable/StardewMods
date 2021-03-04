@@ -36,8 +36,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
         public static Tree GetFarmTreeLonely(int stage = Tree.treeStage, int type = Tree.pineTree)
         {
-            GameLocation location = LocationUtils.WarpFarm.GetLocation();
-            Vector2 position = LocationUtils.WarpFarm.GetTargetTile() + new Vector2(0, -2);
+            return TreeUtils.GetLonelyTree(LocationUtils.WarpFarm, stage, type);
+        }
+
+
+        public static Tree GetLonelyTree(Warp where, int stage = Tree.treeStage, int type = Tree.pineTree)
+        {
+            GameLocation location = where.GetLocation();
+            Vector2 position = where.GetTargetTile() + new Vector2(0, -2);
 
             LocationUtils.ClearLocation(location);
             return TreeUtils.PlantTree(location, position, type, stage);
