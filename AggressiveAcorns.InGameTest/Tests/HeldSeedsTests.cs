@@ -47,6 +47,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_SeedPersistence());
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed_ByStage());
             fixtureBuilder.AddChild(this.BuildTest_HeldSeed_StumpByStage());
+            fixtureBuilder.AddChild(this.BuildTest_HeldSeed_InAllLocations());
 
             return fixtureBuilder.Build();
         }
@@ -236,6 +237,48 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, assert
             return this.CheckTreeHasSeedAfterUpdate(tree, false);
+        }
+
+
+        // ========== Only trees on the farm spread ====================================================================
+
+        private ITraversable BuildTest_HeldSeed_InAllLocations()
+        {
+            ICasedTestBuilder<Warp> testBuilder = this._factory.CreateCasedTestBuilder<Warp>();
+
+            testBuilder.Key = "locations";
+            testBuilder.TestMethod = this.Test_HeldSeedInAllLocations;
+            testBuilder.Delay = Delay.Tick;
+            testBuilder.KeyGenerator = warp => $"{warp.TargetName}";
+            testBuilder.AddCases(
+                LocationUtils.WarpFarm,
+                LocationUtils.WarpDesert,
+                LocationUtils.WarpGreenhouse,
+                LocationUtils.WarpBackwoods,
+                LocationUtils.WarpRailroad,
+                LocationUtils.WarpMountain,
+                LocationUtils.WarpFarmCave,
+                LocationUtils.WarpCellar4,
+                LocationUtils.WarpTown,
+                LocationUtils.WarpBeach,
+                LocationUtils.WarpBusStop,
+                LocationUtils.WarpWoods,
+                LocationUtils.WarpForest
+            );
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_HeldSeedInAllLocations(Warp warp)
+        {
+            // Arrange
+            Game1.player.warpFarmer(warp);
+            Tree tree = Utilities.TreeUtils.GetLonelyTree(warp);
+            this._config.DailySeedChance = 1.0;
+
+            // Act, Assert
+            return this.CheckTreeHasSeedAfterUpdate(tree, true);
         }
     }
 }
