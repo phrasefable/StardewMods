@@ -54,6 +54,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_GrowthChanceObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadeObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadePositions());
+            fixtureBuilder.AddChild(this.BuildTest_ShadeSources());
+            //fixtureBuilder.AddChild(this.BuildFixture_WinterGrowth());
 
             return fixtureBuilder.Build();
         }
@@ -239,7 +241,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        // ========== Growth respects max shaded stage config option ===================================================
+        // ========== Shade is cast from the right positions ===========================================================
 
 
         private static string NormalizeNegatives(string s)
@@ -255,18 +257,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "shade_positions";
             testBuilder.TestMethod = this.Test_ShadePositions;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => GrowthTests.NormalizeNegatives($"x_{args.Offset.X}_y_{args.Offset.Y}");
 
             var shadeRadius = 1;
             for (int x = -(shadeRadius + 1); x <= shadeRadius + 1; x++)
+            for (int y = -(shadeRadius + 1); y <= shadeRadius + 1; y++)
             {
-                for (int y = -(shadeRadius + 1); y <= shadeRadius + 1; y++)
-                {
-                    if (x == 0 && y == 0) continue;
-                    bool isShaded = Math.Abs(x) <= shadeRadius && Math.Abs(y) <= shadeRadius;
-                    testBuilder.AddCases((Offset: new Vector2(x, y), ExpectGrowth: !isShaded));
-                }
+                if (x == 0 && y == 0) continue;
+                bool isShaded = Math.Abs(x) <= shadeRadius && Math.Abs(y) <= shadeRadius;
+                testBuilder.AddCases((Offset: new Vector2(x, y), ExpectGrowth: !isShaded));
             }
 
             return testBuilder.Build();
@@ -290,6 +290,86 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 tree.treeType.Value,
                 Tree.treeStage
             );
+
+            // Act, Assert
+            return this.UpdateAndCheckHasGrown(tree, expectGrowth);
+        }
+
+
+        // ========== Growth shading works as expected with mixed sources ==============================================
+
+
+        private ITraversable BuildTest_ShadeSources()
+        {
+            ICasedTestBuilder<(bool Shading, bool Stump, bool NonShading, bool ExpectGrowth)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(bool, bool, bool, bool)>();
+
+            testBuilder.Key = "shade_mixed";
+            testBuilder.TestMethod = this.Test_ShadeSources;
+            testBuilder.Delay = Delay.Second;
+            testBuilder.KeyGenerator = args =>
+            {
+                var sources = new List<string>();
+                if (args.Shading) sources.Add("shade");
+                if (args.Stump) sources.Add("stump");
+                if (args.NonShading) sources.Add("seed");
+                return sources.Any() ? string.Join("_", sources) : "none";
+            };
+
+            foreach (bool shading in new[] {false, true})
+            foreach (bool stump in new[] {false, true})
+            foreach (bool nonShading in new[] {false, true})
+            {
+                testBuilder.AddCases((Shading: shading, Stump: stump, NonShading: nonShading, ExpectGrowth: !shading));
+            }
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_ShadeSources((bool Shading, bool NonShading, bool Stump, bool ExpectGrowth) args)
+        {
+            (bool shading, bool nonShading, bool stump, bool expectGrowth) = args;
+
+            // Arrange
+            int initStage = Tree.saplingStage;
+
+            this._config.GrowthRoller = () => true;
+            this._config.MaxShadedGrowthStage = initStage;
+
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
+
+            if (shading)
+            {
+                Utilities.TreeUtils.PlantTree(
+                    tree.currentLocation,
+                    tree.currentTileLocation + new Vector2(-1, -1),
+                    tree.treeType.Value,
+                    Tree.treeStage
+                );
+            }
+
+            if (nonShading)
+            {
+                Utilities.TreeUtils.PlantTree(
+                        tree.currentLocation,
+                        tree.currentTileLocation + new Vector2(-1, 1),
+                        tree.treeType.Value,
+                        Tree.treeStage
+                    )
+                    .growthStage.Value = Tree.seedStage;
+            }
+
+            if (stump)
+            {
+                Utilities.TreeUtils.PlantTree(
+                        tree.currentLocation,
+                        tree.currentTileLocation + new Vector2(-1, 0),
+                        tree.treeType.Value,
+                        Tree.treeStage
+                    )
+                    .stump.Value = true;
+            }
 
             // Act, Assert
             return this.UpdateAndCheckHasGrown(tree, expectGrowth);
