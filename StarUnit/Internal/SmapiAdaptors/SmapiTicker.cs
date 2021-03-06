@@ -30,7 +30,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.SmapiAdaptors
 
         private void UpdateTicked(Action callback)
         {
-            EventUtilities.HandleOnce<UpdateTickedEventArgs>(
+            EventUtilities.HandleOnceWhenPlayerFree<UpdateTickedEventArgs>(
                 (_, __) => callback(),
                 handler => this._events.UpdateTicked += handler,
                 handler => this._events.UpdateTicked -= handler
@@ -40,7 +40,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.SmapiAdaptors
 
         private void OneSecondUpdateTicked(Action callback)
         {
-            EventUtilities.HandleOnce<OneSecondUpdateTickedEventArgs>(
+            EventUtilities.HandleOnceWhenPlayerFree<OneSecondUpdateTickedEventArgs>(
                 (_, __) => callback(),
                 handler => this._events.OneSecondUpdateTicked += handler,
                 handler => this._events.OneSecondUpdateTicked -= handler
