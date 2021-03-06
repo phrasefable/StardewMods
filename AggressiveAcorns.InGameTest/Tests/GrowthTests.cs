@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
@@ -52,6 +53,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_StageSequence());
             fixtureBuilder.AddChild(this.BuildTest_GrowthChanceObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadeObeysConfig());
+            fixtureBuilder.AddChild(this.BuildTest_ShadePositions());
 
             return fixtureBuilder.Build();
         }
@@ -223,10 +225,68 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.GrowthRoller = () => true;
             this._config.MaxShadedGrowthStage = maxShadedGrowthStage;
+
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
             Utilities.TreeUtils.PlantTree(
                 tree.currentLocation,
-                tree.currentTileLocation - new Vector2(-1, 0),
+                tree.currentTileLocation + new Vector2(-1, 0),
+                tree.treeType.Value,
+                Tree.treeStage
+            );
+
+            // Act, Assert
+            return this.UpdateAndCheckHasGrown(tree, expectGrowth);
+        }
+
+
+        // ========== Growth respects max shaded stage config option ===================================================
+
+
+        private static string NormalizeNegatives(string s)
+        {
+            return s.Replace("-", "neg_");
+        }
+
+
+        private ITraversable BuildTest_ShadePositions()
+        {
+            ICasedTestBuilder<(Vector2 Offset, bool ExpectGrowth)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(Vector2, bool)>();
+
+            testBuilder.Key = "shade_positions";
+            testBuilder.TestMethod = this.Test_ShadePositions;
+            testBuilder.Delay = Delay.Second;
+            testBuilder.KeyGenerator = args => GrowthTests.NormalizeNegatives($"x_{args.Offset.X}_y_{args.Offset.Y}");
+
+            var shadeRadius = 1;
+            for (int x = -(shadeRadius + 1); x <= shadeRadius + 1; x++)
+            {
+                for (int y = -(shadeRadius + 1); y <= shadeRadius + 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    bool isShaded = Math.Abs(x) <= shadeRadius && Math.Abs(y) <= shadeRadius;
+                    testBuilder.AddCases((Offset: new Vector2(x, y), ExpectGrowth: !isShaded));
+                }
+            }
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_ShadePositions((Vector2 Offset, bool ExpectGrowth) args)
+        {
+            (Vector2 offset, bool expectGrowth) = args;
+
+            // Arrange
+            int initStage = Tree.seedStage;
+
+            this._config.GrowthRoller = () => true;
+            this._config.MaxShadedGrowthStage = initStage;
+
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
+            Utilities.TreeUtils.PlantTree(
+                tree.currentLocation,
+                tree.currentTileLocation + offset,
                 tree.treeType.Value,
                 Tree.treeStage
             );
