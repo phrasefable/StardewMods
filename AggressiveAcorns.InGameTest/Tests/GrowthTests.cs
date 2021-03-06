@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
@@ -10,7 +12,7 @@ using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
-    internal class GrowthTests
+    internal partial class GrowthTests
     {
         private readonly ITestDefinitionFactory _factory;
 
@@ -36,10 +38,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 Game1.player.warpFarmer(LocationUtils.WarpFarm);
                 Season.Spring.SetSeason();
             };
-
             fixtureBuilder.BeforeAllDelay = Delay.Second;
-            // fixtureBuilder.AfterAll = () => Game1.player.warpFarmer(LocationUtils.WarpFarm);
-            // fixtureBuilder.AfterAllDelay = Delay.Second;
+
+            fixtureBuilder.AfterAll = () =>
+            {
+                Game1.player.warpFarmer(LocationUtils.WarpFarm);
+                Season.Spring.SetSeason();
+            };
+            fixtureBuilder.AfterAllDelay = Delay.Second;
 
             fixtureBuilder.BeforeEach = () =>
             {
@@ -55,7 +61,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_ShadeObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadePositions());
             fixtureBuilder.AddChild(this.BuildTest_ShadeSources());
-            //fixtureBuilder.AddChild(this.BuildFixture_WinterGrowth());
+            fixtureBuilder.AddChild(this.BuildFixture_WinterGrowth());
 
             return fixtureBuilder.Build();
         }
