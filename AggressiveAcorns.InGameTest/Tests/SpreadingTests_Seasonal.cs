@@ -52,7 +52,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.TestMethod = this.Test_SeasonalSpreading;
             testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args =>
-                $"{args.Season.GetName()}_{(args.AllowWinterSpread ? "with" : "without")}_winter_growth";
+                $"{args.Season.GetName()}_{(args.AllowWinterSpread ? "with" : "without")}_winter_spread";
             testBuilder.AddCases(
                 (Season: Season.Spring, false, true),
                 (Season: Season.Summer, false, true),
