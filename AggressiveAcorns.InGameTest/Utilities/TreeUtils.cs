@@ -48,5 +48,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             LocationUtils.ClearLocation(location);
             return TreeUtils.PlantTree(location, position, type, stage);
         }
+
+
+        public static int[] Stages { get; } =
+        {
+            Tree.seedStage,
+            Tree.sproutStage,
+            Tree.saplingStage,
+            Tree.bushStage,
+            Tree.bushStage + 1,
+            Tree.treeStage
+        };
     }
 }

@@ -251,13 +251,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         // ========== Shade is cast from the right positions ===========================================================
 
-
-        private static string NormalizeNegatives(string s)
-        {
-            return s.Replace("-", "neg_");
-        }
-
-
         private ITraversable BuildTest_ShadePositions()
         {
             ICasedTestBuilder<(Vector2 Offset, bool ExpectGrowth)> testBuilder =
@@ -266,7 +259,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.Key = "shade_positions";
             testBuilder.TestMethod = this.Test_ShadePositions;
             testBuilder.Delay = Delay.Tick;
-            testBuilder.KeyGenerator = args => GrowthTests.NormalizeNegatives($"x_{args.Offset.X}_y_{args.Offset.Y}");
+            testBuilder.KeyGenerator = args => StringUtils.NormalizeNegatives($"x_{args.Offset.X}_y_{args.Offset.Y}");
 
             var shadeRadius = 1;
             for (int x = -(shadeRadius + 1); x <= shadeRadius + 1; x++)
