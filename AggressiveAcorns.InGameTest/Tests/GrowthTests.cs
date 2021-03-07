@@ -61,6 +61,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_ShadeObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadePositions());
             fixtureBuilder.AddChild(this.BuildTest_ShadeSources());
+            fixtureBuilder.AddChild(this.BuildTest_InstantGrowthObeysConfig());
+            fixtureBuilder.AddChild(this.BuildTest_InstantGrowthShaded());
             fixtureBuilder.AddChild(this.BuildFixture_WinterGrowth());
 
             return fixtureBuilder.Build();
@@ -312,7 +314,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "shade_mixed";
             testBuilder.TestMethod = this.Test_ShadeSources;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args =>
             {
                 var sources = new List<string>();
@@ -379,6 +381,89 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, Assert
             return this.UpdateAndCheckHasGrown(tree, expectGrowth);
+        }
+
+
+        // ========== Instant growth ===================================================================================
+
+        private ITraversable BuildTest_InstantGrowthObeysConfig()
+        {
+            ICasedTestBuilder<(int InitialStage, int NextStage)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(int, int)>();
+
+            testBuilder.Key = "instant_growth";
+            testBuilder.TestMethod = this.Test_InstantGrowthObeysConfig;
+            testBuilder.Delay = Delay.Tick;
+            testBuilder.KeyGenerator = args => $"{args.InitialStage}";
+            testBuilder.AddCases(
+                (InitialStage: Tree.seedStage, NextStage: Tree.treeStage),
+                (InitialStage: Tree.sproutStage, NextStage: Tree.treeStage),
+                (InitialStage: Tree.saplingStage, NextStage: Tree.treeStage),
+                (InitialStage: Tree.bushStage, NextStage: Tree.treeStage),
+                (InitialStage: Tree.bushStage + 1, NextStage: Tree.treeStage),
+                (InitialStage: Tree.treeStage, NextStage: Tree.treeStage)
+            );
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_InstantGrowthObeysConfig((int, int) args)
+        {
+            (int initialStage, int nextStage) = args;
+
+            // Arrange
+            this._config.GrowthRoller = () => true;
+            this._config.DoGrowInstantly = true;
+
+            // Act, Assert
+            return this.UpdateAndCheckHasGrown(Utilities.TreeUtils.GetFarmTreeLonely(initialStage), nextStage);
+        }
+
+
+        // ========== Instant growth - shade ===========================================================================
+
+        private ITraversable BuildTest_InstantGrowthShaded()
+        {
+            ICasedTestBuilder<(int MaxShadedStage, int ExpectedStage)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(int, int)>();
+
+            testBuilder.Key = "instant_shaded";
+            testBuilder.TestMethod = this.Test_InstantGrowthShaded;
+            testBuilder.Delay = Delay.Tick;
+            testBuilder.KeyGenerator = args => $"{args.MaxShadedStage}";
+            testBuilder.AddCases(
+                (MaxShadedStage: Tree.seedStage, ExpectedStage: Tree.seedStage),
+                (MaxShadedStage: Tree.sproutStage, ExpectedStage: Tree.sproutStage),
+                (MaxShadedStage: Tree.saplingStage, ExpectedStage: Tree.saplingStage),
+                (MaxShadedStage: Tree.bushStage, ExpectedStage: Tree.bushStage),
+                (MaxShadedStage: Tree.bushStage + 1, ExpectedStage: Tree.bushStage + 1),
+                (MaxShadedStage: Tree.treeStage, ExpectedStage: Tree.treeStage)
+            );
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_InstantGrowthShaded((int, int) args)
+        {
+            (int maxShadedStage, int expectedStage) = args;
+
+            // Arrange
+            this._config.GrowthRoller = () => true;
+            this._config.DoGrowInstantly = true;
+            this._config.MaxShadedGrowthStage = maxShadedStage;
+
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.seedStage);
+            Utilities.TreeUtils.PlantTree(
+                tree.currentLocation,
+                tree.currentTileLocation + new Vector2(-1, 0),
+                tree.treeType.Value,
+                Tree.treeStage
+            );
+
+            // Act, Assert
+            return this.UpdateAndCheckHasGrown(tree, expectedStage);
         }
     }
 }
