@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.InGameTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarUnit", "StarUnit\StarUnit.csproj", "{744B493A-A496-4513-8AC3-26092A372D4B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common.Harmony", "Common.Harmony\Common.Harmony.shproj", "{41B6B136-4E70-4FB7-BA1F-3528E24618D6}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4

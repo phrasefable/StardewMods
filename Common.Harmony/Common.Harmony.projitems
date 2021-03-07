@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>640B74CC-0061-4FF7-9D19-985E4C134B25</SharedGUID>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatchInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatchInfoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IHarmonyPatchInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatchType.cs" />
+  </ItemGroup>
+</Project>
