@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.Test
 {
+    // TODO - migrate to in-game tests then delete unit test project
     [TestFixture]
     public class SpreadSeedOffsetsTests
     {

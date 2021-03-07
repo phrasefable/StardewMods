@@ -6,6 +6,8 @@
 
         <RootNamespace>Phrasefable.StardewMods.AggressiveAcorns</RootNamespace>
         <TargetFramework>net452</TargetFramework>
+
+        <EnableHarmony>true</EnableHarmony>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +16,8 @@
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared" />
+    <Import Project="..\Common.Harmony\Common.Harmony.projitems" Label="Shared" />
+
     <Import Project="$(SolutionDir)\common.targets" />
 
     <ItemGroup>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Netcode;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
@@ -9,6 +10,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal static class TreeUtils
     {
+        public static bool DestroyIfDead(Tree tree, NetBool destroy)
+        {
+            if (tree.health.Value > -100) return false;
+
+            destroy.Value = true;
+            return true;
+        }
+
+
         public static void ValidateTapped(Tree tree, GameLocation environment, Vector2 tileLocation)
         {
             if (!tree.tapped.Value) return;
