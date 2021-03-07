@@ -54,7 +54,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "winter_growth_config";
             testBuilder.TestMethod = this.Test_WinterGrowthObeysConfig;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args =>
                 $"{args.Season.GetName()}_{(args.AllowWinterGrowth ? "with" : "without")}_winter_growth_" +
                 args.TreeType switch
@@ -110,7 +110,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             testBuilder.Key = "no_winter";
             testBuilder.TestMethod = this.Test_WinterGrowthByLocation;
-            testBuilder.Delay = Delay.Second;
+            testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => $"{args.Location.TargetName}";
             testBuilder.AddCases(
                 (Location: LocationUtils.WarpFarm, ExpectGrowth: false),
