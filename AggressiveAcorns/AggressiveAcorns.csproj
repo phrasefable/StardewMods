@@ -3,7 +3,7 @@
     <PropertyGroup>
         <AssemblyName>AggressiveAcorns</AssemblyName>
         <RootNamespace>AggressiveAcorns</RootNamespace>
-        <Version>1.2.4-unofficial.1-Strobe</Version>
+        <Version>1.2.3-beta</Version>
         <TargetFramework>net452</TargetFramework>
         <Platforms>x86</Platforms>
         <PlatformTarget>x86</PlatformTarget>
