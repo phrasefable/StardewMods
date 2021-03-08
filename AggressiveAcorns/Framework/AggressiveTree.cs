@@ -177,8 +177,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 
         private static void PlaceOffspring(this Tree tree, GameLocation location, Vector2 seedPosition)
         {
-            tree.hasSeed.Value = false;
-
             var seed = new Tree(tree.treeType.Value, 0);
             location.terrainFeatures[seedPosition] = seed;
         }
