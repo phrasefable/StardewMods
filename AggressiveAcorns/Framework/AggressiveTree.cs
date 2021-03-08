@@ -158,7 +158,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
                 Vector2 seedPos = position + offset;
                 var tileX = (int) seedPos.X;
                 var tileY = (int) seedPos.Y;
-                if (AggressiveAcorns.Config.SeedsReplaceGrass &&
+                if (AggressiveAcorns.Config.DoSeedsReplaceGrass &&
                     location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
                     feature is Grass)
                 {
@@ -188,14 +188,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         {
             if (!tree.IsFullyGrown() || tree.stump.Value) return;
 
-            if (!AggressiveAcorns.Config.DoSeedsPersist)
-            {
-                tree.hasSeed.Value = false;
-            }
-
-            if (AggressiveAcorns.Config.RollForSeed)
+            // Seed gain takes precedence over loss, hence loss is immaterial if it is just regained anyway
+            if (AggressiveAcorns.Config.RollForSeedGain)
             {
                 tree.hasSeed.Value = true;
+            }
+            else if (AggressiveAcorns.Config.RollForSeedLoss)
+            {
+                tree.hasSeed.Value = false;
             }
         }
     }

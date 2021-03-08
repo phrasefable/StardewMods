@@ -110,7 +110,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
-            this._config.ProtectFromMelee = protectFromMelee;
+            this._config.DoMeleeWeaponsDestroySeedlings = !protectFromMelee;
             Tool tool = this.MakeTool(ToolFactory.meleeWeapon);
 
             // Assert
@@ -162,7 +162,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
-            this._config.ProtectFromMelee = protectFromMelee;
+            this._config.DoMeleeWeaponsDestroySeedlings = !protectFromMelee;
 
             // Assert
             return this.CheckIfToolAffectsTree(tree, tool, expectAction);

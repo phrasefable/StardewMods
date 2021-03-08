@@ -38,7 +38,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             fixtureBuilder.BeforeEach = () =>
             {
-                this._config = new MutableConfigAdaptor {DailySpreadChance = 0.0};
+                this._config = new MutableConfigAdaptor {ChanceSpread = 0.0};
                 AggressiveAcorns.Config = this._config;
             };
 
@@ -88,7 +88,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double seedChance, bool expectSeed) = @params;
 
             // Arrange
-            this._config.DailySeedChance = seedChance;
+            this._config.ChanceSeedGain = seedChance;
 
             // Act, assert
             return CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
@@ -122,8 +122,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double configChance, bool expectSeed) = @params;
 
             // Arrange
-            this._config.DailySeedChance = configChance;
-            this._config.SeedRoller = () => expectSeed;
+            this._config.ChanceSeedGain = configChance;
+            this._config.SeedGainRoller = () => expectSeed;
 
             // Act, assert
             return this.CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
@@ -157,8 +157,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             bool expectSeed = doPersist && initialSeed;
 
             // Arrange
-            this._config.DailySeedChance = 0;
-            this._config.DoSeedsPersist = doPersist;
+            this._config.ChanceSeedGain = 0;
+            this._config.ChanceSeedLoss = doPersist ? 0.0 : 1.0;
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.hasSeed.Value = initialSeed;
@@ -195,7 +195,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int stage, bool expectSeed) = @params;
 
             // Arrange
-            this._config.DailySeedChance = 1.0;
+            this._config.ChanceSeedGain = 1.0;
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
@@ -229,7 +229,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITestResult Test_HeldSeed_ByStage(int stage)
         {
             // Arrange
-            this._config.DailySeedChance = 1.0;
+            this._config.ChanceSeedGain = 1.0;
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
@@ -275,7 +275,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             Game1.player.warpFarmer(warp);
             Tree tree = Utilities.TreeUtils.GetLonelyTree(warp);
-            this._config.DailySeedChance = 1.0;
+            this._config.ChanceSeedGain = 1.0;
 
             // Act, Assert
             return this.CheckTreeHasSeedAfterUpdate(tree, true);

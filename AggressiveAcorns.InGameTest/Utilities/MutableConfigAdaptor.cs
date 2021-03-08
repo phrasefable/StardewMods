@@ -23,7 +23,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
             this.SpreadRoller = () => this._adaptor.RollForSpread;
             this.GrowthRoller = () => this._adaptor.RollForGrowth;
-            this.SeedRoller = () => this._adaptor.RollForSeed;
+            this.SeedGainRoller = () => this._adaptor.RollForSeedGain;
+            this.SeedLossRoller = () => this._adaptor.RollForSeedLoss;
             this.MushroomRegrowthRoller = () => this._adaptor.RollForMushroomRegrowth;
             this.SpreadOffsetGenerator = () => this._adaptor.SpreadSeedOffsets;
         }
@@ -33,23 +34,24 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
         [NotNull] public Func<bool> SpreadRoller { private get; set; }
         [NotNull] public Func<bool> GrowthRoller { private get; set; }
-        [NotNull] public Func<bool> SeedRoller { private get; set; }
+        [NotNull] public Func<bool> SeedGainRoller { private get; set; }
+        [NotNull] public Func<bool> SeedLossRoller { private get; set; }
         [NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
         [NotNull] public Func<IEnumerable<Vector2>> SpreadOffsetGenerator { private get; set; }
 
 
         // ======= IConfigAdaptor members ==============================================================================
 
-        public bool ProtectFromMelee
+        public bool DoMeleeWeaponsDestroySeedlings
         {
-            get => this._adaptor.ProtectFromMelee;
-            set => this._config.PreventScythe = value;
+            get => this._adaptor.DoMeleeWeaponsDestroySeedlings;
+            set => this._config.DoMeleeWeaponsDestroySeedlings = value;
         }
 
-        public bool SeedsReplaceGrass
+        public bool DoSeedsReplaceGrass
         {
-            get => this._adaptor.SeedsReplaceGrass;
-            set => this._config.SeedsReplaceGrass = value;
+            get => this._adaptor.DoSeedsReplaceGrass;
+            set => this._config.DoSeedsReplaceGrass = value;
         }
 
         public int MaxShadedGrowthStage
@@ -82,12 +84,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             set => this._config.DoGrowInstantly = value;
         }
 
-        public bool DoSeedsPersist
-        {
-            get => this._adaptor.DoSeedsPersist;
-            set => this._config.DoSeedsPersist = value;
-        }
-
         public bool DoMushroomTreesHibernate
         {
             get => this._adaptor.DoMushroomTreesHibernate;
@@ -103,29 +99,36 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
         public int MaxPassableGrowthStage
         {
             get => this._adaptor.MaxPassableGrowthStage;
-            set => this._config.MaxPassibleGrowthStage = value;
+            set => this._config.MaxPassableGrowthStage = value;
         }
 
-        public double DailyGrowthChance
+        public double ChanceGrowth
         {
-            set => this._config.DailyGrowthChance = value;
+            set => this._config.ChanceGrowth = value;
         }
 
-        public double DailySpreadChance
+        public double ChanceSpread
         {
-            set => this._config.DailySpreadChance = value;
+            set => this._config.ChanceSpread = value;
         }
 
-        public double DailySeedChance
+        public double ChanceSeedGain
         {
-            set => this._config.DailySeedChance = value;
+            set => this._config.ChanceSeedGain = value;
+        }
+
+        public double ChanceSeedLoss
+        {
+            set => this._config.ChanceSeedLoss = value;
         }
 
         public bool RollForSpread => this.SpreadRoller();
 
         public bool RollForGrowth => this.GrowthRoller();
 
-        public bool RollForSeed => this.SeedRoller();
+        public bool RollForSeedGain => this.SeedGainRoller();
+
+        public bool RollForSeedLoss => this.SeedLossRoller();
 
         public bool RollForMushroomRegrowth => this.MushroomRegrowthRoller();
 

@@ -86,7 +86,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         {
             try
             {
-                if (AggressiveAcorns.Config.ProtectFromMelee && t is MeleeWeapon)
+                if (!AggressiveAcorns.Config.DoMeleeWeaponsDestroySeedlings && t is MeleeWeapon)
                 {
                     __result = false; // Tool action does nothing
                     return false;     // Prevent further processing (other prefixes or original method)

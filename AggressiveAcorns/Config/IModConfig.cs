@@ -2,32 +2,24 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
 {
     public interface IModConfig
     {
-        bool PreventScythe { get; }
+        bool DoMeleeWeaponsDestroySeedlings { get; }
 
-        bool SeedsReplaceGrass { get; }
+        int MaxPassableGrowthStage { get; }
 
+        double ChanceGrowth { get; }
         int MaxShadedGrowthStage { get; }
-
-        int MaxPassibleGrowthStage { get; } // TODO spellcheck pass_i_ble -> pass_a_ble
-
-        double DailyGrowthChance { get; }
-
         bool DoGrowInWinter { get; }
-
-        double DailySpreadChance { get; }
-
-        bool DoTappedSpread { get; }
-
-        bool DoSpreadInWinter { get; }
-
         bool DoGrowInstantly { get; }
 
-        bool DoSeedsPersist { get; }
+        double ChanceSpread { get; }
+        bool DoSeedsReplaceGrass { get; }
+        bool DoTappedSpread { get; }
+        bool DoSpreadInWinter { get; }
 
-        double DailySeedChance { get; }
+        double ChanceSeedGain { get; }
+        double ChanceSeedLoss { get; }
 
         bool DoMushroomTreesHibernate { get; }
-
         bool DoMushroomTreesRegrow { get; }
     }
 }

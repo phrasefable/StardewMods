@@ -172,7 +172,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double spreadChance, bool expectSpread) = args;
 
             // Arrange
-            this._config.DailySpreadChance = spreadChance;
+            this._config.ChanceSpread = spreadChance;
 
             // Act, Assert
             return this.UpdateAndCheckTreeHasSpread(Utilities.TreeUtils.GetFarmTreeLonely(), expectSpread);
@@ -207,7 +207,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double configChance, bool expectSpread) = @params;
 
             // Arrange
-            this._config.DailySpreadChance = configChance;
+            this._config.ChanceSpread = configChance;
             this._config.SpreadRoller = () => expectSpread;
 
             // Act, assert
@@ -235,7 +235,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             tree.stump.Value = true;
 
-            this._config.DailySpreadChance = 1.0;
+            this._config.ChanceSpread = 1.0;
             this._config.SpreadRoller = () => true;
 
             // Act, assert
@@ -272,7 +272,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(growthStage);
-            this._config.DailySpreadChance = 1.0;
+            this._config.ChanceSpread = 1.0;
 
             // Act, Assert
             return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);
@@ -299,8 +299,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         {
             // Arrange
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
-            this._config.DailySpreadChance = 1.0;
-            this._config.SeedsReplaceGrass = spreadOverGrass;
+            this._config.ChanceSpread = 1.0;
+            this._config.DoSeedsReplaceGrass = spreadOverGrass;
 
             var radius = 5;
             for (int dX = -radius; dX <= radius; dX++)
@@ -346,7 +346,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (bool tappedMaySpread, bool isTapped, bool expectSpread) = args;
 
             // Arrange
-            this._config.DailySpreadChance = 1.0;
+            this._config.ChanceSpread = 1.0;
             this._config.DoTappedSpread = tappedMaySpread;
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
@@ -411,7 +411,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             Game1.player.warpFarmer(warp);
             Tree tree = Utilities.TreeUtils.GetLonelyTree(warp);
-            this._config.DailySpreadChance = 1.0;
+            this._config.ChanceSpread = 1.0;
 
             // Act, Assert
             return this.UpdateAndCheckTreeHasSpread(tree, expectSpread);

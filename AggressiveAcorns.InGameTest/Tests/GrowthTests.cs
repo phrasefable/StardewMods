@@ -124,7 +124,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double growthChance, bool forcedValue) = args;
 
             // Arrange
-            this._config.DailyGrowthChance = growthChance;
+            this._config.ChanceGrowth = growthChance;
             this._config.GrowthRoller = () => forcedValue;
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
 
@@ -194,7 +194,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (double growthChance, bool expectGrowth) = args;
 
             // Arrange
-            this._config.DailyGrowthChance = growthChance;
+            this._config.ChanceGrowth = growthChance;
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
 
             // Act, Assert

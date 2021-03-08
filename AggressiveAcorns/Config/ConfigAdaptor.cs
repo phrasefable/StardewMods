@@ -15,22 +15,22 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
         }
 
 
-        public bool ProtectFromMelee => this._base.PreventScythe;
-        public bool SeedsReplaceGrass => this._base.SeedsReplaceGrass;
+        public bool DoMeleeWeaponsDestroySeedlings => this._base.DoMeleeWeaponsDestroySeedlings;
+        public bool DoSeedsReplaceGrass => this._base.DoSeedsReplaceGrass;
         public int MaxShadedGrowthStage => this._base.MaxShadedGrowthStage;
-        public int MaxPassableGrowthStage => this._base.MaxPassibleGrowthStage;
+        public int MaxPassableGrowthStage => this._base.MaxPassableGrowthStage;
         public bool DoGrowInWinter => this._base.DoGrowInWinter;
         public bool DoTappedSpread => this._base.DoTappedSpread;
         public bool DoSpreadInWinter => this._base.DoSpreadInWinter;
         public bool DoGrowInstantly => this._base.DoGrowInstantly;
-        public bool DoSeedsPersist => this._base.DoSeedsPersist;
         public bool DoMushroomTreesHibernate => this._base.DoMushroomTreesHibernate;
         public bool DoMushroomTreesRegrow => this._base.DoMushroomTreesRegrow;
 
-        public bool RollForSpread => ConfigAdaptor.RandomChance(this._base.DailySpreadChance);
-        public bool RollForGrowth => ConfigAdaptor.RandomChance(this._base.DailyGrowthChance);
-        public bool RollForSeed => ConfigAdaptor.RandomChance(this._base.DailySeedChance);
-        public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.DailyGrowthChance / 2);
+        public bool RollForSpread => ConfigAdaptor.RandomChance(this._base.ChanceSpread);
+        public bool RollForGrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth);
+        public bool RollForSeedGain => ConfigAdaptor.RandomChance(this._base.ChanceSeedGain);
+        public bool RollForSeedLoss => ConfigAdaptor.RandomChance(this._base.ChanceSeedLoss);
+        public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth / 2);
 
         public IEnumerable<Vector2> SpreadSeedOffsets => Framework.AggressiveTree.GenerateSpreadOffsets();
 

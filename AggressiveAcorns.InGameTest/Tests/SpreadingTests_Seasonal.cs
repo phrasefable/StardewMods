@@ -76,7 +76,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             season.SetSeason();
-            this._config.DailySpreadChance = 1.0;
+            this._config.ChanceSpread = 1.0;
             this._config.DoSpreadInWinter = allowWinterSpread;
 
             // Act, Assert
