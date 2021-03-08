@@ -56,17 +56,17 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             try
             {
                 // TODO check if there is any need to do the skip-update-of-first-day-when-spread thing
-                bool isDestroyed = TreeUtils.DestroyIfDead(__instance, ___destroy);
+                bool isDestroyed = __instance.DestroyIfDead(___destroy);
 
-                TreeUtils.ValidateTapped(__instance, environment, tileLocation);
+                __instance.ValidateTapped(environment, tileLocation);
 
-                if (!isDestroyed && TreeUtils.TreeCanGrow(__instance, environment, tileLocation))
+                if (!isDestroyed && environment.TreeCanGrowAt(__instance, tileLocation))
                 {
-                    TreeUtils.PopulateSeed(__instance);
-                    TreeUtils.TrySpread(__instance, environment, tileLocation);
-                    TreeUtils.TryIncreaseStage(__instance, environment, tileLocation);
-                    TreeUtils.ManageHibernation(__instance, environment, tileLocation);
-                    TreeUtils.TryRegrow(__instance, environment, tileLocation);
+                    __instance.PopulateSeed();
+                    __instance.TrySpread(environment, tileLocation);
+                    __instance.TryIncreaseStage(environment, tileLocation);
+                    __instance.ManageHibernation(environment, tileLocation);
+                    __instance.TryRegrow(environment, tileLocation);
                 }
 
                 return false; // Prevent other processing on the method.

@@ -10,7 +10,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     internal static class TreeUtils
     {
-        public static bool DestroyIfDead(Tree tree, NetBool destroy)
+        public static bool DestroyIfDead(this Tree tree, NetBool destroy)
         {
             if (tree.health.Value > -100) return false;
 
@@ -19,7 +19,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void ValidateTapped(Tree tree, GameLocation environment, Vector2 tileLocation)
+        public static void ValidateTapped(this Tree tree, GameLocation environment, Vector2 tileLocation)
         {
             if (!tree.tapped.Value) return;
 
@@ -31,19 +31,19 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TryIncreaseStage(Tree tree, GameLocation location, Vector2 position)
+        public static void TryIncreaseStage(this Tree tree, GameLocation location, Vector2 position)
         {
-            if (TreeUtils.IsFullyGrown(tree) ||
+            if (tree.IsFullyGrown() ||
                 (tree.growthStage.Value >= AggressiveAcorns.Config.MaxShadedGrowthStage &&
-                 TreeUtils.IsShaded(location, position)))
+                 location.IsShadedAt(position)))
             {
                 return;
             }
 
             // Trees experiencing winter won't grow unless fertilized or set to ignore winter.
             // In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized.
-            if (TreeUtils.ExperiencingWinter(location)
-                && ((TreeUtils.IsMushroomTree(tree) && AggressiveAcorns.Config.DoMushroomTreesHibernate)
+            if (location.ExperiencingWinter()
+                && ((tree.IsMushroomTree() && AggressiveAcorns.Config.DoMushroomTreesHibernate)
                     || !(AggressiveAcorns.Config.DoGrowInWinter || tree.fertilized.Value)))
             {
                 return;
@@ -51,7 +51,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
             if (AggressiveAcorns.Config.DoGrowInstantly)
             {
-                tree.growthStage.Value = TreeUtils.IsShaded(location, position)
+                tree.growthStage.Value = location.IsShadedAt(position)
                     ? AggressiveAcorns.Config.MaxShadedGrowthStage
                     : Tree.treeStage;
             }
@@ -62,11 +62,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void ManageHibernation(Tree tree, GameLocation location, Vector2 position)
+        public static void ManageHibernation(this Tree tree, GameLocation location, Vector2 position)
         {
-            if (!TreeUtils.IsMushroomTree(tree)
+            if (!tree.IsMushroomTree()
                 || !AggressiveAcorns.Config.DoMushroomTreesHibernate
-                || !TreeUtils.ExperiencesWinter(location))
+                || !location.ExperiencesWinter())
             {
                 return;
             }
@@ -78,28 +78,28 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             }
             else if (Game1.IsSpring && Game1.dayOfMonth <= 1)
             {
-                TreeUtils.RegrowStumpIfNotShaded(tree, location, position);
+                tree.RegrowStumpIfNotShaded(location, position);
             }
         }
 
 
-        public static void TryRegrow(Tree tree, GameLocation location, Vector2 position)
+        public static void TryRegrow(this Tree tree, GameLocation location, Vector2 position)
         {
-            if (TreeUtils.IsMushroomTree(tree) &&
+            if (tree.IsMushroomTree() &&
                 AggressiveAcorns.Config.DoMushroomTreesRegrow &&
                 tree.stump.Value &&
-                (!TreeUtils.ExperiencingWinter(location) || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
-                                                             AggressiveAcorns.Config.DoGrowInWinter)) &&
+                (!location.ExperiencingWinter() || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
+                                                    AggressiveAcorns.Config.DoGrowInWinter)) &&
                 (AggressiveAcorns.Config.DoGrowInstantly || AggressiveAcorns.Config.RollForMushroomRegrowth))
             {
-                TreeUtils.RegrowStumpIfNotShaded(tree, location, position);
+                tree.RegrowStumpIfNotShaded(location, position);
             }
         }
 
 
-        public static void RegrowStumpIfNotShaded(Tree tree, GameLocation location, Vector2 position)
+        public static void RegrowStumpIfNotShaded(this Tree tree, GameLocation location, Vector2 position)
         {
-            if (TreeUtils.IsShaded(location, position)) return;
+            if (location.IsShadedAt(position)) return;
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
@@ -112,10 +112,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TrySpread(Tree tree, GameLocation location, Vector2 position)
+        public static void TrySpread(this Tree tree, GameLocation location, Vector2 position)
         {
             if (!(location is Farm) ||
-                !TreeUtils.IsFullyGrown(tree) ||
+                !tree.IsFullyGrown() ||
                 (Game1.IsWinter && !AggressiveAcorns.Config.DoSpreadInWinter) ||
                 (tree.tapped.Value && !AggressiveAcorns.Config.DoTappedSpread) ||
                 tree.stump.Value)
@@ -132,20 +132,20 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                     location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
                     feature is Grass)
                 {
-                    TreeUtils.PlaceOffspring(tree, location, seedPos);
+                    tree.PlaceOffspring(location, seedPos);
                 }
                 else if (location.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
                          && !location.isTileOccupied(seedPos)
                          && location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
                          && location.isTileOnMap(seedPos))
                 {
-                    TreeUtils.PlaceOffspring(tree, location, seedPos);
+                    tree.PlaceOffspring(location, seedPos);
                 }
             }
         }
 
 
-        public static void PlaceOffspring(Tree tree, GameLocation location, Vector2 seedPosition)
+        public static void PlaceOffspring(this Tree tree, GameLocation location, Vector2 seedPosition)
         {
             tree.hasSeed.Value = false;
 
@@ -163,9 +163,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void PopulateSeed(Tree tree)
+        public static void PopulateSeed(this Tree tree)
         {
-            if (!TreeUtils.IsFullyGrown(tree) || tree.stump.Value) return;
+            if (!tree.IsFullyGrown() || tree.stump.Value) return;
 
             if (!AggressiveAcorns.Config.DoSeedsPersist)
             {
@@ -179,7 +179,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static bool TreeCanGrow(Tree tree, GameLocation location, Vector2 position)
+        public static bool TreeCanGrowAt(this GameLocation location, Tree tree, Vector2 position)
         {
             string prop = location.doesTileHaveProperty((int) position.X, (int) position.Y, "NoSpawn", "Back");
             bool tileCanSpawnTree = prop == null || !(prop.Equals("All") || prop.Equals("Tree") || prop.Equals("True"));
@@ -188,25 +188,25 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static bool ExperiencingWinter(GameLocation location)
+        public static bool ExperiencingWinter(this GameLocation location)
         {
-            return Game1.IsWinter && TreeUtils.ExperiencesWinter(location);
+            return Game1.IsWinter && location.ExperiencesWinter();
         }
 
 
-        public static bool ExperiencesWinter(GameLocation location)
+        public static bool ExperiencesWinter(this GameLocation location)
         {
             return location.IsOutdoors && !(location is Desert);
         }
 
 
-        public static bool IsShaded(GameLocation location, Vector2 position)
+        public static bool IsShadedAt(this GameLocation location, Vector2 position)
         {
             foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(position))
             {
                 if (location.terrainFeatures.TryGetValue(adjacentTile, out TerrainFeature feature)
                     && feature is Tree adjTree
-                    && TreeUtils.IsFullyGrown(adjTree)
+                    && adjTree.IsFullyGrown()
                     && !adjTree.stump.Value)
                 {
                     return true;
@@ -216,12 +216,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             return false;
         }
 
-        public static bool IsFullyGrown(Tree tree)
+        public static bool IsFullyGrown(this Tree tree)
         {
             return tree.growthStage.Value >= Tree.treeStage;
         }
 
-        public static bool IsMushroomTree(Tree tree)
+        public static bool IsMushroomTree(this Tree tree)
         {
             return tree.treeType.Value == Tree.mushroomTree;
         }

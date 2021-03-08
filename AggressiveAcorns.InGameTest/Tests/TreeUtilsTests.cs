@@ -137,7 +137,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 );
             }
 
-            bool experiencesWinter = TreeUtils.ExperiencesWinter(location);
+            bool experiencesWinter = location.ExperiencesWinter();
 
             return experiencesWinter == shouldExperienceWinter
                 ? this._factory.BuildTestResult(Status.Pass)
