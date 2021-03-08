@@ -47,7 +47,7 @@ namespace AggressiveAcorns
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             Monitor.Log("Enraging trees in all available areas.");
-            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<Tree, AggressiveTree>(EnrageTree, Utilities.GetLocations(Helper));
             ManageTrees = true;
         }
 
@@ -56,7 +56,7 @@ namespace AggressiveAcorns
         {
             ManageTrees = false;
             Monitor.Log("Calming trees in all available areas.");
-            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Common.Utilities.GetLocations(Helper));
+            ReplaceTerrainFeatures<AggressiveTree, Tree>(CalmTree, Utilities.GetLocations(Helper));
         }
 
 
