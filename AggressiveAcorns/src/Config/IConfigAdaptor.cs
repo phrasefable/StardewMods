@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns.Config
 {
     internal interface IConfigAdaptor
     {

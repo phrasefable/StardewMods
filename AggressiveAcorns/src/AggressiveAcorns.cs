@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Harmony;
 using JetBrains.Annotations;
+using Phrasefable.StardewMods.AggressiveAcorns.Config;
 using Phrasefable.StardewMods.Common.Harmony;
 using StardewModdingAPI;
 using StardewValley.TerrainFeatures;

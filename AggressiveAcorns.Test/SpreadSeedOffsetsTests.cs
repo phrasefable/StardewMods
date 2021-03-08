@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.Config;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.Test
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.Config;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 {
