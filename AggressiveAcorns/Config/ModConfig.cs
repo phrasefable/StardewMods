@@ -1,17 +1,23 @@
 using System.Diagnostics.CodeAnalysis;
+using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.Config
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+    [SuppressMessage(
+        "ReSharper",
+        "RedundantDefaultMemberInitializer",
+        Justification = "Explicit default config values."
+    )]
     public class ModConfig : IModConfig
     {
         public bool PreventScythe { get; set; } = false;
 
         public bool SeedsReplaceGrass { get; set; } = false;
 
-        public int MaxShadedGrowthStage { get; set; } = 4;
+        public int MaxShadedGrowthStage { get; set; } = Tree.treeStage - 1;
 
-        public int MaxPassibleGrowthStage { get; set; } = 0;
+        public int MaxPassibleGrowthStage { get; set; } = Tree.seedStage;
 
         public double DailyGrowthChance { get; set; } = 0.20;
 
