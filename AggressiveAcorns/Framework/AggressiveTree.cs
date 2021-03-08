@@ -1,14 +1,46 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
-    internal static class TreeExtensionsProcessing
+    internal static class AggressiveTree
     {
-        public static bool DestroyIfDead(this Tree tree, NetBool destroy)
+        public static void DayUpdateAggressively(
+            this Tree tree,
+            GameLocation location,
+            Vector2 position,
+            NetBool destroy)
+        {
+            // TODO check if there is any need to do the skip-update-of-first-day-when-spread thing
+            bool isDestroyed = tree.DestroyIfDead(destroy);
+
+            tree.ValidateTapped(location, position);
+
+            if (!isDestroyed && location.TreeCanGrowAt(tree, position))
+            {
+                tree.PopulateSeed();
+                tree.TrySpread(location, position);
+                tree.TryIncreaseStage(location, position);
+                tree.ManageHibernation(location, position);
+                tree.TryRegrow(location, position);
+            }
+        }
+
+
+        public static IEnumerable<Vector2> GenerateSpreadOffsets()
+        {
+            if (!AggressiveAcorns.Config.RollForSpread) yield break;
+
+            static int GetOffset() => Game1.random.Next(-3, 4);
+            yield return new Vector2(GetOffset(), GetOffset());
+        }
+
+
+        private static bool DestroyIfDead(this Tree tree, NetBool destroy)
         {
             if (tree.health.Value > -100) return false;
 
@@ -17,7 +49,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void ValidateTapped(this Tree tree, GameLocation environment, Vector2 tileLocation)
+        private static void ValidateTapped(this Tree tree, GameLocation environment, Vector2 tileLocation)
         {
             if (!tree.tapped.Value) return;
 
@@ -29,7 +61,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TryIncreaseStage(this Tree tree, GameLocation location, Vector2 position)
+        private static void TryIncreaseStage(this Tree tree, GameLocation location, Vector2 position)
         {
             if (tree.IsFullyGrown() ||
                 (tree.growthStage.Value >= AggressiveAcorns.Config.MaxShadedGrowthStage &&
@@ -60,7 +92,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void ManageHibernation(this Tree tree, GameLocation location, Vector2 position)
+        private static void ManageHibernation(this Tree tree, GameLocation location, Vector2 position)
         {
             if (!tree.IsMushroomTree()
                 || !AggressiveAcorns.Config.DoMushroomTreesHibernate
@@ -81,7 +113,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TryRegrow(this Tree tree, GameLocation location, Vector2 position)
+        private static void TryRegrow(this Tree tree, GameLocation location, Vector2 position)
         {
             if (tree.IsMushroomTree() &&
                 AggressiveAcorns.Config.DoMushroomTreesRegrow &&
@@ -95,7 +127,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void RegrowStumpIfNotShaded(this Tree tree, GameLocation location, Vector2 position)
+        private static void RegrowStumpIfNotShaded(this Tree tree, GameLocation location, Vector2 position)
         {
             if (location.IsShadedAt(position)) return;
 
@@ -110,7 +142,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void TrySpread(this Tree tree, GameLocation location, Vector2 position)
+        private static void TrySpread(this Tree tree, GameLocation location, Vector2 position)
         {
             if (!(location is Farm) ||
                 !tree.IsFullyGrown() ||
@@ -143,7 +175,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void PlaceOffspring(this Tree tree, GameLocation location, Vector2 seedPosition)
+        private static void PlaceOffspring(this Tree tree, GameLocation location, Vector2 seedPosition)
         {
             tree.hasSeed.Value = false;
 
@@ -152,7 +184,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static void PopulateSeed(this Tree tree)
+        private static void PopulateSeed(this Tree tree)
         {
             if (!tree.IsFullyGrown() || tree.stump.Value) return;
 

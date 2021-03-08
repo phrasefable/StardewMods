@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.Framework;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 {
@@ -13,7 +14,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             Vector2[] offsets;
             do
             {
-                offsets = Phrasefable.StardewMods.AggressiveAcorns.TreeUtils.GetSpreadOffsets().ToArray();
+                offsets = AggressiveTree.GenerateSpreadOffsets().ToArray();
             } while (offsets.Any(offset => offset == Vector2.Zero));
 
             foreach (Vector2 offset in offsets)

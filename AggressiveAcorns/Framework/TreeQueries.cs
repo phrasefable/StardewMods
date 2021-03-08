@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using StardewValley.TerrainFeatures;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
-    internal static class TreeExtensionsQueries
+    internal static class TreeQueries
     {
         [Pure]
         public static bool IsFullyGrown(this Tree tree)

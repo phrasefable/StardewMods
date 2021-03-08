@@ -4,9 +4,9 @@ using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
-namespace Phrasefable.StardewMods.AggressiveAcorns
+namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
-    internal static class GameLocationExtensions
+    internal static class GameLocationQueries
     {
         [Pure]
         public static bool TreeCanGrowAt(this GameLocation location, Tree tree, Vector2 position)

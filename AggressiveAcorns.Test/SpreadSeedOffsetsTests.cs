@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.Config;
+using Phrasefable.StardewMods.AggressiveAcorns.Framework;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.Test
 {
@@ -52,7 +53,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
             while (i < SpreadSeedOffsetsTests.MaxAttempts)
             {
                 i++;
-                if (TreeUtils.GetSpreadOffsets().Any(pred))
+                if (AggressiveTree.GenerateSpreadOffsets().Any(pred))
                 {
                     Assert.Pass($"Found in {i} attempts.");
                 }
