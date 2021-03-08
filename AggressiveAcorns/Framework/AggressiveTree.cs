@@ -13,14 +13,17 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
             this Tree tree,
             GameLocation location,
             Vector2 position,
-            NetBool destroy)
+            NetBool destroy,
+            ref float shakeRotation)
         {
             // TODO check if there is any need to do the skip-update-of-first-day-when-spread thing
             bool isDestroyed = tree.DestroyIfDead(destroy);
+            if (isDestroyed) return;
 
             tree.ValidateTapped(location, position);
+            tree.FixRotation(out shakeRotation);
 
-            if (!isDestroyed && location.TreeCanGrowAt(tree, position))
+            if (location.TreeCanGrowAt(tree, position))
             {
                 tree.PopulateSeed();
                 tree.TrySpread(location, position);
@@ -40,12 +43,21 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
+        // =============================================================================================================
+
+
         private static bool DestroyIfDead(this Tree tree, NetBool destroy)
         {
             if (tree.health.Value > -100) return false;
 
             destroy.Value = true;
             return true;
+        }
+
+
+        private static void FixRotation(this Tree _, out float shakeRotation)
+        {
+            shakeRotation = 0.0f;
         }
 
 
@@ -133,12 +145,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
-
-            /*  Not currently needed as AggressiveTree is converted to Tree and back around save to allow
-             *  serialization (ie. new objects created so rotation is reset).
-             *  If this changes (ie. Aggressive Tree cached over save or otherwise reused), must re-enable below code.
-             */
-            // AggressiveAcorns.ReflectionHelper.GetField<float>(tree, "shakeRotation").SetValue(0);
         }
 
 

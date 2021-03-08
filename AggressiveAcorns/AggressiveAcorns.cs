@@ -109,11 +109,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             Tree __instance,
             GameLocation environment,
             Vector2 tileLocation,
-            NetBool ___destroy)
+            NetBool ___destroy,
+            ref float ___shakeRotation)
         {
             try
             {
-                __instance.DayUpdateAggressively(environment, tileLocation, ___destroy);
+                __instance.DayUpdateAggressively(environment, tileLocation, ___destroy, ref ___shakeRotation);
                 return false; // Prevent other processing on the method.
             }
             catch (Exception ex)
