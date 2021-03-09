@@ -258,7 +258,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 LocationUtils.WarpRailroad,
                 LocationUtils.WarpMountain,
                 LocationUtils.WarpFarmCave,
-                LocationUtils.WarpCellar4,
+                LocationUtils.WarpCellar,
                 LocationUtils.WarpTown,
                 LocationUtils.WarpBeach,
                 LocationUtils.WarpBusStop,

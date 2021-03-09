@@ -393,7 +393,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 (Warp: LocationUtils.WarpRailroad, ExpectSpread: false),
                 (Warp: LocationUtils.WarpMountain, ExpectSpread: false),
                 (Warp: LocationUtils.WarpFarmCave, ExpectSpread: false),
-                (Warp: LocationUtils.WarpCellar4, ExpectSpread: false),
+                (Warp: LocationUtils.WarpCellar, ExpectSpread: false),
                 (Warp: LocationUtils.WarpTown, ExpectSpread: false),
                 (Warp: LocationUtils.WarpBeach, ExpectSpread: false),
                 (Warp: LocationUtils.WarpBusStop, ExpectSpread: false),

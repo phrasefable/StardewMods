@@ -122,9 +122,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             ("FarmHouse", false),
             ("FarmCave", false),
             ("Cellar", false),
-            ("Cellar2", false),
-            ("Cellar3", false),
-            ("Cellar4", false),
+            // ("Cellar2", false), // TODO - removed in 1.5??
+            // ("Cellar3", false),
+            // ("Cellar4", false),
 
             // Outdoors
             ("Town", true),

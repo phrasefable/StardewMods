@@ -127,7 +127,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 (Location: LocationUtils.WarpDesert, ExpectGrowth: true),
                 (Location: LocationUtils.WarpGreenhouse, ExpectGrowth: true),
                 (Location: LocationUtils.WarpFarmCave, ExpectGrowth: true),
-                (Location: LocationUtils.WarpCellar4, ExpectGrowth: true)
+                (Location: LocationUtils.WarpCellar, ExpectGrowth: true)
             );
 
             return testBuilder.Build();

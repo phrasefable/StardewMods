@@ -13,7 +13,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
         public static readonly Warp WarpRailroad = new Warp(0, 0, "railroad", 36, 54, false);
         public static readonly Warp WarpMountain = new Warp(0, 0, "mountain", 18, 12, false);
         public static readonly Warp WarpFarmCave = new Warp(0, 0, "farmcave", 6, 8, false);
-        public static readonly Warp WarpCellar4 = new Warp(0, 0, "cellar4", 3, 10, false);
+        public static readonly Warp WarpCellar = new Warp(0, 0, "cellar", 3, 10, false);
         public static readonly Warp WarpTown = new Warp(0, 0, "town", 65, 32, false);
         public static readonly Warp WarpBeach = new Warp(0, 0, "beach", 34, 13, false);
         public static readonly Warp WarpBusStop = new Warp(0, 0, "busstop", 14, 19, false);
