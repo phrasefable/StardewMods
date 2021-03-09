@@ -35,7 +35,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
             yield return new GrowthTests(this._factory).Build();
             yield return new PassableTests(this._factory).Build();
             yield return new ToolActionTests(this._factory).Build();
-            yield return new TreeUtilsTests(this._factory).Build();
+            yield return new LocationSeasonTests(this._factory).Build();
         }
     }
 }
