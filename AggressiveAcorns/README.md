@@ -1,13 +1,15 @@
 # Aggressive Acorns - *Yet Another Tree Configurator*
 
-__Aggressive Acorns__ is a highly configurable overhaul for Stardew Valley's tree growth.
-It adds new mechanics and fixes bugs, in addition to allowing thorough customisation of the vanilla mechanics.
+*This readme is not yet updated for the latest release (1.3.0-beta.1 2021-03-09)*
+
+__Aggressive Acorns__ is a highly configurable overhaul for Stardew Valley's tree growth. It adds new mechanics and
+fixes bugs, in addition to allowing thorough customisation of the vanilla mechanics.
 
 Notable features of the mod are:
+
 * Allows the user to configure many aspects of the vanilla mechanics.
 * Spreading trees replace grass (the eponymous feature).
 * Immature trees are not destroyed by melee weapons.
-
 
 Also fixes some of vanilla's oversights such as stumps shading adjacent saplings, stumps spreading seeds,
 and a graphical error that affects mushroom stumps that were cut then regrew within the same game session.
