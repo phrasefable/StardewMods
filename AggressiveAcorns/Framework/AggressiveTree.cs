@@ -66,7 +66,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
             if (!tree.tapped.Value) return;
 
             Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
-            if (objectAtTile == null || !objectAtTile.bigCraftable.Value || objectAtTile.ParentSheetIndex != 105)
+            if (objectAtTile == null ||
+                !objectAtTile.bigCraftable.Value ||
+                !(objectAtTile.ParentSheetIndex == 105 || objectAtTile.ParentSheetIndex == 264))
             {
                 tree.tapped.Value = false;
             }
