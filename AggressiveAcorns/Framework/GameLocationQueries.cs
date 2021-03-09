@@ -21,7 +21,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         [Pure]
         public static bool ExperiencingWinter(this GameLocation location)
         {
-            return Game1.IsWinter && location.ExperiencesWinter();
+            return Game1.GetSeasonForLocation(location) == "winter" && location.ExperiencesWinter();
         }
 
 
