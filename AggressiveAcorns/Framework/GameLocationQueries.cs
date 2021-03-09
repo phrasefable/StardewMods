@@ -28,7 +28,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         [Pure]
         public static bool ExperiencesWinter(this GameLocation location)
         {
-            return location.IsOutdoors && !(location is Desert);
+            // Override takes highest priority, in case it _is_ winter.
+            if (!string.IsNullOrWhiteSpace(location.seasonOverride))
+            {
+                return location.seasonOverride == "winter";
+            }
+
+            if (!location.IsOutdoors) return false;
+            if (location is Desert) return false;
+            return !location.SeedsIgnoreSeasonsHere();
         }
 
 
