@@ -34,7 +34,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
                 return location.seasonOverride == "winter";
             }
 
-            if (!location.IsOutdoors) return false;
+            if (!location.IsOutdoors && !location.treatAsOutdoors.Value) return false;
             if (location is Desert) return false;
             return !location.SeedsIgnoreSeasonsHere();
         }

@@ -184,7 +184,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             ("WitchSwamp", false),
             ("WitchHut", false),
             ("WitchWarpCave", false),
-            ("BugLand", false),
+            ("BugLand", true), // !location.IsOutdoors && location.treatAsOutdoors
             ("Summit", true),
 
             // 1.5
