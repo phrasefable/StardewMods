@@ -1,4 +1,5 @@
 using Phrasefable.StardewMods.AggressiveAcorns.Framework;
+using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -21,18 +22,21 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
             builder.Key = "tree_utils_methods";
             builder.AddCondition(this._factory.Conditions.WorldReady);
-            builder.AddChild(this.BuildTest_ExperiencesWinter());
+            builder.AddChild(this.BuildTest_ExperiencingWinter());
+            string initSeason = null;
+            builder.BeforeAll = () => initSeason = Game1.currentSeason;
+            builder.AfterAll = () => SeasonUtils.SetSeason(initSeason);
 
             return builder.Build();
         }
 
 
-        private ITraversable BuildTest_ExperiencesWinter()
+        private ITraversable BuildTest_ExperiencingWinter()
         {
             ICasedTestBuilder<(string LocationName, bool ShouldExperienceWinter)> builder =
                 _factory.CreateCasedTestBuilder<(string, bool)>();
-            builder.Key = "location_experiences_winter";
-            builder.TestMethod = this.Test_ExperiencesWinter;
+            builder.Key = "winter";
+            builder.TestMethod = this.Test_ExperiencingWinter;
             builder.KeyGenerator = @case => @case.LocationName.ToLower();
 
             // Base Cases
@@ -121,11 +125,32 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 ("Summit", true)
             );
 
+            // 1.5
+            builder.AddCases(
+                ("IslandSouth", false),
+                ("IslandSouthEast", false),
+                ("IslandSouthEastCave", false),
+                ("IslandEast", false),
+                ("IslandWest", false),
+                ("IslandNorth", false),
+                ("IslandHut", false),
+                ("IslandWestCave1", false),
+                ("IslandNorthCave1", false),
+                ("IslandFieldOffice", false),
+                ("IslandFarmHouse", false),
+                ("CaptainRoom", false),
+                ("IslandShrine", false),
+                ("IslandFarmCave", false),
+                ("Caldera", false),
+                ("LeoTreeHouse", false),
+                ("QiNutRoom", false)
+            );
+
             return builder.Build();
         }
 
 
-        private ITestResult Test_ExperiencesWinter((string LocationName, bool ShouldExperienceWinter) @params)
+        private ITestResult Test_ExperiencingWinter((string LocationName, bool ShouldExperienceWinter) @params)
         {
             (string locationName, bool shouldExperienceWinter) = @params;
 
@@ -138,7 +163,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 );
             }
 
-            bool experiencesWinter = location.ExperiencesWinter();
+            Season.Winter.SetSeason();
+            bool experiencesWinter = location.ExperiencingWinter();
 
             return experiencesWinter == shouldExperienceWinter
                 ? this._factory.BuildTestResult(Status.Pass)
