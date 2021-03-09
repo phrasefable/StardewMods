@@ -2,14 +2,25 @@
 
 # Release notes
 
+## 1.3.0-beta.1
+
+9 March 2021
+
+* Fixes and improvements
+* Change to use Harmony
+* Update for Stardew Valley 1.5
+* (full release notes to come)
+
 ## 1.2.3-beta
+
 4 December 2019
 
 * Bugfix: Tree fertilizer works now.
-  * Thanks to BethandMolson for the report.
+    * Thanks to BethandMolson for the report.
 * Some internal changes to bring in line with the changes for Stardew Valley 1.4
 
 ## 1.2.2-beta.1
+
 27 November 2019
 
 * Beta release for Stardew Valley 1.4 and SMAPI 3.0 (Updated build only).
