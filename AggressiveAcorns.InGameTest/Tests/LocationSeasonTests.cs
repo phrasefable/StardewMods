@@ -185,7 +185,26 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             ("WitchHut", false),
             ("WitchWarpCave", false),
             ("BugLand", false),
-            ("Summit", true)
+            ("Summit", true),
+
+            // 1.5
+            ("IslandSouth", false),
+            ("IslandSouthEast", false),
+            ("IslandSouthEastCave", false),
+            ("IslandEast", false),
+            ("IslandWest", false),
+            ("IslandNorth", false),
+            ("IslandHut", false),
+            ("IslandWestCave1", false),
+            ("IslandNorthCave1", false),
+            ("IslandFieldOffice", false),
+            ("IslandFarmHouse", false),
+            ("CaptainRoom", false),
+            ("IslandShrine", false),
+            ("IslandFarmCave", false),
+            ("Caldera", false),
+            ("LeoTreeHouse", false),
+            ("QiNutRoom", false)
         };
     }
 }
