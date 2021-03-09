@@ -58,6 +58,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_TreeGrows());
             fixtureBuilder.AddChild(this.BuildTest_StageSequence());
             fixtureBuilder.AddChild(this.BuildTest_GrowthChanceObeysConfig());
+            fixtureBuilder.AddChild(this.BuildTest_FertilizedTreeGrows());
             fixtureBuilder.AddChild(this.BuildTest_ShadeObeysConfig());
             fixtureBuilder.AddChild(this.BuildTest_ShadePositions());
             fixtureBuilder.AddChild(this.BuildTest_ShadeSources());
@@ -130,6 +131,35 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, Assert
             return this.UpdateAndCheckHasGrown(tree, forcedValue);
+        }
+
+
+        // ========== Grows when fertilized, Overriding random =========================================================
+
+        private ITraversable BuildTest_FertilizedTreeGrows()
+        {
+            ICasedTestBuilder<bool> testBuilder = this._factory.CreateCasedTestBuilder<bool>();
+
+            testBuilder.Key = "fertilized";
+            testBuilder.TestMethod = this.Test_FertilizedTreeGrows;
+            testBuilder.Delay = Delay.Tick;
+            testBuilder.KeyGenerator = fertilized => fertilized.ToString();
+            testBuilder.AddCases(true, false);
+
+            return testBuilder.Build();
+        }
+
+
+        private ITestResult Test_FertilizedTreeGrows(bool fertilized)
+        {
+            // Arrange
+            this._config.ChanceGrowth = 0.0;
+            this._config.GrowthRoller = () => false;
+            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
+            tree.fertilized.Value = fertilized;
+
+            // Act, Assert
+            return this.UpdateAndCheckHasGrown(tree, fertilized);
         }
 
 
