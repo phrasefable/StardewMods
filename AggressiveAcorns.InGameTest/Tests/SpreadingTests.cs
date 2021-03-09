@@ -55,6 +55,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_OnlyMatureTreesSpread());
             fixtureBuilder.AddChild(this.BuildTest_SpreadOverGrass());
             fixtureBuilder.AddChild(this.BuildTest_TappedSpread());
+            fixtureBuilder.AddChild(this.BuildTest_TappedSpreadHeavy());
             fixtureBuilder.AddChild(this.BuildFixture_Seasonal());
             fixtureBuilder.AddChild(this.BuildTest_OnlyFarmTreesSpread());
 
