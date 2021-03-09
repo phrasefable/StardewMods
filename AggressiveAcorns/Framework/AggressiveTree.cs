@@ -201,8 +201,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         {
             if (!tree.IsFullyGrown() || tree.stump.Value) return;
 
+            bool gainSeed = tree.treeType.Value switch
+            {
+                Tree.palmTree2 => AggressiveAcorns.Config.RollForSeedGain ||
+                                  AggressiveAcorns.Config.RollForSeedGain ||
+                                  AggressiveAcorns.Config.RollForSeedGain,
+                _ => AggressiveAcorns.Config.RollForSeedGain
+            };
+
             // Seed gain takes precedence over loss, hence loss is immaterial if it is just regained anyway
-            if (AggressiveAcorns.Config.RollForSeedGain)
+            if (gainSeed)
             {
                 tree.hasSeed.Value = true;
             }
