@@ -1,6 +1,6 @@
 # Aggressive Acorns - *Yet Another Tree Configurator*
 
-*Not yet updated for latest release (1.3.0-beta.1 2021-03-09)*
+*This readme not yet updated for latest release (1.3.0-beta.1 2021-03-09)*
 
 __Aggressive Acorns__ is a highly configurable overhaul for Stardew Valley's tree growth. It adds new mechanics and
 fixes bugs, in addition to allowing thorough customisation of the vanilla mechanics.
