@@ -7,6 +7,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
         int MaxPassableGrowthStage { get; }
 
         double ChanceGrowth { get; }
+        double ChanceGrowthMahogany { get; }
+        double ChanceGrowthMahoganyFertilized { get; }
         int MaxShadedGrowthStage { get; }
         bool DoGrowInWinter { get; }
         bool DoGrowInstantly { get; }

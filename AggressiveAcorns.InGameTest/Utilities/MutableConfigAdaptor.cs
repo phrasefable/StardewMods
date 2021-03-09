@@ -23,6 +23,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
             this.SpreadRoller = () => this._adaptor.RollForSpread;
             this.GrowthRoller = () => this._adaptor.RollForGrowth;
+            this.GrowthMahoganyRoller = () => this._adaptor.RollForGrowthMahogany;
+            this.GrowthMahoganyFertilizedRoller = () => this._adaptor.RollForGrowthMahoganyFertilized;
             this.SeedGainRoller = () => this._adaptor.RollForSeedGain;
             this.SeedLossRoller = () => this._adaptor.RollForSeedLoss;
             this.MushroomRegrowthRoller = () => this._adaptor.RollForMushroomRegrowth;
@@ -34,6 +36,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
         [NotNull] public Func<bool> SpreadRoller { private get; set; }
         [NotNull] public Func<bool> GrowthRoller { private get; set; }
+        [NotNull] public Func<bool> GrowthMahoganyRoller { private get; set; }
+        [NotNull] public Func<bool> GrowthMahoganyFertilizedRoller { private get; set; }
         [NotNull] public Func<bool> SeedGainRoller { private get; set; }
         [NotNull] public Func<bool> SeedLossRoller { private get; set; }
         [NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
@@ -107,6 +111,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             set => this._config.ChanceGrowth = value;
         }
 
+        public double ChanceGrowthMahogany
+        {
+            set => this._config.ChanceGrowthMahogany = value;
+        }
+
+        public double ChanceGrowthMahoganyFertilized
+        {
+            set => this._config.ChanceGrowthMahoganyFertilized = value;
+        }
+
         public double ChanceSpread
         {
             set => this._config.ChanceSpread = value;
@@ -125,6 +139,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
         public bool RollForSpread => this.SpreadRoller();
 
         public bool RollForGrowth => this.GrowthRoller();
+
+        public bool RollForGrowthMahogany => this.GrowthMahoganyRoller();
+
+        public bool RollForGrowthMahoganyFertilized => this.GrowthMahoganyFertilizedRoller();
 
         public bool RollForSeedGain => this.SeedGainRoller();
 

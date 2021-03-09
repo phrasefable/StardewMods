@@ -98,11 +98,18 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
                 tree.growthStage.Value = location.IsShadedAt(position)
                     ? AggressiveAcorns.Config.MaxShadedGrowthStage
                     : Tree.treeStage;
+                return;
             }
-            else if (AggressiveAcorns.Config.RollForGrowth || tree.fertilized.Value)
+
+            bool allowGrowth = tree.treeType.Value switch
             {
-                tree.growthStage.Value += 1;
-            }
+                Tree.mahoganyTree => tree.fertilized.Value
+                    ? AggressiveAcorns.Config.RollForGrowthMahoganyFertilized
+                    : AggressiveAcorns.Config.RollForGrowthMahogany,
+                _ => tree.fertilized.Value || AggressiveAcorns.Config.RollForGrowth
+            };
+
+            if (allowGrowth) tree.growthStage.Value += 1;
         }
 
 

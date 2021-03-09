@@ -66,6 +66,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.AddChild(this.BuildTest_InstantGrowthShaded());
             fixtureBuilder.AddChild(this.BuildFixture_WinterGrowth());
 
+            fixtureBuilder.AddChild(this.BuildTest_MahoganyGrows());
+            fixtureBuilder.AddChild(this.BuildTest_MahoganyGrowthChanceObeysConfig());
+            fixtureBuilder.AddChild(this.BuildTest_FertilizedMahoganyGrows());
+            fixtureBuilder.AddChild(this.BuildTest_FertilizedMahoganyGrowthChanceObeysConfig());
+
             return fixtureBuilder.Build();
         }
 

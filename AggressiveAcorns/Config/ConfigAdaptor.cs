@@ -28,6 +28,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
 
         public bool RollForSpread => ConfigAdaptor.RandomChance(this._base.ChanceSpread);
         public bool RollForGrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth);
+        public bool RollForGrowthMahogany => ConfigAdaptor.RandomChance(this._base.ChanceGrowthMahogany);
+
+        public bool RollForGrowthMahoganyFertilized =>
+            ConfigAdaptor.RandomChance(this._base.ChanceGrowthMahoganyFertilized);
+
         public bool RollForSeedGain => ConfigAdaptor.RandomChance(this._base.ChanceSeedGain);
         public bool RollForSeedLoss => ConfigAdaptor.RandomChance(this._base.ChanceSeedLoss);
         public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth / 2);

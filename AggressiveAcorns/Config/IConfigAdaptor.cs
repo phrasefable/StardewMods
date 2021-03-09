@@ -18,6 +18,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
 
         public bool RollForSpread { get; }
         public bool RollForGrowth { get; }
+        public bool RollForGrowthMahogany { get; }
+        public bool RollForGrowthMahoganyFertilized { get; }
         public bool RollForSeedGain { get; }
         public bool RollForSeedLoss { get; }
         public bool RollForMushroomRegrowth { get; }

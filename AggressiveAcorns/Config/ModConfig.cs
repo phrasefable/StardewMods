@@ -12,6 +12,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
         public int MaxPassableGrowthStage { get; set; } = Tree.seedStage;
 
         public double ChanceGrowth { get; set; } = 0.20;
+        public double ChanceGrowthMahogany { get; set; } = 0.15;
+        public double ChanceGrowthMahoganyFertilized { get; set; } = 0.60;
         public int MaxShadedGrowthStage { get; set; } = Tree.treeStage - 1;
         public bool DoGrowInWinter { get; set; } = false;
         public bool DoGrowInstantly { get; set; } = false;
