@@ -179,7 +179,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
                 {
                     tree.PlaceOffspring(location, seedPos);
                 }
-                else if (location.isTileLocationOpen(new Location(tileX * 64, tileY * 64))
+                else if (location.isTileLocationOpen(new Location(tileX, tileY))
                          && !location.isTileOccupied(seedPos)
                          && location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
                          && location.isTileOnMap(seedPos))
