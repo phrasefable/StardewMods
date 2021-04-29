@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Harmony;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
@@ -32,6 +33,44 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             AggressiveAcorns.ErrorLogger = message => this.Monitor.Log(message, LogLevel.Error);
 
             this.SetUpPatches();
+
+            helper.ConsoleCommands.Add(
+                "aa_update_all",
+                "Calls DayUpdate on all trees in current location",
+                (name, args) =>
+                {
+                    if (args.Length > 1)
+                    {
+                        this.Monitor.Log($"Invalid arguments '{args}'");
+                        return;
+                    }
+
+                    var reps = 1;
+                    if (args.Length == 1)
+                    {
+                        bool isInt = int.TryParse(args[0], out reps);
+                        if (!isInt)
+                        {
+                            this.Monitor.Log($"Not an int '{args}'");
+                            return;
+                        }
+                    }
+
+                    GameLocation location = Game1.player.currentLocation;
+                    for (var i = 0; i < reps; i++)
+                    {
+                        IEnumerable<Tree> trees = location.terrainFeatures.Values
+                            .Where(feature => feature is Tree)
+                            .Cast<Tree>()
+                            .ToList();
+
+                        foreach (Tree tree in trees)
+                        {
+                            tree.dayUpdate(location, tree.currentTileLocation);
+                        }
+                    }
+                }
+            );
         }
 
 
