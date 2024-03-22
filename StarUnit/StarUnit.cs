@@ -83,7 +83,7 @@ namespace Phrasefable.StardewMods.StarUnit
 
         private void RunTests(string arg1, string[] arg2)
         {
-            ITraversable[] testsToRun = GetFilteredTestsRoots(arg2).ToArray();
+            ITraversable[] testsToRun = this.GetFilteredTestsRoots(arg2).ToArray();
 
             IResultLister lister = this.BuildResultLister();
             ITreeRunner runner = this.BuildTestRunner();
