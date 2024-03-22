@@ -5,12 +5,12 @@
         <EnableHarmony>true</EnableHarmony>
 
         <RootNamespace>Phrasefable.StardewMods.NoOre</RootNamespace>
-        <TargetFramework>net452</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime" />
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" ExcludeAssets="runtime" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared" />

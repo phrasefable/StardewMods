@@ -8,9 +8,8 @@
         <RepositoryType>git</RepositoryType>
 
         <!-- build settings -->
-        <Platforms>x86</Platforms>
-        <PlatformTarget>x86</PlatformTarget>
-        <LangVersion>latest</LangVersion>
+        <Platforms>AnyCPU</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 

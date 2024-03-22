@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns", "AggressiveAcorns\AggressiveAcorns.csproj", "{212350BD-CA4E-4656-9FDB-2126938E7C1A}"
 EndProject
@@ -11,49 +11,61 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phrasefable Modding Tools",
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{B78C2E54-FDCB-47E8-8BFB-6978148809B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{C4FC47BE-DEFE-4651-A4D6-80484144A85D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{C4FC47BE-DEFE-4651-A4D6-80484144A85D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{C7432C12-58BF-4238-9E7F-B021252098C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{C7432C12-58BF-4238-9E7F-B021252098C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarUnit", "StarUnit\StarUnit.csproj", "{744B493A-A496-4513-8AC3-26092A372D4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarUnit", "StarUnit\StarUnit.csproj", "{744B493A-A496-4513-8AC3-26092A372D4B}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common.Harmony", "Common.Harmony\Common.Harmony.shproj", "{41B6B136-4E70-4FB7-BA1F-3528E24618D6}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		PhraseLib\PhraseLib.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 4
-		Common\Common.projitems*{b78c2e54-fdcb-47e8-8bfb-6978148809b1}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|x86.ActiveCfg = Debug|x86
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|x86.Build.0 = Debug|x86
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|x86.ActiveCfg = Release|x86
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|x86.Build.0 = Release|x86
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|x86.ActiveCfg = Debug|x86
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|x86.ActiveCfg = Release|x86
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|x86.ActiveCfg = Debug|x86
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|x86.Build.0 = Debug|x86
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|x86.ActiveCfg = Release|x86
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|x86.Build.0 = Release|x86
-		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Release|x86.ActiveCfg = Release|Any CPU
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.ActiveCfg = Debug|x86
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|x86.Build.0 = Debug|x86
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.ActiveCfg = Debug|x86
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|x86.Build.0 = Debug|x86
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|x86.ActiveCfg = Debug|x86
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|x86.Build.0 = Debug|x86
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|x86.ActiveCfg = Release|x86
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|x86.Build.0 = Release|x86
+		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{C7432C12-58BF-4238-9E7F-B021252098C8}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|Any CPU.Build.0 = Release|AnyCPU
+
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0A7CE93-259B-4779-9EE3-216CFDB85369}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Common\Common.projitems*{0d71ac5a-7f9e-4912-bc06-9664509a4583}*SharedItemsImports = 5
+		Common.Harmony\Common.Harmony.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 5
+		Common\Common.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 5
+		Common.Harmony\Common.Harmony.projitems*{41b6b136-4e70-4fb7-ba1f-3528e24618d6}*SharedItemsImports = 13
+		Common\Common.projitems*{b78c2e54-fdcb-47e8-8bfb-6978148809b1}*SharedItemsImports = 13
+		Common\Common.projitems*{e0ae1e6a-7805-4668-b46e-871ca8a0a656}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

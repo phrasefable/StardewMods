@@ -5,15 +5,15 @@
         <Version>0.0.1</Version>
 
         <RootNamespace>Phrasefable.StardewMods.AggressiveAcorns.InGameTest</RootNamespace>
-        <TargetFramework>net452</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
 
         <EnableModZip>False</EnableModZip>
         <CopyModReferencesToBuildOutput>False</CopyModReferencesToBuildOutput>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" ExcludeAssets="runtime" />
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.2.2" />
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" ExcludeAssets="runtime" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
 
