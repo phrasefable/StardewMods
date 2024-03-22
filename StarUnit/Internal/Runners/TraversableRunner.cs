@@ -65,11 +65,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         private bool CheckConditions(OnCompleted @return, ITraversable node)
         {
-            var i = 0;
+            int i = 0;
 
             foreach (Func<IResult> condition in node.Conditions)
             {
-                IResult testResult = this.TryRunCondition(condition, out string errorMessage);
+                IResult testResult = TryRunCondition(condition, out string errorMessage);
 
                 if (testResult == null)
                 {
@@ -90,7 +90,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
-        private IResult TryRunCondition(Func<IResult> condition, out string errorMessage)
+        private static IResult TryRunCondition(Func<IResult> condition, out string errorMessage)
         {
             try
             {

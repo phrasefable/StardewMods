@@ -25,18 +25,18 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
 
         public ITraversable Filter(ITraversable node, IStringNode filter)
         {
-            return this._Filter((T) node, filter);
+            return this.Internal_Filter((T) node, filter);
         }
 
 
-        private ITraversable _Filter(T branch, IStringNode filter)
+        private ITraversable Internal_Filter(T branch, IStringNode filter)
         {
             IStringNode[] childFilters = filter.Children.ToArray();
             return this._wrapperFactory.Wrap(
                 branch,
                 branch.Children
                     .Select(child => this._childFilterer.Filter(child, childFilters))
-                    .Where(filteredChild => !(filteredChild is null))
+                    .Where(filteredChild => filteredChild is not null)
             );
         }
     }

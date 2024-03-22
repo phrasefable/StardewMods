@@ -8,7 +8,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
     internal class FilterParser
     {
         private readonly char[] _delimiters = {'/'};
-        private readonly Regex _validKeyPattern = new Regex(@"^\w+$");
+        private readonly Regex _validKeyPattern = new(@"^\w+$");
 
 
         public IEnumerable<IStringNode> BuildFilterTrees(IEnumerable<string> filters)
@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
             foreach (string[] filter in splitFilters)
             {
                 this.CheckKeysValid(filter);
-                this.ParseFilterString(root, filter);
+                ParseFilterString(root, filter);
             }
 
             return root.Children;
@@ -50,7 +50,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
         }
 
 
-        private void ParseFilterString(in StringNode root, IEnumerable<string> filter)
+        private static void ParseFilterString(in StringNode root, IEnumerable<string> filter)
         {
             StringNode lastNode = root;
             foreach (string childKey in filter)

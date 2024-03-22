@@ -15,10 +15,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     {
         private static readonly string ValidKeyPattern = @"^\w+$";
 
-        private readonly SettableOnce<string> _key = new SettableOnce<string>(nameof(TraversableBuilder.Key));
-        private readonly SettableOnce<string> _longName = new SettableOnce<string>(nameof(TraversableBuilder.LongName));
+        private readonly SettableOnce<string> _key = new(nameof(TraversableBuilder.Key));
+        private readonly SettableOnce<string> _longName = new(nameof(TraversableBuilder.LongName));
         private readonly ICollection<Func<IResult>> _conditions = new List<Func<IResult>>();
-        private readonly SettableOnce<Delay> _delay = new SettableOnce<Delay>(nameof(TraversableBuilder.Delay));
+        private readonly SettableOnce<Delay> _delay = new(nameof(TraversableBuilder.Delay));
 
 
         public string Key

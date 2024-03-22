@@ -4,7 +4,6 @@ using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Framework.Builders
 {
-    [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
     public interface ITestFixtureBuilder : IBuilder<ITestSuite>, ITraversableBuilder
     {
         public Action BeforeAll { set; }

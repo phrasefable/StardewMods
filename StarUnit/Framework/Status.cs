@@ -21,7 +21,7 @@ namespace Phrasefable.StardewMods.StarUnit.Framework
                 Status.Fail => "Failed",
                 Status.Error => "Error",
                 Status.Skipped => "Skipped",
-                _ => throw new ArgumentException()
+                _ => throw new ArgumentException("Unkown Status type")
             };
         }
     }

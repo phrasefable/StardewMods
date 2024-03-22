@@ -18,7 +18,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override void Run(OnCompleted @return, T branch, IExecutionContext childContext)
         {
-            this.HandleChildren(
+            HandleChildren(
                 @return,
                 branch,
                 (returnChild, child) => this.Delegator.Run(returnChild, child, childContext),
@@ -29,11 +29,11 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override void Skip(OnCompleted @return, T branch, Status status, string message)
         {
-            this.HandleChildren(@return, branch, this.Delegator.Skip, status, message);
+            HandleChildren(@return, branch, this.Delegator.Skip, status, message);
         }
 
 
-        private void HandleChildren(
+        private static void HandleChildren(
             OnCompleted @return,
             ITraversableBranch branch,
             Action<OnCompleted, ITraversable> childConsumer,

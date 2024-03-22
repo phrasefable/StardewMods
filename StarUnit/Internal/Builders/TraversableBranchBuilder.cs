@@ -10,7 +10,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     internal class TraversableBranchBuilder : ITraversableBuilder
     {
         private readonly IList<ITraversable> _children = new List<ITraversable>();
-        private readonly TraversableBuilder _traversableBuilder = new TraversableBuilder();
+        private readonly TraversableBuilder _traversableBuilder = new();
         private ICollection<string> Keys { get; } = new HashSet<string>();
 
 
