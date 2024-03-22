@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Harmony;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -23,7 +23,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         internal static IConfigAdaptor Config;
 
 
-        private HarmonyInstance _harmony;
+        private Harmony _harmony;
         private ICollection<IHarmonyPatchInfo> _patches;
 
 
@@ -76,7 +76,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         private void SetUpPatches()
         {
-            this._harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            this._harmony = new Harmony(this.ModManifest.UniqueID);
             this._patches = new List<IHarmonyPatchInfo>
             {
                 new HarmonyPatchInfo(

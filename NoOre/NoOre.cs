@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -44,7 +44,7 @@ namespace Phrasefable.StardewMods.NoOre
             NoOre._config = helper.ReadConfig<ModConfig>();
             NoOre._monitor = Monitor;
 
-            var harmony = HarmonyInstance.Create(ModManifest.UniqueID);
+            var harmony = new Harmony(ModManifest.UniqueID);
 
             MethodInfo target = typeof(GameLocation).GetMethod("breakStone");
 

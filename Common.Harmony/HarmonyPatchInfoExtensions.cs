@@ -1,11 +1,11 @@
 using System;
-using Harmony;
+using HarmonyLib;
 
 namespace Phrasefable.StardewMods.Common.Harmony
 {
     internal static class HarmonyPatchInfoExtensions
     {
-        public static void Apply(this IHarmonyPatchInfo patch, HarmonyInstance harmony)
+        public static void Apply(this IHarmonyPatchInfo patch, HarmonyLib.Harmony harmony)
         {
             switch (patch.PatchType)
             {
