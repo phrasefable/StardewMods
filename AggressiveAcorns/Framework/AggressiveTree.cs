@@ -38,20 +38,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         {
             if (!AggressiveAcorns.Config.RollForSpread) yield break;
 
-            // static int GetOffset() => Game1.random.Next(-3, 4);
-            // yield return new Vector2(GetOffset(), GetOffset());
-            // for (int dX = -3; dX <= 3; dX++)
-            // {
-            //     for (int dY = -3; dY <= 3; dY++)
-            //     {
-            //         yield return new Vector2(dX, dY);
-            //     }
-            // }
-            for (int i = 1; i < 10; i++)
-            {
-                yield return new Vector2(i, -i);
-                yield return new Vector2(-i, i);
-            }
+            static int GetOffset() => Game1.random.Next(-3, 4);
+            yield return new Vector2(GetOffset(), GetOffset());
         }
 
 
