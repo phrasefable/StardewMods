@@ -77,7 +77,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             var tool = (Tool) ItemRegistry.Create("(W)66");
 
             testBuilder.AddCases(
-                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),//false
+                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: false, ExpectAction: false),
                 (Stage: Tree.sproutStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
                 (Stage: Tree.saplingStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
                 (Stage: Tree.bushStage, Tool: tool, ProtectFromMelee: false, ExpectAction: false),
