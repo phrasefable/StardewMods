@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Netcode;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
@@ -8,30 +7,23 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
     internal static class AggressiveTree
     {
-        public static void DayUpdateAggressively(
-            this Tree tree,
-            // GameLocation location,
-            // Vector2 position,
-            NetBool destroy,
-            ref float shakeRotation)
+        public static void DayUpdateAggressively(this Tree tree)
         {
-            var location = tree.Location;
-            var position = tree.Tile;
 
             // TODO check if there is any need to do the skip-update-of-first-day-when-spread thing
-            bool isDestroyed = tree.DestroyIfDead(destroy);
+            bool isDestroyed = tree.DestroyIfDead();
             if (isDestroyed) return;
 
-            tree.ValidateTapped(location, position);
-            tree.FixRotation(out shakeRotation);
+            tree.ValidateTapped();
+            tree.FixRotation();
 
-            if (location.TreeCanGrowAt(tree, position))
+            if (tree.TreeCanGrow())
             {
                 tree.PopulateSeed();
-                tree.TrySpread(location, position);
-                tree.TryIncreaseStage(location, position);
-                tree.ManageHibernation(location, position);
-                tree.TryRegrow(location, position);
+                tree.TrySpread();
+                tree.TryIncreaseStage();
+                tree.ManageHibernation();
+                tree.TryRegrow();
             }
         }
 
@@ -48,26 +40,26 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         // =============================================================================================================
 
 
-        private static bool DestroyIfDead(this Tree tree, NetBool destroy)
+        private static bool DestroyIfDead(this Tree tree)
         {
             if (tree.health.Value > -100) return false;
 
-            destroy.Value = true;
+            tree.destroy.Value = true;
             return true;
         }
 
 
-        private static void FixRotation(this Tree _, out float shakeRotation)
+        private static void FixRotation(this Tree tree)
         {
-            shakeRotation = 0.0f;
+            tree.shakeRotation = 0.0f;
         }
 
 
-        private static void ValidateTapped(this Tree tree, GameLocation environment, Vector2 tileLocation)
+        private static void ValidateTapped(this Tree tree)
         {
             if (!tree.tapped.Value) return;
 
-            StardewValley.Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
+            StardewValley.Object objectAtTile = tree.Location.getObjectAtTile((int) tree.Tile.X, (int) tree.Tile.Y);
             if (objectAtTile == null ||
                 !objectAtTile.bigCraftable.Value ||
                 !(objectAtTile.ParentSheetIndex == 105 || objectAtTile.ParentSheetIndex == 264))
@@ -77,18 +69,18 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
-        private static void TryIncreaseStage(this Tree tree, GameLocation location, Vector2 position)
+        private static void TryIncreaseStage(this Tree tree)
         {
             if (tree.IsFullyGrown() ||
                 (tree.growthStage.Value >= AggressiveAcorns.Config.MaxShadedGrowthStage &&
-                 location.IsShadedAt(position)))
+                 tree.Location.IsShadedAt(tree.Tile)))
             {
                 return;
             }
 
             // Trees experiencing winter won't grow unless fertilized or set to ignore winter.
             // In addition to this, mushroom trees won't grow if they should be hibernating, even if fertilized.
-            if (location.ExperiencingWinter()
+            if (tree.Location.ExperiencingWinter()
                 && ((tree.IsMushroomTree() && AggressiveAcorns.Config.DoMushroomTreesHibernate)
                     || !(AggressiveAcorns.Config.DoGrowInWinter || tree.fertilized.Value)))
             {
@@ -97,7 +89,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 
             if (AggressiveAcorns.Config.DoGrowInstantly)
             {
-                tree.growthStage.Value = location.IsShadedAt(position)
+                tree.growthStage.Value = tree.Location.IsShadedAt(tree.Tile)
                     ? AggressiveAcorns.Config.MaxShadedGrowthStage
                     : Tree.treeStage;
                 return;
@@ -115,11 +107,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
-        private static void ManageHibernation(this Tree tree, GameLocation location, Vector2 position)
+        private static void ManageHibernation(this Tree tree)
         {
             if (!tree.IsMushroomTree()
                 || !AggressiveAcorns.Config.DoMushroomTreesHibernate
-                || !location.ExperiencesWinter())
+                || !tree.Location.ExperiencesWinter())
             {
                 return;
             }
@@ -131,37 +123,37 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
             }
             else if (Game1.IsSpring && Game1.dayOfMonth <= 1)
             {
-                tree.RegrowStumpIfNotShaded(location, position);
+                tree.RegrowStumpIfNotShaded();
             }
         }
 
 
-        private static void TryRegrow(this Tree tree, GameLocation location, Vector2 position)
+        private static void TryRegrow(this Tree tree)
         {
             if (tree.IsMushroomTree() &&
                 AggressiveAcorns.Config.DoMushroomTreesRegrow &&
                 tree.stump.Value &&
-                (!location.ExperiencingWinter() || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
+                (!tree.Location.ExperiencingWinter() || (!AggressiveAcorns.Config.DoMushroomTreesHibernate &&
                                                     AggressiveAcorns.Config.DoGrowInWinter)) &&
                 (AggressiveAcorns.Config.DoGrowInstantly || AggressiveAcorns.Config.RollForMushroomRegrowth))
             {
-                tree.RegrowStumpIfNotShaded(location, position);
+                tree.RegrowStumpIfNotShaded();
             }
         }
 
 
-        private static void RegrowStumpIfNotShaded(this Tree tree, GameLocation location, Vector2 position)
+        private static void RegrowStumpIfNotShaded(this Tree tree)
         {
-            if (location.IsShadedAt(position)) return;
+            if (tree.Location.IsShadedAt(tree.Tile)) return;
 
             tree.stump.Value = false;
             tree.health.Value = Tree.startingHealth;
         }
 
 
-        private static void TrySpread(this Tree tree, GameLocation location, Vector2 position)
+        private static void TrySpread(this Tree tree)
         {
-            if (location is not Farm ||
+            if (tree.Location is not Farm ||
                 !tree.IsFullyGrown() ||
                 (Game1.IsWinter && !AggressiveAcorns.Config.DoSpreadInWinter) ||
                 (tree.tapped.Value && !AggressiveAcorns.Config.DoTappedSpread) ||
@@ -172,30 +164,30 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 
             foreach (Vector2 offset in AggressiveAcorns.Config.SpreadSeedOffsets)
             {
-                Vector2 seedPos = position + offset;
+                Vector2 seedPos = tree.Tile + offset;
                 int tileX = (int) seedPos.X;
                 int tileY = (int) seedPos.Y;
                 if (AggressiveAcorns.Config.DoSeedsReplaceGrass &&
-                    location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
+                    tree.Location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
                     feature is Grass)
                 {
-                    tree.PlaceOffspring(location, seedPos);
+                    tree.PlaceOffspring(seedPos);
                 }
-                else if (location.isTileLocationOpen(new Location(tileX, tileY))
-                         && !location.IsTileOccupiedBy(seedPos)
-                         && location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
-                         && location.isTileOnMap(seedPos))
+                else if (tree.Location.isTileLocationOpen(new Location(tileX, tileY))
+                         && !tree.Location.IsTileOccupiedBy(seedPos)
+                         && tree.Location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
+                         && tree.Location.isTileOnMap(seedPos))
                 {
-                    tree.PlaceOffspring(location, seedPos);
+                    tree.PlaceOffspring(seedPos);
                 }
             }
         }
 
 
-        private static void PlaceOffspring(this Tree tree, GameLocation location, Vector2 seedPosition)
+        private static void PlaceOffspring(this Tree tree, Vector2 seedPosition)
         {
             var seed = new Tree(tree.treeType.Value, 0);
-            location.terrainFeatures[seedPosition] = seed;
+            tree.Location.terrainFeatures[seedPosition] = seed;
         }
 
 

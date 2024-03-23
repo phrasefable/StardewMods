@@ -134,16 +134,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        public static bool DayUpdate_Prefix(
-            Tree __instance,
-            // GameLocation environment,
-            // Vector2 tileLocation,
-            NetBool ___destroy,
-            ref float ___shakeRotation)
+        public static bool DayUpdate_Prefix(Tree __instance)
         {
             try
             {
-                __instance.DayUpdateAggressively(___destroy, ref ___shakeRotation);
+                __instance.DayUpdateAggressively();
                 return false; // Prevent other processing on the method.
             }
             catch (Exception ex)

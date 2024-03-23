@@ -7,15 +7,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
     internal static class GameLocationQueries
     {
-        public static bool TreeCanGrowAt(this GameLocation location, Tree tree, Vector2 position)
-        {
-            string prop = location.doesTileHaveProperty((int) position.X, (int) position.Y, "NoSpawn", "Back");
-            bool tileCanSpawnTree = prop == null || !(prop.Equals("All") || prop.Equals("Tree") || prop.Equals("True"));
-            bool isBlockedSeed = tree.growthStage.Value == 0 && location.objects.ContainsKey(position);
-            return tileCanSpawnTree && !isBlockedSeed;
-        }
-
-
         public static bool ExperiencingWinter(this GameLocation location)
         {
             return Game1.GetSeasonForLocation(location) == Season.Winter && location.ExperiencesWinter();
