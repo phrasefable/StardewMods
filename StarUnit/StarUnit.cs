@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
@@ -17,7 +16,6 @@ using StardewModdingAPI;
 namespace Phrasefable.StardewMods.StarUnit
 {
     // TODO collapse non-branching runs, even when folded.
-    [UsedImplicitly]
     public class StarUnit : Mod
     {
         private TestRegistry _tests;

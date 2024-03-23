@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
@@ -21,7 +20,6 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
         public bool MayHandle(ITraversable node);
 
         /// <returns>Returns null to indicate that node doesn't match filter</returns>
-        [CanBeNull]
         public ITraversable Filter(ITraversable node, IStringNode filter);
     }
 }

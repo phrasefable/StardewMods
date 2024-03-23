@@ -50,7 +50,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public ITraversableGrouping Build()
         {
-            var i = 1;
+            int i = 1;
             if (!this._keyGenerator.HasBeenSet)
             {
                 this.KeyGenerator = @case => this._key + i++;

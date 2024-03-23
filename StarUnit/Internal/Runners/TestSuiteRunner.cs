@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
@@ -30,7 +29,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
         }
 
 
-        private IExecutionContext BuildSuiteContext([CanBeNull] IAction before, [CanBeNull] IAction after)
+        private IExecutionContext BuildSuiteContext(IAction before, IAction after)
         {
             return before is null && after is null
                 ? (IExecutionContext) new EmptyExecutionContext()
