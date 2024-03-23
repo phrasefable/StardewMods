@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.Config;
@@ -30,7 +28,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(3)]
         public void TestHitsX(int offset)
         {
-            Find(v => ((int) v.X) == offset);
+            this.Find(v => ((int) v.X) == offset);
         }
 
 
@@ -43,14 +41,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Test
         [TestCase(3)]
         public void TestHitsY(int offset)
         {
-            Find(v => ((int) v.Y) == offset);
+            this.Find(v => ((int) v.Y) == offset);
         }
 
 
         private void Find(Func<Vector2, bool> pred)
         {
-            var i = 0;
-            while (i < SpreadSeedOffsetsTests.MaxAttempts)
+            int i = 0;
+            while (i < MaxAttempts)
             {
                 i++;
                 if (AggressiveTree.GenerateSpreadOffsets().Any(pred))
