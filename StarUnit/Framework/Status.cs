@@ -1,5 +1,3 @@
-using System;
-
 namespace Phrasefable.StardewMods.StarUnit.Framework
 {
     public enum Status

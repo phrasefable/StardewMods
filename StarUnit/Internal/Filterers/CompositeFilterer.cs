@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Phrasefable.StardewMods.StarUnit.Internal
 {
     internal static class UtilityExtensions

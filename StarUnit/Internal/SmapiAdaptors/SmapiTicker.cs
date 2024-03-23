@@ -1,4 +1,3 @@
-using System;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Internal.Runners;
 using StardewModdingAPI.Events;

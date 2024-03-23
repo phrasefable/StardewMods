@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Phrasefable.StardewMods.StarUnit.Framework.Results
 {
     public interface IBranchResult : ITraversableResult

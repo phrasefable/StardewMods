@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 

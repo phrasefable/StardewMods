@@ -1,4 +1,3 @@
-using System;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 
 namespace Phrasefable.StardewMods.StarUnit.Framework.Builders

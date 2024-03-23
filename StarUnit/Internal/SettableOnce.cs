@@ -1,5 +1,3 @@
-using System;
-
 namespace Phrasefable.StardewMods.StarUnit.Internal
 {
     public class SettableOnce<T>
