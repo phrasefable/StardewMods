@@ -1,32 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\common.targets" />
 
     <PropertyGroup>
-		<AssemblyName>AggressiveAcorns.InGameTest</AssemblyName>
+        <Name>$(AssemblyName)</Name>
+        <Description>Manually triggered tests that rely on the game engine being loaded.</Description>
 		<Version>2.0.0</Version>
-		<Authors>Phrasefable</Authors>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/phrasefable/StardewMods</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
 
 		<EnableModZip>False</EnableModZip>
 
-		<RootNamespace>Phrasefable.StardewMods.AggressiveAcorns.InGameTest</RootNamespace>
+        <References_VersionBehavior>Ignore</References_VersionBehavior>
+        <Dependencies_VersionBehavior>Ignore</Dependencies_VersionBehavior>
+		
 		<TargetFramework>net6.0</TargetFramework>
-		<Platforms>AnyCPU</Platforms>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
     </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" ExcludeAssets="runtime" />
-		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" />
+		<ProjectReference Include="..\AggressiveAcorns\AggressiveAcorns.csproj" Private="false"/>
 		<ProjectReference Include="..\StarUnit\StarUnit.csproj" Private="false" />
 	</ItemGroup>
 

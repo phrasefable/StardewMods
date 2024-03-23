@@ -1,18 +1,28 @@
 {
-    "Name": "AggressiveAcorns.InGameTest",
-    "Author": "Phrasefable",
-    "Version": "0.0.1",
-    "Description": "Manually triggered tests that rely on the game engine being loaded.",
-    "UniqueID": "Phrasefable.AggressiveAcorns.InGameTest",
-    "EntryDll": "AggressiveAcorns.InGameTest.dll",
-    "MinimumApiVersion": "3.0.0",
-    "UpdateKeys": [],
-    "Dependencies": [
-        {
-            "UniqueID": "Phrasefable.AggressiveAcorns"
-        },
-        {
-            "UniqueID": "Phrasefable.StarUnit"
-        }
-    ]
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "Phrasefable.AggressiveAcorns.InGameTest",
+  "Name": "AggressiveAcorns.InGameTest",
+  "Author": "Phrasefable",
+  "Version": "2.0.0-Debug",
+  "Description": "Manually triggered tests that rely on the game engine being loaded.",
+  "MinimumApiVersion": "4.0.1",
+  "EntryDll": "AggressiveAcorns.InGameTest.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "Phrasefable.AggressiveAcorns",
+      "MinimumVersion": "2.0.0-beta.1.Debug"
+    },
+    {
+      "UniqueID": "Phrasefable.StarUnit",
+      "MinimumVersion": "0.2.0-Debug"
+    }
+  ],
+  "UpdateKeys": []
 }

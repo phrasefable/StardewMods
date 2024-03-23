@@ -1,10 +1,18 @@
 {
-  "Name": "Phrasefable's Modding Tools",
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "Phrasefable.PhrasefableModdingTools",
+  "Name": "Phrasefable Modding Tools",
   "Author": "Phrasefable",
-  "Version": "0.0.1",
+  "Version": "0.2.0-Debug",
   "Description": "A bunch of tools I use when modding or developing.",
-  "UniqueID": "Phrasefable.ModdingTools",
-  "EntryDll": "Phrasefable_Modding_Tools.dll",
-  "MinimumApiVersion": "2.10.0",
+  "MinimumApiVersion": "4.0.1",
+  "EntryDll": "PhrasefableModdingTools.dll",
   "UpdateKeys": []
 }

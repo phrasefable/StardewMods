@@ -1,10 +1,18 @@
 {
-    "Name": "StarUnit",
-    "Author": "Phrasefable",
-    "Version": "0.0.1",
-    "Description": "Framework for in-game tests.",
-    "UniqueID": "Phrasefable.StarUnit",
-    "EntryDll": "StarUnit.dll",
-    "MinimumApiVersion": "3.0.0",
-    "UpdateKeys": []
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "Phrasefable.StarUnit",
+  "Name": "StarUnit",
+  "Author": "Phrasefable",
+  "Version": "0.2.0-Debug",
+  "Description": "Framework for in-game tests.",
+  "MinimumApiVersion": "4.0.1",
+  "EntryDll": "StarUnit.dll",
+  "UpdateKeys": []
 }

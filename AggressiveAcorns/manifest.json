@@ -1,12 +1,20 @@
 {
-    "Name": "Aggressive Acorns",
-    "Author": "Phrasefable",
-    "Version": "1.3.0-beta.1",
-    "Description": "Tree seeds will override grass, and are not cut by the scythe. Customisable tree growth and more",
-    "UniqueID": "Phrasefable.AggressiveAcorns",
-    "EntryDll": "AggressiveAcorns.dll",
-    "MinimumApiVersion": "3.8.0",
-    "UpdateKeys": [
-        "Nexus:3661"
-    ]
+  /*
+   | This file is automatically updated by ModManifestBuilder
+   | when the project is compiled.
+   | 
+   | Changes made to this file may be overwritten.
+   | 
+   */
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "Phrasefable.AggressiveAcorns",
+  "Name": "Aggressive Acorns",
+  "Author": "Phrasefable",
+  "Version": "2.0.0-beta.1.Debug",
+  "Description": "Tree seeds will override grass, and are not cut by the scythe. Customisable tree growth and more",
+  "MinimumApiVersion": "4.0.1",
+  "EntryDll": "AggressiveAcorns.dll",
+  "UpdateKeys": [
+    "Nexus:3661"
+  ]
 }

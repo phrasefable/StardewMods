@@ -1,22 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>PhrasefableModdingTools</AssemblyName>
+    </PropertyGroup>
+    
+    <Import Project="..\common.targets" />
+    <Import Project="..\Common\Common.projitems" Label="Shared" />
 
     <PropertyGroup>
-        <AssemblyName>Phrasefable_Modding_Tools</AssemblyName>
+        <Name>Phrasefable Modding Tools</Name>
+        <Description>A bunch of tools I use when modding or developing.</Description>
         <Version>0.2.0</Version>
         
-        <RootNamespace>Phrasefable_Modding_Tools</RootNamespace>
         <TargetFramework>net6.0</TargetFramework>
-        <Platforms>AnyCPU</Platforms>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-    </ItemGroup>
-
-    <Import Project="..\Common\Common.projitems" Label="Shared" />
 
 </Project>

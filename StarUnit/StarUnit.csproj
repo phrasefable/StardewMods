@@ -1,24 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\common.targets" />
 
     <PropertyGroup>
-        <AssemblyName>StarUnit</AssemblyName>
+        <Name>StarUnit</Name>
+        <Description>Framework for in-game tests.</Description>
         <Version>0.2.0</Version>
-        <Authors>Phrasefable</Authors>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/phrasefable/StardewMods</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
 
-        <RootNamespace>Phrasefable.StardewMods.StarUnit</RootNamespace>
         <TargetFramework>net6.0</TargetFramework>
-        <Platforms>AnyCPU</Platforms>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-    </ItemGroup>
-
 </Project>
