@@ -1,4 +1,3 @@
-using System;
 using HarmonyLib;
 
 namespace Phrasefable.StardewMods.Common.Harmony
