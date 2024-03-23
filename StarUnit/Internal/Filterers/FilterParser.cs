@@ -7,8 +7,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Filterers
 {
     internal class FilterParser
     {
-        private readonly char[] _delimiters = {'/'};
-        private readonly Regex _validKeyPattern = new(@"^\w+$");
+        private readonly char[] _delimiters = { '/' };
+        private readonly Regex _validKeyPattern = new Regex(@"^\w+$");
 
 
         public IEnumerable<IStringNode> BuildFilterTrees(IEnumerable<string> filters)

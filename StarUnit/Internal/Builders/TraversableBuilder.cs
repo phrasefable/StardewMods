@@ -15,10 +15,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
     {
         private static readonly string ValidKeyPattern = @"^\w+$";
 
-        private readonly SettableOnce<string> _key = new(nameof(TraversableBuilder.Key));
-        private readonly SettableOnce<string> _longName = new(nameof(TraversableBuilder.LongName));
+        private readonly SettableOnce<string> _key = new SettableOnce<string>(nameof(Key));
+        private readonly SettableOnce<string> _longName = new SettableOnce<string>(nameof(LongName));
         private readonly ICollection<Func<IResult>> _conditions = new List<Func<IResult>>();
-        private readonly SettableOnce<Delay> _delay = new(nameof(TraversableBuilder.Delay));
+        private readonly SettableOnce<Delay> _delay = new SettableOnce<Delay>(nameof(Delay));
 
 
         public string Key
@@ -30,10 +30,10 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                if (!Regex.IsMatch(value, TraversableBuilder.ValidKeyPattern))
+                if (!Regex.IsMatch(value, ValidKeyPattern))
                 {
                     throw new ArgumentException(
-                        $"A traversable node's key must match `{TraversableBuilder.ValidKeyPattern}`, which `{value}` does not.",
+                        $"A traversable node's key must match `{ValidKeyPattern}`, which `{value}` does not.",
                         nameof(value)
                     );
                 }

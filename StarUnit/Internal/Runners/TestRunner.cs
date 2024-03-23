@@ -14,7 +14,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
 
         protected override void Skip(OnCompleted @return, ITest test, Status status, string message)
         {
-            @return(new TestResult(test) {Status = status, Message = message});
+            @return(new TestResult(test) { Status = status, Message = message });
         }
 
 

@@ -28,7 +28,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.TestListers
 
                 if (info.IsLeaf) continue;
 
-                var line = new string(' ', info.Level * 3);
+                string line = new string(' ', info.Level * 3);
                 if (info.Node != null) line += info.Node.Key + " ";
                 line += $"({info.DescendantLeaves} test";
                 if (info.DescendantLeaves > 1) line += "s";

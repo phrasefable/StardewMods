@@ -43,7 +43,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
         public IEnumerable<string> GetMessageLines(string message)
         {
             return message
-                .Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.None)
+                .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
                 .Select(this.GetMessageLine);
         }
 

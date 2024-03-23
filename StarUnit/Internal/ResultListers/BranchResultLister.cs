@@ -50,7 +50,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
 
         private static string BuildLine(IBranchResult result, ResultListingContext context)
         {
-            var buffer = new string(' ', Math.Max(1, context.ColumnWidths.TotalsColumn));
+            string buffer = new string(' ', Math.Max(1, context.ColumnWidths.TotalsColumn));
             return string.Join(buffer, BranchResultLister.BuildColumns(result, context));
         }
 
@@ -65,7 +65,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.ResultListers
                 context.ColumnWidths
             );
 
-            foreach (Status status in new[] {Status.Pass, Status.Fail, Status.Skipped, Status.Error})
+            foreach (Status status in new[] { Status.Pass, Status.Fail, Status.Skipped, Status.Error })
             {
                 yield return BranchResultLister.GetTallyColumn(
                     status.GetPrintName(),

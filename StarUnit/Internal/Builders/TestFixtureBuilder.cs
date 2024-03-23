@@ -163,7 +163,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
             {
                 if (this._action.HasBeenSet)
                 {
-                    return new FixtureAction {Action = this._action.Value, Delay = this._delay.Value};
+                    return new FixtureAction { Action = this._action.Value, Delay = this._delay.Value };
                 }
 
                 if (this._delay.HasBeenSet)

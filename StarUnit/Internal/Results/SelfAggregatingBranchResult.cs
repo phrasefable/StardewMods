@@ -7,7 +7,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Results
 {
     internal class SelfAggregatingBranchResult : TraversableResult, IBranchResult
     {
-        private readonly Dictionary<Status, int> _descendantLeafTallies = new();
+        private readonly Dictionary<Status, int> _descendantLeafTallies = new Dictionary<Status, int>();
         public IReadOnlyDictionary<Status, int> DescendantLeafTallies => this._descendantLeafTallies;
 
         private readonly ICollection<ITraversableResult> _children = new List<ITraversableResult>();

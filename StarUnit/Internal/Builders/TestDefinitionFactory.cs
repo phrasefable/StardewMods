@@ -27,13 +27,13 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
         public ITestResult BuildTestResult(Status status)
         {
-            return new TestResult {Status = status};
+            return new TestResult { Status = status };
         }
 
 
         public ITestResult BuildTestResult(Status status, string message)
         {
-            return new TestResult {Status = status, Message = message};
+            return new TestResult { Status = status, Message = message };
         }
 
 

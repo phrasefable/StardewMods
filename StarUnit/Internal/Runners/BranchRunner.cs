@@ -41,7 +41,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Runners
             string message = null
         )
         {
-            var result = new SelfAggregatingBranchResult(branch) {Status = status, Message = message};
+            var result = new SelfAggregatingBranchResult(branch) { Status = status, Message = message };
 
             branch.Children.ForEach(() => @return(result), childConsumer, result.AddChild);
         }

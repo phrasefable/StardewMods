@@ -61,7 +61,7 @@ namespace Phrasefable.StardewMods.StarUnit.Internal
                 return root;
             }
 
-            root = new TraversableGrouping {Key = modId, Conditions = Array.Empty<Func<IResult>>() };
+            root = new TraversableGrouping { Key = modId, Conditions = Array.Empty<Func<IResult>>() };
             this._testRoots[modId] = root;
             return root;
         }
