@@ -34,4 +34,8 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <Import Project="..\Common\Common.projitems" Label="Shared" />
+
+    <Import Project="..\Common.Harmony\Common.Harmony.projitems" Label="Shared" />
+
 </Project>

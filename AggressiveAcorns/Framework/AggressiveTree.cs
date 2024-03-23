@@ -11,11 +11,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
     {
         public static void DayUpdateAggressively(
             this Tree tree,
-            GameLocation location,
-            Vector2 position,
+            // GameLocation location,
+            // Vector2 position,
             NetBool destroy,
             ref float shakeRotation)
         {
+            var location = tree.Location;
+            var position = tree.Tile;
+
             // TODO check if there is any need to do the skip-update-of-first-day-when-spread thing
             bool isDestroyed = tree.DestroyIfDead(destroy);
             if (isDestroyed) return;
@@ -65,7 +68,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         {
             if (!tree.tapped.Value) return;
 
-            Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
+            StardewValley.Object objectAtTile = environment.getObjectAtTile((int) tileLocation.X, (int) tileLocation.Y);
             if (objectAtTile == null ||
                 !objectAtTile.bigCraftable.Value ||
                 !(objectAtTile.ParentSheetIndex == 105 || objectAtTile.ParentSheetIndex == 264))
@@ -180,7 +183,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
                     tree.PlaceOffspring(location, seedPos);
                 }
                 else if (location.isTileLocationOpen(new Location(tileX, tileY))
-                         && !location.isTileOccupied(seedPos)
+                         && !location.IsTileOccupiedBy(seedPos)
                          && location.doesTileHaveProperty(tileX, tileY, "Water", "Back") == null
                          && location.isTileOnMap(seedPos))
                 {

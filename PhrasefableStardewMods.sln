@@ -57,6 +57,8 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Common.Harmony\Common.Harmony.projitems*{2bf2def4-509b-42fc-83a3-4e2bfb8a349d}*SharedItemsImports = 13
 		Common\Common.projitems*{45beddd6-87a1-42da-8c3a-1ffb58c0e56b}*SharedItemsImports = 5
+		Common.Harmony\Common.Harmony.projitems*{5d92b3b3-1d18-4f8b-9255-53eab35a2958}*SharedItemsImports = 5
+		Common\Common.projitems*{5d92b3b3-1d18-4f8b-9255-53eab35a2958}*SharedItemsImports = 5
 		Common\Common.projitems*{89ae48cc-7056-4dff-b3ef-2a492073cb9a}*SharedItemsImports = 5
 		Common\Common.projitems*{ebafb8df-b881-4eb6-a0b0-543658099cfb}*SharedItemsImports = 13
 	EndGlobalSection

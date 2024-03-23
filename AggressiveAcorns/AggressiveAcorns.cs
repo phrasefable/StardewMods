@@ -27,7 +27,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         private ICollection<IHarmonyPatchInfo> _patches;
 
 
-        public override void Entry([NotNull] IModHelper helper)
+        public override void Entry([JetBrains.Annotations.NotNull] IModHelper helper)
         {
             AggressiveAcorns.Config = new ConfigAdaptor(helper.ReadConfig<ModConfig>());
             AggressiveAcorns.ErrorLogger = message => this.Monitor.Log(message, LogLevel.Error);
@@ -66,7 +66,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
                         foreach (Tree tree in trees)
                         {
-                            tree.dayUpdate(location, tree.currentTileLocation);
+                            tree.dayUpdate();
                         }
                     }
                 }
@@ -146,14 +146,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Required by harmony.")]
         public static bool DayUpdate_Prefix(
             Tree __instance,
-            GameLocation environment,
-            Vector2 tileLocation,
+            // GameLocation environment,
+            // Vector2 tileLocation,
             NetBool ___destroy,
             ref float ___shakeRotation)
         {
             try
             {
-                __instance.DayUpdateAggressively(environment, tileLocation, ___destroy, ref ___shakeRotation);
+                //__instance.DayUpdateAggressively(environment, tileLocation, ___destroy, ref ___shakeRotation);
+                __instance.DayUpdateAggressively(___destroy, ref ___shakeRotation);
                 return false; // Prevent other processing on the method.
             }
             catch (Exception ex)

@@ -21,19 +21,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         [Pure]
         public static bool ExperiencingWinter(this GameLocation location)
         {
-            return Game1.GetSeasonForLocation(location) == "winter" && location.ExperiencesWinter();
+            return Game1.GetSeasonForLocation(location) == Season.Winter && location.ExperiencesWinter();
         }
 
 
         [Pure]
         public static bool ExperiencesWinter(this GameLocation location)
         {
-            // Override takes highest priority, in case it _is_ winter.
-            if (!string.IsNullOrWhiteSpace(location.seasonOverride))
-            {
-                return location.seasonOverride == "winter";
-            }
-
             if (!location.IsOutdoors && !location.treatAsOutdoors.Value) return false;
             if (location is Desert) return false;
             return !location.SeedsIgnoreSeasonsHere();
