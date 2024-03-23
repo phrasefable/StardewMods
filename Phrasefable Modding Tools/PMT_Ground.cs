@@ -52,7 +52,7 @@ namespace Phrasefable.StardewMods.ModdingTools
                 if (sObject.IsSpawnedObject) message.Append(" [Spawned]");
                 if (sObject.CanBeGrabbed) message.Append(" [CanBeGrabbed]");
                 if (sObject.bigCraftable.Value) message.Append(" [BigCraftable]");
-                message.Append(";");
+                message.Append(';');
                 any = true;
             }
 

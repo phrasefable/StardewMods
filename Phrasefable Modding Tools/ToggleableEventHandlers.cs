@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using StardewModdingAPI;
 
@@ -79,10 +77,15 @@ namespace Phrasefable.StardewMods.ModdingTools
         private readonly IDictionary<string, IToggleableEventLogger> _loggers =
             new Dictionary<string, IToggleableEventLogger>();
 
-        public IEnumerator<IToggleableEventLogger> GetEnumerator() => this._loggers.Values.GetEnumerator();
+        public IEnumerator<IToggleableEventLogger> GetEnumerator()
+        {
+            return this._loggers.Values.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) this._loggers.Values).GetEnumerator();
-
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) this._loggers.Values).GetEnumerator();
+        }
 
         public void Add([NotNull] IToggleableEventLogger item)
         {

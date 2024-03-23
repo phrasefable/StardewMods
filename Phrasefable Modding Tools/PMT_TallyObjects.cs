@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -98,10 +96,10 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void CountObjects([NotNull] GameLocation location)
         {
             IEnumerable<List<SdvObject>> results = from obj in location.objects.Values
-                group obj by obj.ParentSheetIndex
-                into grouping
-                orderby grouping.Key
-                select grouping.ToList();
+                                                   group obj by obj.ParentSheetIndex
+                                                   into grouping
+                                                   orderby grouping.Key
+                                                   select grouping.ToList();
 
             this.Monitor.Log($"Counted objects in {location.Name}:", LogLevel.Info);
             foreach (List<SdvObject> objects in results)
@@ -115,10 +113,10 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void CountTerrainFeatures([NotNull] GameLocation location)
         {
             var results = from feat in location.terrainFeatures.Values
-                group feat by feat.GetType()
-                into grouping
-                orderby grouping.Key.Name
-                select new {grouping.Key.Name, Count = grouping.Count()};
+                          group feat by feat.GetType()
+                          into grouping
+                          orderby grouping.Key.Name
+                          select new { grouping.Key.Name, Count = grouping.Count() };
 
             this.Monitor.Log($"Counted terrain features in {location.Name}", LogLevel.Info);
             foreach (var result in results)

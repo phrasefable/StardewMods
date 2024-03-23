@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using StardewModdingAPI;
@@ -11,8 +8,8 @@ namespace Phrasefable.StardewMods.ModdingTools
     public partial class PhrasefableModdingTools
     {
         private readonly ToggleableEventLoggerCollection _loggers = new ToggleableEventLoggerCollection();
-        private readonly string[] _enable = {"1", "true", "t"};
-        private readonly string[] _disable = {"0", "false", "f"};
+        private readonly string[] _enable = { "1", "true", "t" };
+        private readonly string[] _disable = { "0", "false", "f" };
 
 
         private void SetUp_EventLogging()
