@@ -1,5 +1,4 @@
 using System.Text;
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.Common;
 using StardewModdingAPI;
@@ -41,7 +40,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        private void CheckGround([NotNull] GameLocation location, Vector2 tile)
+        private void CheckGround(GameLocation location, Vector2 tile)
         {
             var message = new StringBuilder($"{location.Name} {tile}:");
             bool any = false;

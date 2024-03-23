@@ -1,5 +1,4 @@
 using System.Text;
-using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 
@@ -30,7 +29,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        private void Callback(string command, [NotNull] string[] args)
+        private void Callback(string command, string[] args)
         {
             var action = ToggleAction.Toggle;
             var targets = new List<string>();
@@ -85,8 +84,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        [NotNull]
-        private ToggleableEventLogger<T> BuildLogger<T>([NotNull] string name, Func<T, string> message)
+        private ToggleableEventLogger<T> BuildLogger<T>(string name, Func<T, string> message)
             where T : EventArgs
         {
             var logger = new ToggleableEventLogger<T>(name, this.Monitor, message);

@@ -1,5 +1,4 @@
 using System.Text;
-using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -28,13 +27,13 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        private void Tally(object sender, [NotNull] WarpedEventArgs e)
+        private void Tally(object sender, WarpedEventArgs e)
         {
             if (e.IsLocalPlayer) this.CountObjects(e.NewLocation);
         }
 
 
-        private void TallyObjectCommand(string command, [NotNull] string[] args)
+        private void TallyObjectCommand(string command, string[] args)
         {
             if (args.Length == 0)
             {
@@ -93,7 +92,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        private void CountObjects([NotNull] GameLocation location)
+        private void CountObjects(GameLocation location)
         {
             IEnumerable<List<SdvObject>> results = from obj in location.objects.Values
                                                    group obj by obj.ParentSheetIndex
@@ -110,7 +109,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        private void CountTerrainFeatures([NotNull] GameLocation location)
+        private void CountTerrainFeatures(GameLocation location)
         {
             var results = from feat in location.terrainFeatures.Values
                           group feat by feat.GetType()

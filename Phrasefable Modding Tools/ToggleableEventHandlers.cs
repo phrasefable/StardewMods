@@ -1,5 +1,4 @@
 using System.Collections;
-using JetBrains.Annotations;
 using StardewModdingAPI;
 
 namespace Phrasefable.StardewMods.ModdingTools
@@ -59,7 +58,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         public string Id { get; }
 
 
-        public ToggleableEventLogger([NotNull] string id, IMonitor monitor, Func<TArgs, string> message)
+        public ToggleableEventLogger(string id, IMonitor monitor, Func<TArgs, string> message)
             : base((s, args) => monitor.Log(message(args), LogLevel.Info))
         {
             if (string.IsNullOrEmpty(id))
@@ -87,13 +86,13 @@ namespace Phrasefable.StardewMods.ModdingTools
             return ((IEnumerable) this._loggers.Values).GetEnumerator();
         }
 
-        public void Add([NotNull] IToggleableEventLogger item)
+        public void Add(IToggleableEventLogger item)
         {
             this._loggers[item.Id] = item;
         }
 
 
-        public void Set([NotNull] IEnumerable<string> loggers, ToggleAction action)
+        public void Set(IEnumerable<string> loggers, ToggleAction action)
         {
             foreach (string logger in loggers)
             {
@@ -102,6 +101,6 @@ namespace Phrasefable.StardewMods.ModdingTools
         }
 
 
-        [NotNull] public IEnumerable<string> Ids => this._loggers.Keys;
+        public IEnumerable<string> Ids => this._loggers.Keys;
     }
 }
