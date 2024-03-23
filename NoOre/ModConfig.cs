@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-
 namespace Phrasefable.StardewMods.NoOre
 {
     public interface IModConfig
@@ -13,9 +11,9 @@ namespace Phrasefable.StardewMods.NoOre
 
     public class ModConfig : IModConfig
     {
-        public bool ReplaceOres { get; [UsedImplicitly] set; }
-        public bool ReplaceGemNodes { get; [UsedImplicitly] set; }
-        public bool ReplaceMysticStone { get; [UsedImplicitly] set; }
-        public bool ReplaceGeodeNodes { get; [UsedImplicitly] set; }
+        public bool ReplaceOres { get; set; }
+        public bool ReplaceGemNodes { get; set; }
+        public bool ReplaceMysticStone { get; set; }
+        public bool ReplaceGeodeNodes { get; set; }
     }
 }

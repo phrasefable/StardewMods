@@ -1,63 +1,56 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using JetBrains.Annotations;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using SObject = StardewValley.Object;
 
 namespace Phrasefable.StardewMods.NoOre
 {
-    [UsedImplicitly]
     public class NoOre : Mod
     {
         private static IModConfig _config;
 
-        // ReSharper disable once NotAccessedField.Local
         private static IMonitor _monitor;
 
         private bool _handleNewLocations;
 
         private bool DoHandleNewLocations
         {
-            // ReSharper disable once UnusedMember.Local
-            get => _handleNewLocations;
+            get => this._handleNewLocations;
             set
             {
-                if (value == _handleNewLocations) return;
+                if (value == this._handleNewLocations) return;
                 if (value)
                 {
-                    Helper.Events.World.LocationListChanged += WorldOnLocationListChanged;
+                    this.Helper.Events.World.LocationListChanged += this.WorldOnLocationListChanged;
                 }
                 else
                 {
-                    Helper.Events.World.LocationListChanged -= WorldOnLocationListChanged;
+                    this.Helper.Events.World.LocationListChanged -= this.WorldOnLocationListChanged;
                 }
 
-                _handleNewLocations = value;
+                this._handleNewLocations = value;
             }
         }
 
 
-        public override void Entry([NotNull] IModHelper helper)
+        public override void Entry(IModHelper helper)
         {
-            NoOre._config = helper.ReadConfig<ModConfig>();
-            NoOre._monitor = Monitor;
+            _config = helper.ReadConfig<ModConfig>();
+            _monitor = this.Monitor;
 
-            var harmony = new Harmony(ModManifest.UniqueID);
+            var harmony = new Harmony(this.ModManifest.UniqueID);
 
             MethodInfo target = typeof(GameLocation).GetMethod("breakStone", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Monitor.Log(target != null ? $"got method info for {target.DeclaringType}::{target.Name}" : "couldn't reflect method",LogLevel.Trace);
-            var postfix = new HarmonyMethod(GetType(), nameof(NoOre.Postfix));
+            var postfix = new HarmonyMethod(this.GetType(), nameof(Postfix));
             harmony.Patch(target, null, postfix);
 
-            helper.Events.GameLoop.SaveLoaded += (sender, args) => DoHandleNewLocations = Context.IsMainPlayer;
-            helper.Events.GameLoop.ReturnedToTitle += (sender, args) => DoHandleNewLocations = false;
+            helper.Events.GameLoop.SaveLoaded += (sender, args) => this.DoHandleNewLocations = Context.IsMainPlayer;
+            helper.Events.GameLoop.ReturnedToTitle += (sender, args) => this.DoHandleNewLocations = false;
         }
 
-
-        // ReSharper disable once MemberCanBeMadeStatic.Local
         private void WorldOnLocationListChanged(object sender, LocationListChangedEventArgs e)
         {
             throw new System.NotImplementedException();
@@ -65,14 +58,14 @@ namespace Phrasefable.StardewMods.NoOre
 
 
         private static void Postfix(
-            // ReSharper disable UnusedParameter.Local
+#pragma warning disable IDE0060 // Remove unused parameter
             GameLocation __instance,
             bool __result,
             string stoneId,
             int x,
             int y,
             Farmer who
-            // ReSharper restore UnusedParameter.Local
+#pragma warning restore IDE0060 // Remove unused parameter
         )
         {
             // _monitor.Log(
@@ -80,7 +73,7 @@ namespace Phrasefable.StardewMods.NoOre
             //     LogLevel.Trace);
             if (__result) return; // if the original method returned true, it wasn't normal stone
 
-            if (NoOre._config.ReplaceOres)
+            if (_config.ReplaceOres)
             {
                 // chance to drop ores
                 /*
@@ -92,17 +85,17 @@ namespace Phrasefable.StardewMods.NoOre
                  */
             }
 
-            if (NoOre._config.ReplaceGemNodes)
+            if (_config.ReplaceGemNodes)
             {
                 // chance to drop gems
             }
 
-            if (NoOre._config.ReplaceMysticStone)
+            if (_config.ReplaceMysticStone)
             {
                 // chance to drop mystic stone drops
             }
 
-            if (NoOre._config.ReplaceGeodeNodes)
+            if (_config.ReplaceGeodeNodes)
             {
                 // chance to drop geodes
             }
@@ -110,7 +103,6 @@ namespace Phrasefable.StardewMods.NoOre
     }
 
 
-    // ReSharper disable UnusedType.Global, UnusedMember.Global
     internal static class Constants
     {
         public const int CopperNode = 378;
@@ -119,5 +111,4 @@ namespace Phrasefable.StardewMods.NoOre
         public const int GoldNode = 384;
         public const int IridiumNode = 386;
     }
-    // ReSharper restore UnusedType.Global, UnusedMember.Global
 }
