@@ -1,10 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <AssemblyName>Phrasefable_Modding_Tools</AssemblyName>
-        <Version>0.0.1</Version>
-
-        <RootNamespace>Phrasefable.StardewMods.ModdingTools</RootNamespace>
+        <Version>0.2.0</Version>
+        
+        <RootNamespace>Phrasefable_Modding_Tools</RootNamespace>
         <TargetFramework>net6.0</TargetFramework>
+        <Platforms>AnyCPU</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,5 +19,5 @@
     </ItemGroup>
 
     <Import Project="..\Common\Common.projitems" Label="Shared" />
-    <Import Project="$(SolutionDir)\common.targets" />
+
 </Project>

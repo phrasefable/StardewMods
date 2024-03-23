@@ -1,23 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.9.34701.34
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns", "AggressiveAcorns\AggressiveAcorns.csproj", "{212350BD-CA4E-4656-9FDB-2126938E7C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns", "AggressiveAcorns\AggressiveAcorns.csproj", "{5D92B3B3-1D18-4F8B-9255-53EAB35A2958}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoOre", "NoOre\NoOre.csproj", "{E0AE1E6A-7805-4668-B46E-871CA8A0A656}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{EBAFB8DF-B881-4EB6-A0B0-543658099CFB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phrasefable Modding Tools", "Phrasefable Modding Tools\Phrasefable Modding Tools.csproj", "{0D71AC5A-7F9E-4912-BC06-9664509A4583}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common.Harmony", "Common.Harmony\Common.Harmony.shproj", "{2BF2DEF4-509B-42FC-83A3-4E2BFB8A349D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{B78C2E54-FDCB-47E8-8BFB-6978148809B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{E3D86799-DF98-424E-A255-DF4AB3083E5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.Test", "AggressiveAcorns.Test\AggressiveAcorns.Test.csproj", "{C4FC47BE-DEFE-4651-A4D6-80484144A85D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{E8B47C3B-306E-4268-A05D-4822700FB8F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggressiveAcorns.InGameTest", "AggressiveAcorns.InGameTest\AggressiveAcorns.InGameTest.csproj", "{C7432C12-58BF-4238-9E7F-B021252098C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoOre", "NoOre\NoOre.csproj", "{89AE48CC-7056-4DFF-B3EF-2A492073CB9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarUnit", "StarUnit\StarUnit.csproj", "{744B493A-A496-4513-8AC3-26092A372D4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phrasefable Modding Tools", "Phrasefable Modding Tools\Phrasefable Modding Tools.csproj", "{45BEDDD6-87A1-42DA-8C3A-1FFB58C0E56B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common.Harmony", "Common.Harmony\Common.Harmony.shproj", "{41B6B136-4E70-4FB7-BA1F-3528E24618D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarUnit", "StarUnit\StarUnit.csproj", "{0BA6604C-15B3-4EFD-9BCC-BF51F5CACAFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,47 +25,39 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{212350BD-CA4E-4656-9FDB-2126938E7C1A}.Release|Any CPU.Build.0 = Release|AnyCPU
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{E0AE1E6A-7805-4668-B46E-871CA8A0A656}.Release|Any CPU.Build.0 = Release|AnyCPU
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{0D71AC5A-7F9E-4912-BC06-9664509A4583}.Release|Any CPU.Build.0 = Release|AnyCPU
-		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B78C2E54-FDCB-47E8-8BFB-6978148809B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{C4FC47BE-DEFE-4651-A4D6-80484144A85D}.Release|Any CPU.Build.0 = Release|AnyCPU
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{C7432C12-58BF-4238-9E7F-B021252098C8}.Release|Any CPU.Build.0 = Release|AnyCPU
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Debug|Any CPU.Build.0 = Debug|AnyCPU
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|Any CPU.ActiveCfg = Release|AnyCPU
-		{744B493A-A496-4513-8AC3-26092A372D4B}.Release|Any CPU.Build.0 = Release|AnyCPU
-
-
+		{5D92B3B3-1D18-4F8B-9255-53EAB35A2958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D92B3B3-1D18-4F8B-9255-53EAB35A2958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D92B3B3-1D18-4F8B-9255-53EAB35A2958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D92B3B3-1D18-4F8B-9255-53EAB35A2958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3D86799-DF98-424E-A255-DF4AB3083E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3D86799-DF98-424E-A255-DF4AB3083E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3D86799-DF98-424E-A255-DF4AB3083E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3D86799-DF98-424E-A255-DF4AB3083E5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B47C3B-306E-4268-A05D-4822700FB8F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B47C3B-306E-4268-A05D-4822700FB8F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B47C3B-306E-4268-A05D-4822700FB8F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B47C3B-306E-4268-A05D-4822700FB8F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89AE48CC-7056-4DFF-B3EF-2A492073CB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89AE48CC-7056-4DFF-B3EF-2A492073CB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BEDDD6-87A1-42DA-8C3A-1FFB58C0E56B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BEDDD6-87A1-42DA-8C3A-1FFB58C0E56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BEDDD6-87A1-42DA-8C3A-1FFB58C0E56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BEDDD6-87A1-42DA-8C3A-1FFB58C0E56B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BA6604C-15B3-4EFD-9BCC-BF51F5CACAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BA6604C-15B3-4EFD-9BCC-BF51F5CACAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BA6604C-15B3-4EFD-9BCC-BF51F5CACAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BA6604C-15B3-4EFD-9BCC-BF51F5CACAFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D0A7CE93-259B-4779-9EE3-216CFDB85369}
+		SolutionGuid = {5AB4440D-D426-46C7-9416-E9E60628547C}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\Common.projitems*{0d71ac5a-7f9e-4912-bc06-9664509a4583}*SharedItemsImports = 5
-		Common.Harmony\Common.Harmony.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 5
-		Common\Common.projitems*{212350bd-ca4e-4656-9fdb-2126938e7c1a}*SharedItemsImports = 5
-		Common.Harmony\Common.Harmony.projitems*{41b6b136-4e70-4fb7-ba1f-3528e24618d6}*SharedItemsImports = 13
-		Common\Common.projitems*{b78c2e54-fdcb-47e8-8bfb-6978148809b1}*SharedItemsImports = 13
-		Common\Common.projitems*{e0ae1e6a-7805-4668-b46e-871ca8a0a656}*SharedItemsImports = 5
+		Common.Harmony\Common.Harmony.projitems*{2bf2def4-509b-42fc-83a3-4e2bfb8a349d}*SharedItemsImports = 13
+		Common\Common.projitems*{45beddd6-87a1-42da-8c3a-1ffb58c0e56b}*SharedItemsImports = 5
+		Common\Common.projitems*{89ae48cc-7056-4dff-b3ef-2a492073cb9a}*SharedItemsImports = 5
+		Common\Common.projitems*{ebafb8df-b881-4eb6-a0b0-543658099cfb}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

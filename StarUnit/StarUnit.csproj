@@ -1,18 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <AssemblyName>StarUnit</AssemblyName>
-        <Version>0.0.1</Version>
+        <Version>0.2.0</Version>
+        <Authors>Phrasefable</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/phrasefable/StardewMods</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
 
         <RootNamespace>Phrasefable.StardewMods.StarUnit</RootNamespace>
         <TargetFramework>net6.0</TargetFramework>
-
-        <EnableModZip>True</EnableModZip>
+        <Platforms>AnyCPU</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
     </ItemGroup>
 
-    <Import Project="$(SolutionDir)\common.targets" />
 </Project>
