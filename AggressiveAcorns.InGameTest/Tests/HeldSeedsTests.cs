@@ -23,7 +23,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         public ITraversable Build()
         {
-            ITestFixtureBuilder fixtureBuilder = _factory.CreateFixtureBuilder();
+            ITestFixtureBuilder fixtureBuilder = this._factory.CreateFixtureBuilder();
 
             fixtureBuilder.Key = "held_seeds";
 
@@ -38,7 +38,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             fixtureBuilder.BeforeEach = () =>
             {
-                this._config = new MutableConfigAdaptor {ChanceSpread = 0.0};
+                this._config = new MutableConfigAdaptor { ChanceSpread = 0.0 };
                 AggressiveAcorns.Config = this._config;
             };
 
@@ -70,7 +70,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_HeldSeed()
         {
             ICasedTestBuilder<(double SeedChance, bool ExpectSeed)> testBuilder =
-                _factory.CreateCasedTestBuilder<(double, bool)>();
+                this._factory.CreateCasedTestBuilder<(double, bool)>();
 
             testBuilder.Key = "tree_holds_seeds";
             testBuilder.TestMethod = this.Test_HeldSeed;
@@ -91,7 +91,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.ChanceSeedGain = seedChance;
 
             // Act, assert
-            return CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
+            return this.CheckTreeHasSeedAfterUpdate(TreeUtils.GetFarmTreeLonely(), expectSeed);
         }
 
 
@@ -100,7 +100,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_HeldSeed_Override()
         {
             ICasedTestBuilder<(double Chance, bool ExpectSeed)> testBuilder =
-                _factory.CreateCasedTestBuilder<(double, bool)>();
+                this._factory.CreateCasedTestBuilder<(double, bool)>();
 
             testBuilder.Key = "tree_holds_seeds_override_random";
             testBuilder.TestMethod = this.Test_HeldSeed_Override;
@@ -126,7 +126,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.SeedGainRoller = () => expectSeed;
 
             // Act, assert
-            return this.CheckTreeHasSeedAfterUpdate(Utilities.TreeUtils.GetFarmTreeLonely(), expectSeed);
+            return this.CheckTreeHasSeedAfterUpdate(TreeUtils.GetFarmTreeLonely(), expectSeed);
         }
 
 
@@ -135,7 +135,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_SeedPersistence()
         {
             ICasedTestBuilder<(bool DoPersist, bool InitialSeed)> testBuilder =
-                _factory.CreateCasedTestBuilder<(bool, bool)>();
+                this._factory.CreateCasedTestBuilder<(bool, bool)>();
 
             testBuilder.Key = "seed_persistence";
             testBuilder.TestMethod = this.Test_SeedPersistence;
@@ -160,7 +160,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.ChanceSeedGain = 0;
             this._config.ChanceSeedLoss = doPersist ? 0.0 : 1.0;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            Tree tree = TreeUtils.GetFarmTreeLonely();
             tree.hasSeed.Value = initialSeed;
 
             // Act, assert
@@ -173,7 +173,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_HeldSeed_ByStage()
         {
             ICasedTestBuilder<(int Stage, bool ExpectSeed)>
-                testBuilder = _factory.CreateCasedTestBuilder<(int, bool)>();
+                testBuilder = this._factory.CreateCasedTestBuilder<(int, bool)>();
 
             testBuilder.Key = "immature_trees_dont_hold_seeds";
             testBuilder.TestMethod = this.Test_HeldSeed_ByStage;
@@ -197,7 +197,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.ChanceSeedGain = 1.0;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            Tree tree = TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
 
             // Act, assert
@@ -209,7 +209,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_HeldSeed_StumpByStage()
         {
-            ICasedTestBuilder<int> testBuilder = _factory.CreateCasedTestBuilder<int>();
+            ICasedTestBuilder<int> testBuilder = this._factory.CreateCasedTestBuilder<int>();
 
             testBuilder.Key = "stumps_dont_hold_seeds";
             testBuilder.TestMethod = this.Test_HeldSeed_ByStage;
@@ -231,7 +231,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.ChanceSeedGain = 1.0;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            Tree tree = TreeUtils.GetFarmTreeLonely();
             tree.growthStage.Value = stage;
             tree.stump.Value = true;
 
@@ -274,7 +274,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         {
             // Arrange
             Game1.player.warpFarmer(warp);
-            Tree tree = Utilities.TreeUtils.GetLonelyTree(warp);
+            Tree tree = TreeUtils.GetLonelyTree(warp);
             this._config.ChanceSeedGain = 1.0;
 
             // Act, Assert

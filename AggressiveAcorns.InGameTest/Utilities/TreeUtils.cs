@@ -6,12 +6,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 {
     internal static class TreeUtils
     {
-        // public static void Update(this Tree tree)
-        // {
-        //     tree.dayUpdate(tree.Location, tree.Tile);
-        // }
-
-
         public static Tree PlantTree(
             GameLocation location,
             Vector2 position,
@@ -28,7 +22,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
                 }
             }
 
-            Tree tree = new Tree(treeType, growthStage);
+            var tree = new Tree(treeType, growthStage);
             location.terrainFeatures.Add(position, tree);
             return tree;
         }
@@ -36,7 +30,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
         public static Tree GetFarmTreeLonely(int stage = Tree.treeStage, string type = Tree.pineTree)
         {
-            return TreeUtils.GetLonelyTree(LocationUtils.WarpFarm, stage, type);
+            return GetLonelyTree(LocationUtils.WarpFarm, stage, type);
         }
 
 
@@ -46,7 +40,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             Vector2 position = where.GetTargetTile() + new Vector2(0, -2);
 
             LocationUtils.ClearLocation(location);
-            return TreeUtils.PlantTree(location, position, type, stage);
+            return PlantTree(location, position, type, stage);
         }
 
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
@@ -132,7 +129,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.ChanceGrowth = growthChance;
             this._config.GrowthRoller = () => forcedValue;
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
 
             // Act, Assert
             return this.UpdateAndCheckHasGrown(tree, forcedValue);
@@ -160,7 +157,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.ChanceGrowth = 0.0;
             this._config.GrowthRoller = () => false;
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
             tree.fertilized.Value = fertilized;
 
             // Act, Assert
@@ -200,7 +197,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.GrowthRoller = () => true;
 
             // Act, Assert
-            return this.UpdateAndCheckHasGrown(Utilities.TreeUtils.GetFarmTreeLonely(initialStage), nextStage);
+            return this.UpdateAndCheckHasGrown(TreeUtils.GetFarmTreeLonely(initialStage), nextStage);
         }
 
 
@@ -230,7 +227,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             this._config.ChanceGrowth = growthChance;
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(Tree.saplingStage);
 
             // Act, Assert
             return this.UpdateAndCheckHasGrown(tree, expectGrowth);
@@ -271,8 +268,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.GrowthRoller = () => true;
             this._config.MaxShadedGrowthStage = maxShadedGrowthStage;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
-            Utilities.TreeUtils.PlantTree(
+            Tree tree = TreeUtils.GetFarmTreeLonely(initStage);
+            TreeUtils.PlantTree(
                 tree.Location,
                 tree.Tile + new Vector2(-1, 0),
                 tree.treeType.Value,
@@ -296,14 +293,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => StringUtils.NormalizeNegatives($"x_{args.Offset.X}_y_{args.Offset.Y}");
 
-            var shadeRadius = 1;
+            int shadeRadius = 1;
             for (int x = -(shadeRadius + 1); x <= shadeRadius + 1; x++)
-            for (int y = -(shadeRadius + 1); y <= shadeRadius + 1; y++)
-            {
-                if (x == 0 && y == 0) continue;
-                bool isShaded = Math.Abs(x) <= shadeRadius && Math.Abs(y) <= shadeRadius;
-                testBuilder.AddCases((Offset: new Vector2(x, y), ExpectGrowth: !isShaded));
-            }
+                for (int y = -(shadeRadius + 1); y <= shadeRadius + 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    bool isShaded = Math.Abs(x) <= shadeRadius && Math.Abs(y) <= shadeRadius;
+                    testBuilder.AddCases((Offset: new Vector2(x, y), ExpectGrowth: !isShaded));
+                }
 
             return testBuilder.Build();
         }
@@ -319,8 +316,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.GrowthRoller = () => true;
             this._config.MaxShadedGrowthStage = initStage;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
-            Utilities.TreeUtils.PlantTree(
+            Tree tree = TreeUtils.GetFarmTreeLonely(initStage);
+            TreeUtils.PlantTree(
                 tree.Location,
                 tree.Tile + offset,
                 tree.treeType.Value,
@@ -352,12 +349,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 return sources.Any() ? string.Join("_", sources) : "none";
             };
 
-            foreach (bool shading in new[] {false, true})
-            foreach (bool stump in new[] {false, true})
-            foreach (bool nonShading in new[] {false, true})
-            {
-                testBuilder.AddCases((Shading: shading, Stump: stump, NonShading: nonShading, ExpectGrowth: !shading));
-            }
+            foreach (bool shading in new[] { false, true })
+                foreach (bool stump in new[] { false, true })
+                    foreach (bool nonShading in new[] { false, true })
+                    {
+                        testBuilder.AddCases((Shading: shading, Stump: stump, NonShading: nonShading, ExpectGrowth: !shading));
+                    }
 
             return testBuilder.Build();
         }
@@ -373,11 +370,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.GrowthRoller = () => true;
             this._config.MaxShadedGrowthStage = initStage;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(initStage);
 
             if (shading)
             {
-                Utilities.TreeUtils.PlantTree(
+                TreeUtils.PlantTree(
                     tree.Location,
                     tree.Tile + new Vector2(-1, -1),
                     tree.treeType.Value,
@@ -387,7 +384,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             if (nonShading)
             {
-                Utilities.TreeUtils.PlantTree(
+                TreeUtils.PlantTree(
                         tree.Location,
                         tree.Tile + new Vector2(-1, 1),
                         tree.treeType.Value,
@@ -398,7 +395,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             if (stump)
             {
-                Utilities.TreeUtils.PlantTree(
+                TreeUtils.PlantTree(
                         tree.Location,
                         tree.Tile + new Vector2(-1, 0),
                         tree.treeType.Value,
@@ -445,7 +442,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DoGrowInstantly = true;
 
             // Act, Assert
-            return this.UpdateAndCheckHasGrown(Utilities.TreeUtils.GetFarmTreeLonely(initialStage), nextStage);
+            return this.UpdateAndCheckHasGrown(TreeUtils.GetFarmTreeLonely(initialStage), nextStage);
         }
 
 
@@ -482,8 +479,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.DoGrowInstantly = true;
             this._config.MaxShadedGrowthStage = maxShadedStage;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.seedStage);
-            Utilities.TreeUtils.PlantTree(
+            Tree tree = TreeUtils.GetFarmTreeLonely(Tree.seedStage);
+            TreeUtils.PlantTree(
                 tree.Location,
                 tree.Tile + new Vector2(-1, 0),
                 tree.treeType.Value,

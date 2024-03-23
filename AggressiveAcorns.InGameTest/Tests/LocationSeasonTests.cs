@@ -20,7 +20,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         public ITraversable Build()
         {
-            ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
+            ITestFixtureBuilder builder = this._factory.CreateFixtureBuilder();
             builder.Key = "seasons";
             builder.AddCondition(this._factory.Conditions.WorldReady);
 
@@ -38,11 +38,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_ExperiencesWinter()
         {
             ICasedTestBuilder<(string LocationName, bool ShouldExperienceWinter)> builder =
-                _factory.CreateCasedTestBuilder<(string, bool)>();
+                this._factory.CreateCasedTestBuilder<(string, bool)>();
             builder.Key = "experiences_winter";
             builder.TestMethod = this.Test_ExperiencesWinter;
             builder.KeyGenerator = @case => @case.LocationName.ToLower();
-            builder.AddCases(LocationSeasonTests.LocationDefs);
+            builder.AddCases(LocationDefs);
 
             return builder.Build();
         }
@@ -76,11 +76,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITraversable BuildTest_ExperiencingWinter()
         {
             ICasedTestBuilder<(string LocationName, bool ShouldExperienceWinter)> builder =
-                _factory.CreateCasedTestBuilder<(string, bool)>();
+                this._factory.CreateCasedTestBuilder<(string, bool)>();
             builder.Key = "experiencing_winter";
             builder.TestMethod = this.Test_ExperiencingWinter;
             builder.KeyGenerator = @case => @case.LocationName.ToLower();
-            builder.AddCases(LocationSeasonTests.LocationDefs);
+            builder.AddCases(LocationDefs);
 
             return builder.Build();
         }

@@ -23,7 +23,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         public ITraversable Build()
         {
-            ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
+            ITestFixtureBuilder builder = this._factory.CreateFixtureBuilder();
             builder.Key = "passable";
             builder.AddCondition(this._factory.Conditions.WorldReady);
 
@@ -65,13 +65,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => $"stage_{args.Stage}_with_max_{args.ConfigValue}";
 
-            foreach (int configValue in Utilities.TreeUtils.Stages)
-            foreach (int treeStage in Utilities.TreeUtils.Stages)
-            {
-                testBuilder.AddCases(
-                    (Stage: treeStage, ConfigValue: configValue, ExpectPassable: treeStage <= configValue)
-                );
-            }
+            foreach (int configValue in TreeUtils.Stages)
+                foreach (int treeStage in TreeUtils.Stages)
+                {
+                    testBuilder.AddCases(
+                        (Stage: treeStage, ConfigValue: configValue, ExpectPassable: treeStage <= configValue)
+                    );
+                }
 
             return testBuilder.Build();
         }
@@ -82,7 +82,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int stage, int configValue, bool expectPassable) = args;
 
             // Arrange
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(stage);
             this._config.MaxPassableGrowthStage = configValue;
 
             // Assert
@@ -121,7 +121,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             // Arrange
             this._config.MaxPassableGrowthStage = -1;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
+            Tree tree = TreeUtils.GetFarmTreeLonely();
             tree.health.Value = health;
 
             // Assert

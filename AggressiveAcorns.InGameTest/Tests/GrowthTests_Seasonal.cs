@@ -1,4 +1,3 @@
-using System;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
 using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
@@ -66,7 +65,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-            foreach (string treeType in new[] {Tree.bushyTree, Tree.leafyTree, Tree.pineTree, Tree.palmTree})
+            foreach (string treeType in new[] { Tree.bushyTree, Tree.leafyTree, Tree.pineTree, Tree.palmTree })
             {
                 testBuilder.AddCases(
                     (Season: Utilities.Season.Spring, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),

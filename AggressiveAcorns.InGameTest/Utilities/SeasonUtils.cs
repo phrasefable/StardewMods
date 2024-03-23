@@ -1,4 +1,3 @@
-using System;
 using StardewValley;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities

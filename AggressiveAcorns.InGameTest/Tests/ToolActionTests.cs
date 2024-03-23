@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities;
 using Phrasefable.StardewMods.StarUnit.Framework;
 using Phrasefable.StardewMods.StarUnit.Framework.Builders;
@@ -7,7 +5,6 @@ using Phrasefable.StardewMods.StarUnit.Framework.Definitions;
 using Phrasefable.StardewMods.StarUnit.Framework.Results;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 {
@@ -27,7 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         public ITraversable Build()
         {
-            ITestFixtureBuilder builder = _factory.CreateFixtureBuilder();
+            ITestFixtureBuilder builder = this._factory.CreateFixtureBuilder();
             builder.Key = "tools";
             builder.AddCondition(this._factory.Conditions.WorldReady);
 
@@ -76,11 +73,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.TestMethod = this.Test_MeleeByStageAndConfig;
             testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args => $"{args.Tool.ItemId}_stage_{args.Stage}_with_config_{args.ProtectFromMelee}";
-            
-            Tool tool = (Tool) ItemRegistry.Create("(W)66");
+
+            var tool = (Tool) ItemRegistry.Create("(W)66");
 
             testBuilder.AddCases(
-                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true ),//false
+                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),//false
                 (Stage: Tree.sproutStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
                 (Stage: Tree.saplingStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
                 (Stage: Tree.bushStage, Tool: tool, ProtectFromMelee: false, ExpectAction: false),
@@ -105,7 +102,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int stage, Tool tool, bool protectFromMelee, bool expectAction) = args;
 
             // Arrange
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(stage);
             this._config.DoMeleeWeaponsDestroySeedlings = !protectFromMelee;
 
             // Assert
@@ -128,24 +125,24 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             var tools = new Dictionary<Tool, int[]>
             {
-                {ItemRegistry.Create<Tool>("(T)IridiumAxe"), Utilities.TreeUtils.Stages},
+                {ItemRegistry.Create<Tool>("(T)IridiumAxe"), TreeUtils.Stages},
                 {ItemRegistry.Create<Tool>("(T)IridiumPickaxe"), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}},
                 {ItemRegistry.Create<Tool>("(T)IridiumHoe"), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}}
             };
 
             foreach (Tool tool in tools.Keys)
-            foreach (bool protectFromMelee in new[] {false, true})
-            foreach (int stage in Utilities.TreeUtils.Stages)
-            {
-                testBuilder.AddCases(
-                    (
-                        Stage: stage,
-                        Tool: tool,
-                        ProtectFromMelee: protectFromMelee,
-                        ExpectAction: tools[tool].Contains(stage)
-                    )
-                );
-            }
+                foreach (bool protectFromMelee in new[] { false, true })
+                    foreach (int stage in TreeUtils.Stages)
+                    {
+                        testBuilder.AddCases(
+                            (
+                                Stage: stage,
+                                Tool: tool,
+                                ProtectFromMelee: protectFromMelee,
+                                ExpectAction: tools[tool].Contains(stage)
+                            )
+                        );
+                    }
 
             return testBuilder.Build();
         }
@@ -156,7 +153,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int stage, Tool tool, bool protectFromMelee, bool expectAction) = args;
 
             // Arrange
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
+            Tree tree = TreeUtils.GetFarmTreeLonely(stage);
             this._config.DoMeleeWeaponsDestroySeedlings = !protectFromMelee;
 
             // Assert
