@@ -46,7 +46,7 @@ namespace Phrasefable.StardewMods.NoOre
 
             var harmony = new Harmony(ModManifest.UniqueID);
 
-            MethodInfo target = typeof(GameLocation).GetMethod("breakStone");
+            MethodInfo target = typeof(GameLocation).GetMethod("breakStone", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Monitor.Log(target != null ? $"got method info for {target.DeclaringType}::{target.Name}" : "couldn't reflect method",LogLevel.Trace);
             var postfix = new HarmonyMethod(GetType(), nameof(NoOre.Postfix));
@@ -68,7 +68,7 @@ namespace Phrasefable.StardewMods.NoOre
             // ReSharper disable UnusedParameter.Local
             GameLocation __instance,
             bool __result,
-            int indexOfStone,
+            string stoneId,
             int x,
             int y,
             Farmer who
