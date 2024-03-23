@@ -66,7 +66,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITestResult UpdateAndCheckTreeHasSpread(Tree tree, bool expectSpread)
         {
             // Act
-            tree.Update();
+            tree.dayUpdate();
 
             // Assert
             if (!expectSpread && this._seedLocator.GeneratedOffsets.Count == 0)
@@ -116,8 +116,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private static bool CouldBeSeedOf(Tree tree, Vector2 offset, out string message)
         {
-            Vector2 position = tree.currentTileLocation + offset;
-            if (!tree.currentLocation.terrainFeatures.TryGetValue(position, out TerrainFeature feature))
+            Vector2 position = tree.Tile + offset;
+            if (!tree.Location.terrainFeatures.TryGetValue(position, out TerrainFeature feature))
             {
                 message = "No seed present at expected position.";
                 return false;
@@ -309,8 +309,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 for (int dY = -radius; dY < radius; dY++)
                 {
                     if (dX == 0 && dY == 0) continue;
-                    var position = new Vector2(tree.currentTileLocation.X + dX, tree.currentTileLocation.Y + dY);
-                    tree.currentLocation.terrainFeatures[position] = new Grass(Grass.springGrass, 4);
+                    var position = new Vector2(tree.Tile.X + dX, tree.Tile.Y + dY);
+                    tree.Location.terrainFeatures[position] = new Grass(Grass.springGrass, 4);
                 }
             }
 
@@ -353,10 +353,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             if (isTapped)
             {
-                new Object(Vector2.Zero, 105).placementAction(
-                    tree.currentLocation,
-                    (int) tree.currentTileLocation.X * 64,
-                    (int) tree.currentTileLocation.Y * 64,
+                new StardewValley.Object(Vector2.Zero, "105").placementAction(
+                    tree.Location,
+                    (int) tree.Tile.X * 64,
+                    (int) tree.Tile.Y * 64,
                     Game1.player
                 );
             }

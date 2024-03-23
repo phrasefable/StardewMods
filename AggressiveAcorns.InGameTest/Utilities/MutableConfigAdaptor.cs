@@ -34,14 +34,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 
         // ======= Overridable function members ========================================================================
 
-        [NotNull] public Func<bool> SpreadRoller { private get; set; }
-        [NotNull] public Func<bool> GrowthRoller { private get; set; }
-        [NotNull] public Func<bool> GrowthMahoganyRoller { private get; set; }
-        [NotNull] public Func<bool> GrowthMahoganyFertilizedRoller { private get; set; }
-        [NotNull] public Func<bool> SeedGainRoller { private get; set; }
-        [NotNull] public Func<bool> SeedLossRoller { private get; set; }
-        [NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
-        [NotNull] public Func<IEnumerable<Vector2>> SpreadOffsetGenerator { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> SpreadRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> GrowthRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> GrowthMahoganyRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> GrowthMahoganyFertilizedRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> SeedGainRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> SeedLossRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<bool> MushroomRegrowthRoller { private get; set; }
+        [JetBrains.Annotations.NotNull] public Func<IEnumerable<Vector2>> SpreadOffsetGenerator { private get; set; }
 
 
         // ======= IConfigAdaptor members ==============================================================================

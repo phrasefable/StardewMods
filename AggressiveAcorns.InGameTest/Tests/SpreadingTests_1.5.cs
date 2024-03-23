@@ -44,10 +44,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely();
             if (isTapped)
             {
-                new Object(Vector2.Zero, 264).placementAction(
-                    tree.currentLocation,
-                    (int) tree.currentTileLocation.X * 64,
-                    (int) tree.currentTileLocation.Y * 64,
+                new StardewValley.Object(Vector2.Zero, "264").placementAction(
+                    tree.Location,
+                    (int) tree.Tile.X * 64,
+                    (int) tree.Tile.Y * 64,
                     Game1.player
                 );
             }

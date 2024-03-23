@@ -61,7 +61,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 );
             }
 
-            Season.Spring.SetSeason();
+            Utilities.Season.Spring.SetSeason();
             bool experiencesWinter = location.ExperiencesWinter();
 
             return experiencesWinter == shouldExperienceWinter
@@ -99,7 +99,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                 );
             }
 
-            Season.Winter.SetSeason();
+            Utilities.Season.Winter.SetSeason();
             bool experiencesWinter = location.ExperiencingWinter();
 
             return experiencesWinter == shouldExperienceWinter

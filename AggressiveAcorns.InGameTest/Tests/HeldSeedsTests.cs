@@ -56,7 +56,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITestResult CheckTreeHasSeedAfterUpdate(Tree tree, bool expectSeed)
         {
             // Act
-            tree.Update();
+            tree.dayUpdate();
 
             // Assert
             return tree.hasSeed.Value == expectSeed

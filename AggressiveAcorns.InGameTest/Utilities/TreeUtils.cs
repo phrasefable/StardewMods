@@ -6,16 +6,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
 {
     internal static class TreeUtils
     {
-        public static void Update(this Tree tree)
-        {
-            tree.dayUpdate(tree.currentLocation, tree.currentTileLocation);
-        }
+        // public static void Update(this Tree tree)
+        // {
+        //     tree.dayUpdate(tree.Location, tree.Tile);
+        // }
 
 
         public static Tree PlantTree(
             GameLocation location,
             Vector2 position,
-            int treeType,
+            string treeType,
             int growthStage,
             bool ensureUnshaded = false
         )
@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
             {
                 foreach (Vector2 tile in Common.Utilities.GetTilesInRadius(position, 3))
                 {
-                    location.removeEverythingExceptCharactersFromThisTile((int) tile.X, (int) tile.Y);
+                    location.removeObjectsAndSpawned((int) tile.X, (int) tile.Y, 1, 1);
                 }
             }
 
@@ -34,13 +34,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
         }
 
 
-        public static Tree GetFarmTreeLonely(int stage = Tree.treeStage, int type = Tree.pineTree)
+        public static Tree GetFarmTreeLonely(int stage = Tree.treeStage, string type = Tree.pineTree)
         {
             return TreeUtils.GetLonelyTree(LocationUtils.WarpFarm, stage, type);
         }
 
 
-        public static Tree GetLonelyTree(Warp where, int stage = Tree.treeStage, int type = Tree.pineTree)
+        public static Tree GetLonelyTree(Warp where, int stage = Tree.treeStage, string type = Tree.pineTree)
         {
             GameLocation location = where.GetLocation();
             Vector2 position = where.GetTargetTile() + new Vector2(0, -2);

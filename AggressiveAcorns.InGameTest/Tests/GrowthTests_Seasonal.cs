@@ -49,8 +49,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_WinterGrowthObeysConfig()
         {
-            ICasedTestBuilder<(Season Season, bool AllowWinterGrowth, int TreeType, bool ExpectGrowth)> testBuilder =
-                this._factory.CreateCasedTestBuilder<(Season, bool, int, bool)>();
+            ICasedTestBuilder<(Utilities.Season Season, bool AllowWinterGrowth, string TreeType, bool ExpectGrowth)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(Utilities.Season, bool, string, bool)>();
 
             testBuilder.Key = "winter_growth_config";
             testBuilder.TestMethod = this.Test_WinterGrowthObeysConfig;
@@ -66,19 +66,19 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-            foreach (int treeType in new[] {Tree.bushyTree, Tree.leafyTree, Tree.pineTree, Tree.palmTree})
+            foreach (string treeType in new[] {Tree.bushyTree, Tree.leafyTree, Tree.pineTree, Tree.palmTree})
             {
                 testBuilder.AddCases(
-                    (Season: Season.Spring, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Summer, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Fall, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Winter, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: false)
+                    (Season: Utilities.Season.Spring, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Summer, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Fall, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Winter, AllowWinterGrowth: false, TreeType: treeType, ExpectGrowth: false)
                 );
                 testBuilder.AddCases(
-                    (Season: Season.Spring, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Summer, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Fall, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
-                    (Season: Season.Winter, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true)
+                    (Season: Utilities.Season.Spring, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Summer, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Fall, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true),
+                    (Season: Utilities.Season.Winter, AllowWinterGrowth: true, TreeType: treeType, ExpectGrowth: true)
                 );
             }
 
@@ -86,9 +86,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         }
 
 
-        private ITestResult Test_WinterGrowthObeysConfig((Season, bool, int, bool) args)
+        private ITestResult Test_WinterGrowthObeysConfig((Utilities.Season, bool, string, bool) args)
         {
-            (Season season, bool allowWinterGrowth, int treeType, bool expectGrowth) = args;
+            (Utilities.Season season, bool allowWinterGrowth, string treeType, bool expectGrowth) = args;
 
             // Arrange
             Game1.player.warpFarmer(LocationUtils.WarpFarm);
@@ -96,7 +96,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             this._config.GrowthRoller = () => true;
             this._config.DoGrowInWinter = allowWinterGrowth;
 
-            Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.seedStage, treeType);
+            Tree tree = TreeUtils.GetFarmTreeLonely(Tree.seedStage, treeType);
             return this.UpdateAndCheckHasGrown(tree, expectGrowth);
         }
 
@@ -139,12 +139,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (Warp location, bool expectGrowth) = args;
 
             // Arrange
-            Season.Winter.SetSeason();
+            Utilities.Season.Winter.SetSeason();
             Game1.player.warpFarmer(location);
             this._config.GrowthRoller = () => true;
             this._config.DoGrowInWinter = false;
 
-            Tree tree = Utilities.TreeUtils.GetLonelyTree(location, Tree.seedStage);
+            Tree tree = TreeUtils.GetLonelyTree(location, Tree.seedStage);
             return this.UpdateAndCheckHasGrown(tree, expectGrowth);
         }
     }

@@ -36,14 +36,14 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             fixtureBuilder.BeforeAll = () =>
             {
                 Game1.player.warpFarmer(LocationUtils.WarpFarm);
-                Season.Spring.SetSeason();
+                Utilities.Season.Spring.SetSeason();
             };
             fixtureBuilder.BeforeAllDelay = Delay.Second;
 
             fixtureBuilder.AfterAll = () =>
             {
                 Game1.player.warpFarmer(LocationUtils.WarpFarm);
-                Season.Spring.SetSeason();
+                Utilities.Season.Spring.SetSeason();
             };
             fixtureBuilder.AfterAllDelay = Delay.Second;
 
@@ -86,7 +86,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
         private ITestResult UpdateAndCheckHasGrown(Tree tree, int expectedStage)
         {
             // Act
-            tree.Update();
+            tree.dayUpdate();
 
             // Assert
             return tree.growthStage.Value == expectedStage
@@ -273,8 +273,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
             Utilities.TreeUtils.PlantTree(
-                tree.currentLocation,
-                tree.currentTileLocation + new Vector2(-1, 0),
+                tree.Location,
+                tree.Tile + new Vector2(-1, 0),
                 tree.treeType.Value,
                 Tree.treeStage
             );
@@ -321,8 +321,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(initStage);
             Utilities.TreeUtils.PlantTree(
-                tree.currentLocation,
-                tree.currentTileLocation + offset,
+                tree.Location,
+                tree.Tile + offset,
                 tree.treeType.Value,
                 Tree.treeStage
             );
@@ -378,8 +378,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             if (shading)
             {
                 Utilities.TreeUtils.PlantTree(
-                    tree.currentLocation,
-                    tree.currentTileLocation + new Vector2(-1, -1),
+                    tree.Location,
+                    tree.Tile + new Vector2(-1, -1),
                     tree.treeType.Value,
                     Tree.treeStage
                 );
@@ -388,8 +388,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             if (nonShading)
             {
                 Utilities.TreeUtils.PlantTree(
-                        tree.currentLocation,
-                        tree.currentTileLocation + new Vector2(-1, 1),
+                        tree.Location,
+                        tree.Tile + new Vector2(-1, 1),
                         tree.treeType.Value,
                         Tree.treeStage
                     )
@@ -399,8 +399,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             if (stump)
             {
                 Utilities.TreeUtils.PlantTree(
-                        tree.currentLocation,
-                        tree.currentTileLocation + new Vector2(-1, 0),
+                        tree.Location,
+                        tree.Tile + new Vector2(-1, 0),
                         tree.treeType.Value,
                         Tree.treeStage
                     )
@@ -484,8 +484,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(Tree.seedStage);
             Utilities.TreeUtils.PlantTree(
-                tree.currentLocation,
-                tree.currentTileLocation + new Vector2(-1, 0),
+                tree.Location,
+                tree.Tile + new Vector2(-1, 0),
                 tree.treeType.Value,
                 Tree.treeStage
             );

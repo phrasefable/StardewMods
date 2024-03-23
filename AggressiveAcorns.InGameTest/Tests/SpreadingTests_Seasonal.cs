@@ -45,8 +45,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_SeasonalSpreading()
         {
-            ICasedTestBuilder<(Season Season, bool AllowWinterSpread, bool ExpectSpread)> testBuilder =
-                this._factory.CreateCasedTestBuilder<(Season, bool, bool)>();
+            ICasedTestBuilder<(Utilities.Season Season, bool AllowWinterSpread, bool ExpectSpread)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(Utilities.Season, bool, bool)>();
 
             testBuilder.Key = "seasonal_spreading";
             testBuilder.TestMethod = this.Test_SeasonalSpreading;
@@ -54,25 +54,25 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.KeyGenerator = args =>
                 $"{args.Season.GetName()}_{(args.AllowWinterSpread ? "with" : "without")}_winter_spread";
             testBuilder.AddCases(
-                (Season: Season.Spring, false, true),
-                (Season: Season.Summer, false, true),
-                (Season: Season.Fall, false, true),
-                (Season: Season.Winter, false, false)
+                (Season: Utilities.Season.Spring, false, true),
+                (Season: Utilities.Season.Summer, false, true),
+                (Season: Utilities.Season.Fall, false, true),
+                (Season: Utilities.Season.Winter, false, false)
             );
             testBuilder.AddCases(
-                (Season: Season.Spring, true, true),
-                (Season: Season.Summer, true, true),
-                (Season: Season.Fall, true, true),
-                (Season: Season.Winter, true, true)
+                (Season: Utilities.Season.Spring, true, true),
+                (Season: Utilities.Season.Summer, true, true),
+                (Season: Utilities.Season.Fall, true, true),
+                (Season: Utilities.Season.Winter, true, true)
             );
 
             return testBuilder.Build();
         }
 
 
-        private ITestResult Test_SeasonalSpreading((Season, bool, bool) args)
+        private ITestResult Test_SeasonalSpreading((Utilities.Season, bool, bool) args)
         {
-            (Season season, bool allowWinterSpread, bool expectSpread) = args;
+            (Utilities.Season season, bool allowWinterSpread, bool expectSpread) = args;
 
             // Arrange
             season.SetSeason();
@@ -81,7 +81,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Act, Assert
             ITestResult result = this.UpdateAndCheckTreeHasSpread(
-                Utilities.TreeUtils.GetFarmTreeLonely(),
+                TreeUtils.GetFarmTreeLonely(),
                 expectSpread
             );
             return result;

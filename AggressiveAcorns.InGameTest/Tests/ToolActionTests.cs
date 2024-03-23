@@ -53,21 +53,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             if (tree.growthStage.Value == Tree.treeStage) tree.stump.Value = true;
 
             // Need to take a practice swing using proper methods to init some private fields on tool
-            tool.DoFunction(tree.currentLocation, -100, -100, -1, Game1.player);
+            tool.DoFunction(tree.Location, -100, -100, -1, Game1.player);
 
             // Tree.performToolAction returns true if the tree is destroyed
-            return tree.performToolAction(tool, 0, tree.currentTileLocation, tree.currentLocation) == expectEffect
+            return tree.performToolAction(tool, 0, tree.Tile) == expectEffect
                 ? this._factory.BuildTestResult(Status.Pass)
                 : this._factory.BuildTestResult(
                     Status.Fail,
-                    $"Expected {(expectEffect ? "" : "no ")}effect."
+                    $"Expected {(expectEffect ? "an" : "no")} effect."
                 );
-        }
-
-
-        private Tool MakeTool(byte type)
-        {
-            return ToolFactory.getToolFromDescription(type, Tool.iridium);
         }
 
 
@@ -75,43 +69,44 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
         private ITraversable BuildTest_MeleeByStageAndConfig()
         {
-            ICasedTestBuilder<(int Stage, bool ProtectFromMelee, bool ExpectAction)> testBuilder =
-                this._factory.CreateCasedTestBuilder<(int Stage, bool ConfigValue, bool ExpectAction)>();
+            ICasedTestBuilder<(int Stage, Tool Tool, bool ProtectFromMelee, bool ExpectAction)> testBuilder =
+                this._factory.CreateCasedTestBuilder<(int Stage, Tool Tool, bool ConfigValue, bool ExpectAction)>();
 
             testBuilder.Key = "melee";
             testBuilder.TestMethod = this.Test_MeleeByStageAndConfig;
             testBuilder.Delay = Delay.Tick;
-            testBuilder.KeyGenerator = args => $"stage_{args.Stage}_with_config_{args.ProtectFromMelee}";
+            testBuilder.KeyGenerator = args => $"{args.Tool.ItemId}_stage_{args.Stage}_with_config_{args.ProtectFromMelee}";
+            
+            Tool tool = (Tool) ItemRegistry.Create("(W)66");
 
             testBuilder.AddCases(
-                (Stage: Tree.seedStage, ProtectFromMelee: false, ExpectAction: false),
-                (Stage: Tree.sproutStage, ProtectFromMelee: false, ExpectAction: true),
-                (Stage: Tree.saplingStage, ProtectFromMelee: false, ExpectAction: true),
-                (Stage: Tree.bushStage, ProtectFromMelee: false, ExpectAction: false),
-                (Stage: Tree.bushStage + 1, ProtectFromMelee: false, ExpectAction: false),
-                (Stage: Tree.treeStage, ProtectFromMelee: false, ExpectAction: false)
+                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true ),//false
+                (Stage: Tree.sproutStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
+                (Stage: Tree.saplingStage, Tool: tool, ProtectFromMelee: false, ExpectAction: true),
+                (Stage: Tree.bushStage, Tool: tool, ProtectFromMelee: false, ExpectAction: false),
+                (Stage: Tree.bushStage + 1, Tool: tool, ProtectFromMelee: false, ExpectAction: false),
+                (Stage: Tree.treeStage, Tool: tool, ProtectFromMelee: false, ExpectAction: false)
             );
             testBuilder.AddCases(
-                (Stage: Tree.seedStage, ProtectFromMelee: true, ExpectAction: false),
-                (Stage: Tree.sproutStage, ProtectFromMelee: true, ExpectAction: false),
-                (Stage: Tree.saplingStage, ProtectFromMelee: true, ExpectAction: false),
-                (Stage: Tree.bushStage, ProtectFromMelee: true, ExpectAction: false),
-                (Stage: Tree.bushStage + 1, ProtectFromMelee: true, ExpectAction: false),
-                (Stage: Tree.treeStage, ProtectFromMelee: true, ExpectAction: false)
+                (Stage: Tree.seedStage, Tool: tool, ProtectFromMelee: true, ExpectAction: false),
+                (Stage: Tree.sproutStage, Tool: tool, ProtectFromMelee: true, ExpectAction: false),
+                (Stage: Tree.saplingStage, Tool: tool, ProtectFromMelee: true, ExpectAction: false),
+                (Stage: Tree.bushStage, Tool: tool, ProtectFromMelee: true, ExpectAction: false),
+                (Stage: Tree.bushStage + 1, Tool: tool, ProtectFromMelee: true, ExpectAction: false),
+                (Stage: Tree.treeStage, Tool: tool, ProtectFromMelee: true, ExpectAction: false)
             );
 
             return testBuilder.Build();
         }
 
 
-        private ITestResult Test_MeleeByStageAndConfig((int Stage, bool ProtectFromMelee, bool ExpectAction) args)
+        private ITestResult Test_MeleeByStageAndConfig((int Stage, Tool Tool, bool ProtectFromMelee, bool ExpectAction) args)
         {
-            (int stage, bool protectFromMelee, bool expectAction) = args;
+            (int stage, Tool tool, bool protectFromMelee, bool expectAction) = args;
 
             // Arrange
             Tree tree = Utilities.TreeUtils.GetFarmTreeLonely(stage);
             this._config.DoMeleeWeaponsDestroySeedlings = !protectFromMelee;
-            Tool tool = this.MakeTool(ToolFactory.meleeWeapon);
 
             // Assert
             return this.CheckIfToolAffectsTree(tree, tool, expectAction);
@@ -129,13 +124,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             testBuilder.TestMethod = this.Test_PassableByHealth;
             testBuilder.Delay = Delay.Tick;
             testBuilder.KeyGenerator = args =>
-                $"{args.Tool.BaseName}_stage_{args.Stage}_with_config_{args.ProtectFromMelee}";
+                $"{args.Tool.ItemId}_stage_{args.Stage}_with_config_{args.ProtectFromMelee}";
 
             var tools = new Dictionary<Tool, int[]>
             {
-                {this.MakeTool(ToolFactory.axe), Utilities.TreeUtils.Stages},
-                {this.MakeTool(ToolFactory.pickAxe), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}},
-                {this.MakeTool(ToolFactory.hoe), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}}
+                {ItemRegistry.Create<Tool>("(T)IridiumAxe"), Utilities.TreeUtils.Stages},
+                {ItemRegistry.Create<Tool>("(T)IridiumPickaxe"), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}},
+                {ItemRegistry.Create<Tool>("(T)IridiumHoe"), new[] {Tree.seedStage, Tree.sproutStage, Tree.saplingStage}}
             };
 
             foreach (Tool tool in tools.Keys)
