@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
@@ -8,7 +7,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 {
     internal static class GameLocationQueries
     {
-        [Pure]
         public static bool TreeCanGrowAt(this GameLocation location, Tree tree, Vector2 position)
         {
             string prop = location.doesTileHaveProperty((int) position.X, (int) position.Y, "NoSpawn", "Back");
@@ -18,14 +16,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
-        [Pure]
         public static bool ExperiencingWinter(this GameLocation location)
         {
             return Game1.GetSeasonForLocation(location) == Season.Winter && location.ExperiencesWinter();
         }
 
 
-        [Pure]
         public static bool ExperiencesWinter(this GameLocation location)
         {
             if (!location.IsOutdoors && !location.treatAsOutdoors.Value) return false;
@@ -34,7 +30,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
-        [Pure]
         public static bool IsShadedAt(this GameLocation location, Vector2 position)
         {
             foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(position))

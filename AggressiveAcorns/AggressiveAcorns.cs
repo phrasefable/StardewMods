@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using HarmonyLib;
-using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
 using Netcode;
 using Phrasefable.StardewMods.AggressiveAcorns.Config;
 using Phrasefable.StardewMods.AggressiveAcorns.Framework;
@@ -16,7 +10,6 @@ using StardewValley.Tools;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
 {
-    [UsedImplicitly]
     public class AggressiveAcorns : Mod
     {
         private static Action<string> ErrorLogger;
@@ -27,7 +20,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         private ICollection<IHarmonyPatchInfo> _patches;
 
 
-        public override void Entry([JetBrains.Annotations.NotNull] IModHelper helper)
+        public override void Entry(IModHelper helper)
         {
             AggressiveAcorns.Config = new ConfigAdaptor(helper.ReadConfig<ModConfig>());
             AggressiveAcorns.ErrorLogger = message => this.Monitor.Log(message, LogLevel.Error);
