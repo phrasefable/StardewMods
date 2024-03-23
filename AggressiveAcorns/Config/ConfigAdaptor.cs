@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
@@ -26,16 +25,16 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Config
         public bool DoMushroomTreesHibernate => this._base.DoMushroomTreesHibernate;
         public bool DoMushroomTreesRegrow => this._base.DoMushroomTreesRegrow;
 
-        public bool RollForSpread => ConfigAdaptor.RandomChance(this._base.ChanceSpread);
-        public bool RollForGrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth);
-        public bool RollForGrowthMahogany => ConfigAdaptor.RandomChance(this._base.ChanceGrowthMahogany);
+        public bool RollForSpread => RandomChance(this._base.ChanceSpread);
+        public bool RollForGrowth => RandomChance(this._base.ChanceGrowth);
+        public bool RollForGrowthMahogany => RandomChance(this._base.ChanceGrowthMahogany);
 
         public bool RollForGrowthMahoganyFertilized =>
-            ConfigAdaptor.RandomChance(this._base.ChanceGrowthMahoganyFertilized);
+            RandomChance(this._base.ChanceGrowthMahoganyFertilized);
 
-        public bool RollForSeedGain => ConfigAdaptor.RandomChance(this._base.ChanceSeedGain);
-        public bool RollForSeedLoss => ConfigAdaptor.RandomChance(this._base.ChanceSeedLoss);
-        public bool RollForMushroomRegrowth => ConfigAdaptor.RandomChance(this._base.ChanceGrowth / 2);
+        public bool RollForSeedGain => RandomChance(this._base.ChanceSeedGain);
+        public bool RollForSeedLoss => RandomChance(this._base.ChanceSeedLoss);
+        public bool RollForMushroomRegrowth => RandomChance(this._base.ChanceGrowth / 2);
 
         public IEnumerable<Vector2> SpreadSeedOffsets => Framework.AggressiveTree.GenerateSpreadOffsets();
 

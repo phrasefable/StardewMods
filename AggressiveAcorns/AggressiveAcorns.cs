@@ -22,8 +22,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public override void Entry(IModHelper helper)
         {
-            AggressiveAcorns.Config = new ConfigAdaptor(helper.ReadConfig<ModConfig>());
-            AggressiveAcorns.ErrorLogger = message => this.Monitor.Log(message, LogLevel.Error);
+            Config = new ConfigAdaptor(helper.ReadConfig<ModConfig>());
+            ErrorLogger = message => this.Monitor.Log(message, LogLevel.Error);
 
             this.SetUpPatches();
 
@@ -73,18 +73,18 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             this._patches = new List<IHarmonyPatchInfo>
             {
                 new HarmonyPatchInfo(
-                    AccessTools.Method(typeof(StardewValley.TerrainFeatures.Tree), nameof(Tree.isPassable)),
-                    AccessTools.Method(typeof(AggressiveAcorns), nameof(AggressiveAcorns.IsPassable_Postfix)),
+                    AccessTools.Method(typeof(Tree), nameof(Tree.isPassable)),
+                    AccessTools.Method(typeof(AggressiveAcorns), nameof(IsPassable_Postfix)),
                     PatchType.Postfix
                 ),
                 new HarmonyPatchInfo(
-                    AccessTools.Method(typeof(StardewValley.TerrainFeatures.Tree), nameof(Tree.performToolAction)),
-                    AccessTools.Method(typeof(AggressiveAcorns), nameof(AggressiveAcorns.PerformToolAction_Prefix)),
+                    AccessTools.Method(typeof(Tree), nameof(Tree.performToolAction)),
+                    AccessTools.Method(typeof(AggressiveAcorns), nameof(PerformToolAction_Prefix)),
                     PatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
-                    AccessTools.Method(typeof(StardewValley.TerrainFeatures.Tree), nameof(Tree.dayUpdate)),
-                    AccessTools.Method(typeof(AggressiveAcorns), nameof(AggressiveAcorns.DayUpdate_Prefix)),
+                    AccessTools.Method(typeof(Tree), nameof(Tree.dayUpdate)),
+                    AccessTools.Method(typeof(AggressiveAcorns), nameof(DayUpdate_Prefix)),
                     PatchType.Prefix
                 )
             };
@@ -103,11 +103,11 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             try
             {
                 __result = __instance.health.Value <= -99 ||
-                           __instance.growthStage.Value <= AggressiveAcorns.Config.MaxPassableGrowthStage;
+                           __instance.growthStage.Value <= Config.MaxPassableGrowthStage;
             }
             catch (Exception ex)
             {
-                AggressiveAcorns.ErrorLogger($"Failed in {nameof(AggressiveAcorns.IsPassable_Postfix)}:\n{ex}");
+                ErrorLogger($"Failed in {nameof(IsPassable_Postfix)}:\n{ex}");
             }
         }
 
@@ -116,7 +116,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         {
             try
             {
-                if (!AggressiveAcorns.Config.DoMeleeWeaponsDestroySeedlings && t is MeleeWeapon)
+                if (!Config.DoMeleeWeaponsDestroySeedlings && t is MeleeWeapon)
                 {
                     __result = false; // Tool action does nothing
                     return false;     // Prevent further processing (other prefixes or original method)
@@ -126,8 +126,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             }
             catch (Exception ex)
             {
-                AggressiveAcorns.ErrorLogger(
-                    $"Harmony Patch failed in {nameof(AggressiveAcorns.PerformToolAction_Prefix)}:\n{ex}"
+                ErrorLogger(
+                    $"Harmony Patch failed in {nameof(PerformToolAction_Prefix)}:\n{ex}"
                 );
                 return true; // Allow original method (& other patches) to run.
             }
@@ -143,14 +143,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         {
             try
             {
-                //__instance.DayUpdateAggressively(environment, tileLocation, ___destroy, ref ___shakeRotation);
                 __instance.DayUpdateAggressively(___destroy, ref ___shakeRotation);
                 return false; // Prevent other processing on the method.
             }
             catch (Exception ex)
             {
-                AggressiveAcorns.ErrorLogger(
-                    $"Harmony Patch failed in {nameof(AggressiveAcorns.DayUpdate_Prefix)}:\n{ex}"
+                ErrorLogger(
+                    $"Harmony Patch failed in {nameof(DayUpdate_Prefix)}:\n{ex}"
                 );
                 return true; // Allow original method (& other patches) to run.
             }
