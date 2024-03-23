@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 
@@ -7,7 +6,6 @@ namespace Phrasefable.StardewMods.Common
 {
     internal static class Utilities
     {
-        [NotNull]
         public static IEnumerable<GameLocation> GetLocations(IModHelper helper)
         {
             if (Context.IsMainPlayer)
