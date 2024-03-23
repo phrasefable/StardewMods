@@ -9,23 +9,23 @@ namespace Phrasefable.StardewMods.ModdingTools
     {
         public override void Entry([NotNull] IModHelper helper)
         {
-            SetUp_Ground();
+            this.SetUp_Ground();
 
-            SetUp_Tally();
+            this.SetUp_Tally();
 
-            SetUp_EventLogging();
+            this.SetUp_EventLogging();
 
-            SetUp_Clear();
+            this.SetUp_Clear();
 
-            SetUp_Misc();
+            this.SetUp_Misc();
         }
 
         private void SetUp_Misc()
         {
-            Helper.ConsoleCommands.Add(
+            this.Helper.ConsoleCommands.Add(
                 "list_game_locations",
                 "Lists all game locations",
-                ListGameLocations
+                this.ListGameLocations
             );
         }
 
@@ -33,14 +33,14 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             if (!Context.IsWorldReady)
             {
-                Monitor.Log("World not ready.", LogLevel.Info);
+                this.Monitor.Log("World not ready.", LogLevel.Info);
                 return;
             }
 
-            Monitor.Log("(Currently loaded) Game Locations:", LogLevel.Info);
-            foreach (GameLocation location in Common.Utilities.GetLocations(Helper))
+            this.Monitor.Log("(Currently loaded) Game Locations:", LogLevel.Info);
+            foreach (GameLocation location in Common.Utilities.GetLocations(this.Helper))
             {
-                Monitor.Log($"  name={location.Name}", LogLevel.Info);
+                this.Monitor.Log($"  name={location.Name}", LogLevel.Info);
             }
         }
     }

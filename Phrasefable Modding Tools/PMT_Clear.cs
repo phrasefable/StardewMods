@@ -8,7 +8,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void SetUp_Clear()
         {
             const string doc = "clears all objects and terrain features from current location";
-            Helper.ConsoleCommands.Add("clear_map", doc, ClearGround);
+            this.Helper.ConsoleCommands.Add("clear_map", doc, this.ClearGround);
         }
 
 
@@ -24,7 +24,7 @@ namespace Phrasefable.StardewMods.ModdingTools
             }
             else
             {
-                Monitor.Log("World not ready", LogLevel.Info);
+                this.Monitor.Log("World not ready", LogLevel.Info);
             }
         }
     }

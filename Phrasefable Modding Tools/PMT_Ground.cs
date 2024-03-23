@@ -14,7 +14,7 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             var desc = new StringBuilder("Prints data on the tiles around the player.");
             desc.Append("Usage: ground [radius]");
-            Helper.ConsoleCommands.Add("ground", desc.ToString(), GroundCommand);
+            this.Helper.ConsoleCommands.Add("ground", desc.ToString(), this.GroundCommand);
         }
 
 
@@ -22,21 +22,21 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             if (!Context.IsWorldReady)
             {
-                Monitor.Log("World not ready.", LogLevel.Info);
+                this.Monitor.Log("World not ready.", LogLevel.Info);
                 return;
             }
 
-            var radius = 1;
+            int radius = 1;
             if (args.Length > 0 && int.TryParse(args[0], out int value))
             {
                 radius = value;
             }
 
-            Vector2 playerPosition = Game1.player.getTileLocation();
+            Vector2 playerPosition = Game1.player.Tile;
 
             foreach (Vector2 tile in Utilities.GetTilesInRadius(playerPosition, radius))
             {
-                CheckGround(Game1.currentLocation, tile);
+                this.CheckGround(Game1.currentLocation, tile);
             }
         }
 
@@ -44,9 +44,9 @@ namespace Phrasefable.StardewMods.ModdingTools
         private void CheckGround([NotNull] GameLocation location, Vector2 tile)
         {
             var message = new StringBuilder($"{location.Name} {tile}:");
-            var any = false;
+            bool any = false;
 
-            if (location.Objects.TryGetValue(tile, out Object sObject))
+            if (location.Objects.TryGetValue(tile, out StardewValley.Object sObject))
             {
                 message.Append($" Object {sObject.Name} id {sObject.ParentSheetIndex}");
                 if (sObject.IsSpawnedObject) message.Append(" [Spawned]");
@@ -67,7 +67,7 @@ namespace Phrasefable.StardewMods.ModdingTools
                 message.Append(" (none)");
             }
 
-            Monitor.Log(message.ToString(), LogLevel.Info);
+            this.Monitor.Log(message.ToString(), LogLevel.Info);
         }
     }
 }

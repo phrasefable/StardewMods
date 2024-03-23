@@ -22,13 +22,13 @@ namespace Phrasefable.StardewMods.ModdingTools
 
         public ToggleableEventHandler(Action<object, TArgs> handler)
         {
-            _handler = handler;
+            this._handler = handler;
         }
 
 
         public void OnEvent(object sender, TArgs args)
         {
-            if (IsEnabled) _handler.Invoke(sender, args);
+            if (this.IsEnabled) this._handler.Invoke(sender, args);
         }
 
 
@@ -69,7 +69,7 @@ namespace Phrasefable.StardewMods.ModdingTools
                 throw new ArgumentNullException($"invalid event logger id: `{id}`");
             }
 
-            Id = id;
+            this.Id = id;
         }
     }
 
@@ -79,14 +79,14 @@ namespace Phrasefable.StardewMods.ModdingTools
         private readonly IDictionary<string, IToggleableEventLogger> _loggers =
             new Dictionary<string, IToggleableEventLogger>();
 
-        public IEnumerator<IToggleableEventLogger> GetEnumerator() => _loggers.Values.GetEnumerator();
+        public IEnumerator<IToggleableEventLogger> GetEnumerator() => this._loggers.Values.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) _loggers.Values).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) this._loggers.Values).GetEnumerator();
 
 
         public void Add([NotNull] IToggleableEventLogger item)
         {
-            _loggers[item.Id] = item;
+            this._loggers[item.Id] = item;
         }
 
 
@@ -94,11 +94,11 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             foreach (string logger in loggers)
             {
-                _loggers[logger].Set(action);
+                this._loggers[logger].Set(action);
             }
         }
 
 
-        [NotNull] public IEnumerable<string> Ids => _loggers.Keys;
+        [NotNull] public IEnumerable<string> Ids => this._loggers.Keys;
     }
 }

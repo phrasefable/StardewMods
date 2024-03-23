@@ -17,19 +17,19 @@ namespace Phrasefable.StardewMods.ModdingTools
 
         private void SetUp_EventLogging()
         {
-            BuildLogger_World_DebrisListChanged();
-            BuildLogger_World_ObjectListChanged();
-            BuildLogger_World_LocationListChanged();
-            BuildLogger_World_TerrainFeatureListChanged();
-            BuildLogger_World_LargeTerrainFeatureListChanged();
-            BuildLogger_GameLoop_Saving();
-            BuildLogger_GameLoop_Saved();
-            BuildLogger_GameLoop_SaveLoaded();
-            BuildLogger_GameLoop_DayStarted();
-            BuildLogger_GameLoop_DayEnding();
+            this.BuildLogger_World_DebrisListChanged();
+            this.BuildLogger_World_ObjectListChanged();
+            this.BuildLogger_World_LocationListChanged();
+            this.BuildLogger_World_TerrainFeatureListChanged();
+            this.BuildLogger_World_LargeTerrainFeatureListChanged();
+            this.BuildLogger_GameLoop_Saving();
+            this.BuildLogger_GameLoop_Saved();
+            this.BuildLogger_GameLoop_SaveLoaded();
+            this.BuildLogger_GameLoop_DayStarted();
+            this.BuildLogger_GameLoop_DayEnding();
 
             const string desc = "Usage: log_events [event...][ {1|true|t|0|false|f}]";
-            Helper.ConsoleCommands.Add("log_events", desc, Callback);
+            this.Helper.ConsoleCommands.Add("log_events", desc, this.Callback);
         }
 
 
@@ -37,15 +37,15 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             var action = ToggleAction.Toggle;
             var targets = new List<string>();
-            List<string> validIds = _loggers.Ids.ToList();
+            List<string> validIds = this._loggers.Ids.ToList();
 
             foreach (string arg in args)
             {
-                if (_enable.Contains(arg))
+                if (this._enable.Contains(arg))
                 {
                     action = ToggleAction.Enable;
                 }
-                else if (_disable.Contains(arg))
+                else if (this._disable.Contains(arg))
                 {
                     action = ToggleAction.Disable;
                 }
@@ -55,36 +55,36 @@ namespace Phrasefable.StardewMods.ModdingTools
                 }
                 else
                 {
-                    Monitor.Log($"Argument '{arg}' malformed. Command aborted.");
+                    this.Monitor.Log($"Argument '{arg}' malformed. Command aborted.");
                     return;
                 }
             }
 
             if (targets.Any())
             {
-                _loggers.Set(targets, action);
+                this._loggers.Set(targets, action);
             }
             else if (action != ToggleAction.Toggle)
             {
                 targets = validIds;
-                _loggers.Set(targets, action);
+                this._loggers.Set(targets, action);
             }
 
             var message = new StringBuilder("Enabled:");
-            foreach (IToggleableEventLogger logger in _loggers.Where(l => l.IsEnabled).OrderBy(l => l.Id))
+            foreach (IToggleableEventLogger logger in this._loggers.Where(l => l.IsEnabled).OrderBy(l => l.Id))
             {
                 message.Append($" {(targets.Contains(logger.Id) ? "*" : "")}{logger.Id}");
             }
 
-            Monitor.Log(message.ToString(), LogLevel.Info);
+            this.Monitor.Log(message.ToString(), LogLevel.Info);
 
             message = new StringBuilder("Disabled:");
-            foreach (IToggleableEventLogger logger in _loggers.Where(l => !l.IsEnabled).OrderBy(l => l.Id))
+            foreach (IToggleableEventLogger logger in this._loggers.Where(l => !l.IsEnabled).OrderBy(l => l.Id))
             {
                 message.Append($" {(targets.Contains(logger.Id) ? "*" : "")}{logger.Id}");
             }
 
-            Monitor.Log(message.ToString(), LogLevel.Info);
+            this.Monitor.Log(message.ToString(), LogLevel.Info);
         }
 
 
@@ -92,114 +92,114 @@ namespace Phrasefable.StardewMods.ModdingTools
         private ToggleableEventLogger<T> BuildLogger<T>([NotNull] string name, Func<T, string> message)
             where T : EventArgs
         {
-            var logger = new ToggleableEventLogger<T>(name, Monitor, message);
-            _loggers.Add(logger);
+            var logger = new ToggleableEventLogger<T>(name, this.Monitor, message);
+            this._loggers.Add(logger);
             return logger;
         }
 
 
         private void BuildLogger_World_DebrisListChanged()
         {
-            ToggleableEventLogger<DebrisListChangedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<DebrisListChangedEventArgs> logger = this.BuildLogger(
                 "debris",
                 (DebrisListChangedEventArgs args) =>
                     $"World.DebrisListChanged {args.Location.Name} +{args.Added.Count()} -{args.Removed.Count()}"
             );
-            Helper.Events.World.DebrisListChanged += logger.OnEvent;
+            this.Helper.Events.World.DebrisListChanged += logger.OnEvent;
         }
 
 
         private void BuildLogger_World_ObjectListChanged()
         {
-            ToggleableEventLogger<ObjectListChangedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<ObjectListChangedEventArgs> logger = this.BuildLogger(
                 "objects",
                 (ObjectListChangedEventArgs args) =>
                     $"World.ObjectListChanged {args.Location.Name} +{args.Added.Count()} -{args.Removed.Count()}"
             );
-            Helper.Events.World.ObjectListChanged += logger.OnEvent;
+            this.Helper.Events.World.ObjectListChanged += logger.OnEvent;
         }
 
 
         private void BuildLogger_World_LocationListChanged()
         {
-            ToggleableEventLogger<LocationListChangedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<LocationListChangedEventArgs> logger = this.BuildLogger(
                 "locations",
                 (LocationListChangedEventArgs args) =>
                     $"World.LocationListChanged +{args.Added.Count()} -{args.Removed.Count()}"
             );
-            Helper.Events.World.LocationListChanged += logger.OnEvent;
+            this.Helper.Events.World.LocationListChanged += logger.OnEvent;
         }
 
 
         private void BuildLogger_World_TerrainFeatureListChanged()
         {
-            ToggleableEventLogger<TerrainFeatureListChangedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<TerrainFeatureListChangedEventArgs> logger = this.BuildLogger(
                 "terrain",
                 (TerrainFeatureListChangedEventArgs args) =>
                     $"World.TerrainFeatureListChanged {args.Location.Name} +{args.Added.Count()} -{args.Removed.Count()}"
             );
-            Helper.Events.World.TerrainFeatureListChanged += logger.OnEvent;
+            this.Helper.Events.World.TerrainFeatureListChanged += logger.OnEvent;
         }
 
 
         private void BuildLogger_World_LargeTerrainFeatureListChanged()
         {
-            ToggleableEventLogger<LargeTerrainFeatureListChangedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<LargeTerrainFeatureListChangedEventArgs> logger = this.BuildLogger(
                 "large_terrain",
                 (LargeTerrainFeatureListChangedEventArgs args) =>
                     $"World.LargeTerrainFeatureListChanged {args.Location.Name} +{args.Added.Count()} -{args.Removed.Count()}"
             );
-            Helper.Events.World.LargeTerrainFeatureListChanged += logger.OnEvent;
+            this.Helper.Events.World.LargeTerrainFeatureListChanged += logger.OnEvent;
         }
 
 
         private void BuildLogger_GameLoop_Saving()
         {
-            ToggleableEventLogger<SavingEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<SavingEventArgs> logger = this.BuildLogger(
                 "saving",
                 (SavingEventArgs args) => "GameLoop.Saving"
             );
-            Helper.Events.GameLoop.Saving += logger.OnEvent;
+            this.Helper.Events.GameLoop.Saving += logger.OnEvent;
         }
 
 
         private void BuildLogger_GameLoop_Saved()
         {
-            ToggleableEventLogger<SavedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<SavedEventArgs> logger = this.BuildLogger(
                 "saved",
                 (SavedEventArgs args) => "GameLoop.Saved"
             );
-            Helper.Events.GameLoop.Saved += logger.OnEvent;
+            this.Helper.Events.GameLoop.Saved += logger.OnEvent;
         }
 
 
         private void BuildLogger_GameLoop_SaveLoaded()
         {
-            ToggleableEventLogger<SaveLoadedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<SaveLoadedEventArgs> logger = this.BuildLogger(
                 "save_loaded",
                 (SaveLoadedEventArgs args) => "GameLoop.SaveLoaded"
             );
-            Helper.Events.GameLoop.SaveLoaded += logger.OnEvent;
+            this.Helper.Events.GameLoop.SaveLoaded += logger.OnEvent;
         }
 
 
         private void BuildLogger_GameLoop_DayStarted()
         {
-            ToggleableEventLogger<DayStartedEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<DayStartedEventArgs> logger = this.BuildLogger(
                 "day_started",
                 (DayStartedEventArgs args) => "GameLoop.DayStarted"
             );
-            Helper.Events.GameLoop.DayStarted += logger.OnEvent;
+            this.Helper.Events.GameLoop.DayStarted += logger.OnEvent;
         }
 
 
         private void BuildLogger_GameLoop_DayEnding()
         {
-            ToggleableEventLogger<DayEndingEventArgs> logger = BuildLogger(
+            ToggleableEventLogger<DayEndingEventArgs> logger = this.BuildLogger(
                 "day_ending",
                 (DayEndingEventArgs args) => "GameLoop.DayEnding"
             );
-            Helper.Events.GameLoop.DayEnding += logger.OnEvent;
+            this.Helper.Events.GameLoop.DayEnding += logger.OnEvent;
         }
     }
 }

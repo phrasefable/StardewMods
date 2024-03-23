@@ -6,6 +6,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
+using SdvObject = StardewValley.Object;
+
 namespace Phrasefable.StardewMods.ModdingTools
 {
     public partial class PhrasefableModdingTools
@@ -15,22 +17,22 @@ namespace Phrasefable.StardewMods.ModdingTools
 
         private void SetUp_Tally()
         {
-            _tallyHandler = new ToggleableEventHandler<WarpedEventArgs>(Tally);
-            Helper.Events.Player.Warped += _tallyHandler.OnEvent;
+            this._tallyHandler = new ToggleableEventHandler<WarpedEventArgs>(this.Tally);
+            this.Helper.Events.Player.Warped += this._tallyHandler.OnEvent;
 
             var desc = new StringBuilder("Counts the objects in the current location.");
             desc.AppendLine("Usage: count_objects [all|start|stop]");
             desc.AppendLine("    all   - count the objects in every location");
             desc.AppendLine("    start - start counting each time a location is entered");
             desc.Append("    stop  - stop counting each time a location is entered");
-            Helper.ConsoleCommands.Add("count_objects", desc.ToString(), TallyObjectCommand);
-            Helper.ConsoleCommands.Add("count_terrain", "counts terrain features", CountTerrainFeatures);
+            this.Helper.ConsoleCommands.Add("count_objects", desc.ToString(), this.TallyObjectCommand);
+            this.Helper.ConsoleCommands.Add("count_terrain", "counts terrain features", this.CountTerrainFeatures);
         }
 
 
         private void Tally(object sender, [NotNull] WarpedEventArgs e)
         {
-            if (e.IsLocalPlayer) CountObjects(e.NewLocation);
+            if (e.IsLocalPlayer) this.CountObjects(e.NewLocation);
         }
 
 
@@ -38,23 +40,23 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             if (args.Length == 0)
             {
-                CountObjects();
+                this.CountObjects();
             }
             else
             {
                 switch (args[0])
                 {
                     case "start":
-                        _tallyHandler.Set(ToggleAction.Enable);
+                        this._tallyHandler.Set(ToggleAction.Enable);
                         break;
                     case "stop":
-                        _tallyHandler.Set(ToggleAction.Disable);
+                        this._tallyHandler.Set(ToggleAction.Disable);
                         break;
                     case "all":
-                        CountObjects(true);
+                        this.CountObjects(true);
                         break;
                     default:
-                        Monitor.Log($"Arguments `{string.Join(" ", args)}` malformed.", LogLevel.Info);
+                        this.Monitor.Log($"Arguments `{string.Join(" ", args)}` malformed.", LogLevel.Info);
                         break;
                 }
             }
@@ -65,11 +67,11 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             if (Context.IsWorldReady)
             {
-                CountTerrainFeatures(Game1.currentLocation);
+                this.CountTerrainFeatures(Game1.currentLocation);
             }
             else
             {
-                Monitor.Log("World not ready", LogLevel.Info);
+                this.Monitor.Log("World not ready", LogLevel.Info);
             }
         }
 
@@ -78,34 +80,34 @@ namespace Phrasefable.StardewMods.ModdingTools
         {
             if (!Context.IsWorldReady)
             {
-                Monitor.Log("World not ready", LogLevel.Info);
+                this.Monitor.Log("World not ready", LogLevel.Info);
                 return;
             }
 
             if (allLocations)
             {
-                foreach (GameLocation location in Common.Utilities.GetLocations(Helper)) CountObjects(location);
+                foreach (GameLocation location in Common.Utilities.GetLocations(this.Helper)) this.CountObjects(location);
             }
             else
             {
-                CountObjects(Game1.currentLocation);
+                this.CountObjects(Game1.currentLocation);
             }
         }
 
 
         private void CountObjects([NotNull] GameLocation location)
         {
-            IEnumerable<List<Object>> results = from obj in location.objects.Values
+            IEnumerable<List<SdvObject>> results = from obj in location.objects.Values
                 group obj by obj.ParentSheetIndex
                 into grouping
                 orderby grouping.Key
                 select grouping.ToList();
 
-            Monitor.Log($"Counted objects in {location.Name}:", LogLevel.Info);
-            foreach (List<Object> objects in results)
+            this.Monitor.Log($"Counted objects in {location.Name}:", LogLevel.Info);
+            foreach (List<SdvObject> objects in results)
             {
-                Object first = objects.First();
-                Monitor.Log($"    {first.ParentSheetIndex} {first.DisplayName} - {objects.Count}", LogLevel.Info);
+                SdvObject first = objects.First();
+                this.Monitor.Log($"    {first.ParentSheetIndex} {first.DisplayName} - {objects.Count}", LogLevel.Info);
             }
         }
 
@@ -118,10 +120,10 @@ namespace Phrasefable.StardewMods.ModdingTools
                 orderby grouping.Key.Name
                 select new {grouping.Key.Name, Count = grouping.Count()};
 
-            Monitor.Log($"Counted terrain features in {location.Name}", LogLevel.Info);
+            this.Monitor.Log($"Counted terrain features in {location.Name}", LogLevel.Info);
             foreach (var result in results)
             {
-                Monitor.Log($"    {result.Name} - {result.Count}");
+                this.Monitor.Log($"    {result.Name} - {result.Count}");
             }
         }
 
