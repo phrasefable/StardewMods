@@ -16,7 +16,7 @@ namespace Phrasefable.StardewMods.Common.Harmony
                     harmony.Patch(patch.PatchTarget, postfix: new HarmonyMethod(patch.PatchSource));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("patch.PatchType", "Unexpected patch type, must be prefix or postfix");
             }
         }
     }

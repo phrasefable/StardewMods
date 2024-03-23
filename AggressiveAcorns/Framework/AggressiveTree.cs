@@ -162,7 +162,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
 
         private static void TrySpread(this Tree tree, GameLocation location, Vector2 position)
         {
-            if (!(location is Farm) ||
+            if (location is not Farm ||
                 !tree.IsFullyGrown() ||
                 (Game1.IsWinter && !AggressiveAcorns.Config.DoSpreadInWinter) ||
                 (tree.tapped.Value && !AggressiveAcorns.Config.DoTappedSpread) ||
@@ -174,8 +174,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
             foreach (Vector2 offset in AggressiveAcorns.Config.SpreadSeedOffsets)
             {
                 Vector2 seedPos = position + offset;
-                var tileX = (int) seedPos.X;
-                var tileY = (int) seedPos.Y;
+                int tileX = (int) seedPos.X;
+                int tileY = (int) seedPos.Y;
                 if (AggressiveAcorns.Config.DoSeedsReplaceGrass &&
                     location.terrainFeatures.TryGetValue(seedPos, out TerrainFeature feature) &&
                     feature is Grass)

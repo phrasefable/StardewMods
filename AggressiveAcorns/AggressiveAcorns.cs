@@ -45,7 +45,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                         return;
                     }
 
-                    var reps = 1;
+                    int reps = 1;
                     if (args.Length == 1)
                     {
                         bool isInt = int.TryParse(args[0], out reps);
@@ -57,7 +57,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                     }
 
                     GameLocation location = Game1.player.currentLocation;
-                    for (var i = 0; i < reps; i++)
+                    for (int i = 0; i < reps; i++)
                     {
                         IEnumerable<Tree> trees = location.terrainFeatures.Values
                             .Where(feature => feature is Tree)
@@ -105,7 +105,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Required by harmony.")]
         public static void IsPassable_Postfix(Tree __instance, ref bool __result)
         {
             try
@@ -120,7 +119,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Required by harmony.")]
         public static bool PerformToolAction_Prefix(Tool t, ref bool __result)
         {
             try
@@ -143,7 +141,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         }
 
 
-        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Required by harmony.")]
         public static bool DayUpdate_Prefix(
             Tree __instance,
             // GameLocation environment,
