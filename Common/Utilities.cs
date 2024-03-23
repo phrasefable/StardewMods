@@ -11,13 +11,12 @@ namespace Phrasefable.StardewMods.Common
             if (Context.IsMainPlayer)
             {
                 // From https://stardewvalleywiki.com/Modding:Common_tasks#Get_all_locations on 2019/03/16
-                return Game1.locations;
-                //    .Concat(
-                //    from location in Game1.locations
-                //    from building in location.buildings
-                //    where building.indoors.Value != null
-                //    select building.indoors.Value
-                //);
+                return Game1.locations.Concat(
+                    from location in Game1.locations
+                    from building in location.buildings
+                    where building.indoors.Value != null
+                    select building.indoors.Value
+                );
             }
 
             return helper.Multiplayer.GetActiveLocations();
