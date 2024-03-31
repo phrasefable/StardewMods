@@ -9,5 +9,10 @@ namespace Phrasefable.StardewMods.Common.Harmony
         {
             harmony.Patch(target, postfix: new HarmonyMethod(source));
         }
+        
+        public static void Prefix(this HarmonyLib.Harmony harmony, MethodInfo target, MethodInfo source)
+        {
+            harmony.Patch(target, prefix: new HarmonyMethod(source));
+        }
     }
 }

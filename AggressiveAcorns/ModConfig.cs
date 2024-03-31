@@ -4,7 +4,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     public class ModConfig : IModConfig
     {
-        //public bool DoMeleeWeaponsDestroySeedlings { get; set; } = false;
+        public bool DoMeleeWeaponsDestroySeedlings { get; set; } = false;
 
         public int MaxPassableGrowthStage { get; set; } = Tree.seedStage;
 
@@ -35,7 +35,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         {
             var Config = new ModConfig
             {
-                MaxPassableGrowthStage = Tree.seedStage
+                MaxPassableGrowthStage = Tree.seedStage,
+                DoMeleeWeaponsDestroySeedlings = true,
             };
 
             return Config;

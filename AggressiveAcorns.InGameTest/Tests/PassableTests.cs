@@ -27,7 +27,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             builder.BeforeEach = () =>
             {
-                AggressiveAcorns.Config = new ModConfig();
+                AggressiveAcorns.Config = ModConfigUtils.GetVanillaDefaults();
             };
 
             builder.Delay = Delay.Tick;

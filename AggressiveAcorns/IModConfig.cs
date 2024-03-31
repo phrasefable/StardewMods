@@ -2,7 +2,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     public interface IModConfig
     {
-        //bool DoMeleeWeaponsDestroySeedlings { get; }
+        bool DoMeleeWeaponsDestroySeedlings { get; }
 
         int MaxPassableGrowthStage { get; }
 
