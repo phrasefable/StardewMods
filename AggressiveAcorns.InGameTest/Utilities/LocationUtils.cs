@@ -33,7 +33,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Utilities
         }
 
 
-        public static void ClearLocation(GameLocation location)
+        public static void ClearLocation(this GameLocation location)
         {
             location.debris.Clear();
             location.objects.Clear();
