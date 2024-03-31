@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using Netcode;
 using Phrasefable.StardewMods.AggressiveAcorns.Config;
@@ -86,7 +87,19 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                     AccessTools.Method(typeof(Tree), nameof(Tree.dayUpdate)),
                     AccessTools.Method(typeof(AggressiveAcorns), nameof(DayUpdate_Prefix)),
                     PatchType.Prefix
-                )
+                ),
+                new HarmonyPatchInfo(
+                    AccessTools.Method(typeof(Tree), nameof(Tree.GetMaxSizeHere)),
+                    AccessTools.Method(typeof(AggressiveAcorns), nameof(GetMaxSizeHere_Prefix)),
+                    PatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    AccessTools.Method(typeof(Tree), nameof(Tree.IsGrowthBlockedByNearbyTree)),
+                    AccessTools.Method(typeof(AggressiveAcorns), nameof(IsGrowthBlockedByNearbyTree_Prefix)),
+                    PatchType.Prefix
+                ),
+
+
             };
 
             // TODO - reimplement the non-exclusive patch thing.
@@ -145,6 +158,40 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             {
                 ErrorLogger(
                     $"Harmony Patch failed in {nameof(DayUpdate_Prefix)}:\n{ex}"
+                );
+                return true; // Allow original method (& other patches) to run.
+            }
+        }
+
+
+        public static bool GetMaxSizeHere_Prefix(Tree __instance, bool ignoreSeason)
+        {
+            try
+            {
+                __instance.GetMaxSizeHereAggressively(ignoreSeason);
+                return false; // Prevent other processing on the method.
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger(
+                    $"Harmony Patch failed in {nameof(GetMaxSizeHere_Prefix)}:\n{ex}"
+                );
+                return true; // Allow original method (& other patches) to run.
+            }
+        }
+
+
+        public static bool IsGrowthBlockedByNearbyTree_Prefix(Tree __instance)
+        {
+            try
+            {
+                __instance.IsGrowthBlockedByNearbyTreeAggressively();
+                return false; // Prevent other processing on the method.
+            }
+            catch (Exception ex)
+            {
+                ErrorLogger(
+                    $"Harmony Patch failed in {nameof(IsGrowthBlockedByNearbyTree_Prefix)}:\n{ex}"
                 );
                 return true; // Allow original method (& other patches) to run.
             }

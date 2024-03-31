@@ -21,20 +21,20 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.Framework
         }
 
 
-        public static bool IsShadedAt(this GameLocation location, Vector2 position)
-        {
-            foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(position))
-            {
-                if (location.terrainFeatures.TryGetValue(adjacentTile, out TerrainFeature feature)
-                    && feature is Tree adjTree
-                    && adjTree.IsFullyGrown()
-                    && !adjTree.stump.Value)
-                {
-                    return true;
-                }
-            }
+        //public static bool IsShadedAt(this GameLocation location, Vector2 position)
+        //{
+        //    foreach (Vector2 adjacentTile in Utility.getSurroundingTileLocationsArray(position))
+        //    {
+        //        if (location.terrainFeatures.TryGetValue(adjacentTile, out TerrainFeature feature)
+        //            && feature is Tree adjTree
+        //            && adjTree.IsFullyGrown()
+        //            && !adjTree.stump.Value)
+        //        {
+        //            return true;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
     }
 }
