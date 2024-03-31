@@ -9,6 +9,7 @@
     <Import_RootNamespace>Phrasefable.StardewMods.Common.Harmony</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HarmonyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatchInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HarmonyPatchInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IHarmonyPatchInfo.cs" />

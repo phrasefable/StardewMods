@@ -12,8 +12,6 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
     {
         private readonly ITestDefinitionFactory _factory;
 
-        private MutableConfigAdaptor _config;
-
 
         public PassableTests(ITestDefinitionFactory factory)
         {
@@ -29,8 +27,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             builder.BeforeEach = () =>
             {
-                this._config = new MutableConfigAdaptor();
-                AggressiveAcorns.Config = this._config;
+                AggressiveAcorns.Config = new ModConfig();
             };
 
             builder.Delay = Delay.Tick;
@@ -83,7 +80,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
 
             // Arrange
             Tree tree = TreeUtils.GetFarmTreeLonely(stage);
-            this._config.MaxPassableGrowthStage = configValue;
+            AggressiveAcorns.Config.MaxPassableGrowthStage = configValue;
 
             // Assert
             return this.CheckWhetherPassable(tree, expectPassable);
@@ -119,7 +116,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             (int health, bool expectPassable) = args;
 
             // Arrange
-            this._config.MaxPassableGrowthStage = -1;
+            AggressiveAcorns.Config.MaxPassableGrowthStage = -1;
 
             Tree tree = TreeUtils.GetFarmTreeLonely();
             tree.health.Value = health;
