@@ -2,6 +2,12 @@
 
 # Release notes
 
+## 2.0.0-beta.1
+
+31 March 2024
+
+* Update for Stardew Valley 1.6
+
 ## 1.3.0-beta.1
 
 9 March 2021

@@ -77,7 +77,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             try
             {
                 __result = __instance.health.Value <= -99 ||
-                           __instance.growthStage.Value <= 0;// Config.MaxPassableGrowthStage;
+                           __instance.growthStage.Value <=  Config.MaxPassableGrowthStage;
             }
             catch (Exception ex)
             {
