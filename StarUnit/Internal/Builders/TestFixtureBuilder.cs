@@ -167,7 +167,8 @@ namespace Phrasefable.StardewMods.StarUnit.Internal.Builders
 
                 if (this._delay.HasBeenSet)
                 {
-                    throw new InvalidOperationException("May not set delay without setting an action.");
+                    return new FixtureAction { Action = () => { }, Delay = this._delay.Value };
+                    // throw new InvalidOperationException("May not set delay without setting an action.");
                 }
 
                 return null;
