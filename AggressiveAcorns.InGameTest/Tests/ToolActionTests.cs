@@ -25,12 +25,12 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest.Tests
             builder.Key = "tools";
             builder.AddCondition(this._factory.Conditions.WorldReady);
 
+            builder.BeforeAllDelay = Delay.Tick;
+
             builder.BeforeEach = () =>
             {
                 AggressiveAcorns.Config = ModConfigUtils.GetVanillaDefaults();
             };
-
-            builder.Delay = Delay.Tick;
 
             builder.AddChild(this.BuildTest_MeleeByStageAndConfig());
             builder.AddChild(this.BuildTest_NonMeleeByStage());
