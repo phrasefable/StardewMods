@@ -26,6 +26,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         private void GameLoop_GameLaunched(object sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
         {
+            Config.ResetInfoEntries();
+            this.Helper.WriteConfig(Config);
             this.SetupGenericConfigMenu();
         }
 
