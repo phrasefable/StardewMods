@@ -21,6 +21,19 @@
 2. Write unit tests of engine implementation.
 3. Write in-game-tests of the smapi adaptor.
 3. Make a demo/skeleton project.
+1. Clarify test architecture re Tests/Suites/Fixtures/Traversables etc.
+
+Code-level Todo:
+1. When node skipped due to condition failures don't need to list children in output
+1. Verbose output?
+1. Make numerical output columns easier to parse
+    * Replace output column `Total: x` with x/total in each non-`-` column?
+    * Move all labels to header row?
+    * Colours?
+1. SettableOnce -> init only properties?
+1. Enable nullability?
+1. Re-write for clarity with all the closures/funcs/actions/delagates being passed around?
+1. Clarify/simplify execution 
 
 ## Issues
 
