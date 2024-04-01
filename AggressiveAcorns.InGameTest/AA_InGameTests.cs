@@ -18,6 +18,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.GameLaunched += this.OnGameLoopOnGameLaunched;
+            helper.Events.Content.AssetRequested += TestTree.Content_AssetRequested;
+            TestTree.InvalidateData = () => this.Helper.GameContent.InvalidateCache(AggressiveAcorns.Path_WildTreeData);
             this.SetUpCommands(helper);
         }
 
@@ -113,6 +115,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns.InGameTest
 
                         }
                     }
+
+                    TreeUtils.PlantTree(LocationUtils.WarpFarm.GetLocation(), LocationUtils.WarpFarm.GetTargetTile() + new Vector2(-4, -2), TestTree.Id, Tree.treeStage);
                 }
             );
         }
