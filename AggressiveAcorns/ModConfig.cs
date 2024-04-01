@@ -62,7 +62,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                  {"Still a bush", Tree.bushStage + 1},
                  {"Tree", Tree.treeStage},
                  {"Old enough to grow moss", Tree.stageForMossGrowth},
-                 {"Maximum", Tree.stageForMossGrowth + 1},
+                 {"Maximum", AggressiveAcorns.MaxGrowthStage},
             };
 
             string[] vanillaTreeTypes = [

@@ -10,8 +10,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 {
     public class AggressiveAcorns : Mod
     {
+        public const string Path_WildTreeData = "Data/WildTrees";
+
+
         private static Action<string> ErrorLogger;
         internal static ModConfig Config;
+
+        internal const int MaxGrowthStage = Tree.stageForMossGrowth + 1;
 
 
         public override void Entry(IModHelper helper)
@@ -22,15 +27,28 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             this.ApplyPatches();
 
             helper.Events.GameLoop.GameLaunched += this.GameLoop_GameLaunched;
+            helper.Events.Content.AssetReady += this.Content_AssetReady ;
+        }
+
+        private void Content_AssetReady(object sender, StardewModdingAPI.Events.AssetReadyEventArgs e)
+        {
+            if (e.NameWithoutLocale.IsEquivalentTo(Path_WildTreeData))
+            {
+                this.ReloadWildTreeDefinitions();
+            }
         }
 
         private void GameLoop_GameLaunched(object sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
         {
-            Config.ResetInfoEntries(Tree.GetWildTreeDataDictionary().Keys.ToArray());
-            this.Helper.WriteConfig(Config);
+            this.ReloadWildTreeDefinitions();
             this.SetupGenericConfigMenu();
         }
 
+        private void ReloadWildTreeDefinitions()
+        {
+            Config.ResetInfoEntries(Tree.GetWildTreeDataDictionary().Keys.ToArray());
+            this.Helper.WriteConfig(Config);
+        }
 
         private void SetupGenericConfigMenu()
         {
