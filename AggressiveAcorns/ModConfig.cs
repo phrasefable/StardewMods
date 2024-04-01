@@ -9,6 +9,13 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         public int MaxPassableGrowthStage { get; set; } = Tree.seedStage;
 
+        public string ChanceGrowth_INFO { get; private set; }
+        public int ChanceGrowth { get; set; } = -1;
+        public Dictionary<string, int> ChanceGrowth_Overrides { get; set; } = new Dictionary<string, int>() { { "ExampleTreeID", 99 }, { Tree.mahoganyTree, -1 }, { Tree.mysticTree, -1 } };
+        public int ChanceGrowthFertilized { get; set; } = -1;
+        public Dictionary<string, int> ChanceGrowthFertilized_Overrides { get; set; } = new Dictionary<string, int>() { { "ExampleTreeID", 20 }, { Tree.mahoganyTree, -1 }, { Tree.mysticTree, -1 } };
+
+
         //public double ChanceGrowth { get; set; } = 0.20;
         //public double ChanceGrowthMahogany { get; set; } = 0.15;
         //public double ChanceGrowthMahoganyFertilized { get; set; } = 0.60;
@@ -41,9 +48,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             this.ResetInfoEntries();
         }
 
-        public void ResetInfoEntries()
+        public void ResetInfoEntries(string[] wildTreeKeys = null)
         {
             this.Info_INFO = "All entries ending with '_INFO' will be reset each time the game is launched";
+            this.ChanceGrowth_INFO = "'ChanceGrowth' will set the chance to grow for all trees, except those overriden in 'ChanceGrowth_Overrides'. 0 - 100 = 0% - 100%, set to -1 to not apply.";
             this.GrowthStages_INFO = new Dictionary<object, object>
             {
                  {"Description", "Stage ID (integer) - use in config options"},
@@ -80,15 +88,9 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 {Tree.mysticTree, "Mystic"},
             };
 
-            Dictionary<string, StardewValley.GameData.WildTrees.WildTreeData> data = null;
-            try
+            if (wildTreeKeys is not null)
             {
-                data = Tree.GetWildTreeDataDictionary();
-            }
-            catch (NullReferenceException) { }
-            if (data is not null)
-            {
-                foreach (string key in data.Keys.Except(vanillaTreeTypes))
+                foreach (string key in wildTreeKeys.Except(vanillaTreeTypes))
                 {
                     this.TreeTypes_INFO.Add(key, "(modded)");
                 }
@@ -107,6 +109,10 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
             {
                 MaxPassableGrowthStage = Tree.seedStage,
                 DoMeleeWeaponsDestroySeedlings = true,
+                ChanceGrowth = -1,
+                ChanceGrowth_Overrides = [],
+                ChanceGrowthFertilized = -1,
+                ChanceGrowthFertilized_Overrides = [],
             };
 
             return Config;
