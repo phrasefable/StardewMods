@@ -44,46 +44,23 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         private void GameLoop_GameLaunched(object sender, StardewModdingAPI.Events.GameLaunchedEventArgs e)
         {
             this.ReloadWildTreeDefinitions();
-            this.SetupGenericConfigMenu();
+
+            var configApi = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configApi is not null)
+            {
+                new ConfigMenu(configApi, this.ModManifest, Config)
+                    .Build(
+                        saveConfig: () => this.Helper.WriteConfig(Config),
+                        resetConfig: () => Config = new ModConfig()
+                    );
+            }
+
         }
 
         private void ReloadWildTreeDefinitions()
         {
             Config.ResetInfoEntries(Tree.GetWildTreeDataDictionary().Keys.ToArray());
             this.Helper.WriteConfig(Config);
-        }
-
-        private void SetupGenericConfigMenu()
-        {
-            var configMenu = this.Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-            if (configMenu is null) return;
-
-            configMenu.Register(
-                mod: this.ModManifest,
-                reset: () => Config = new ModConfig(),
-                save: () => this.Helper.WriteConfig(Config)
-            );
-
-            configMenu.AddParagraph(
-                mod: this.ModManifest,
-                text: () => "Stages:\n0 = seed\n1 = sprout\n2 = sapling\n3..4 = bush\n5..13 = tree\n14..15 = tree, can grow moss"
-            );
-
-            configMenu.AddBoolOption(
-                mod: this.ModManifest,
-                name: () => "Melee weapons destroy saplings",
-                getValue: () => Config.DoMeleeWeaponsDestroySeedlings,
-                setValue: value => Config.DoMeleeWeaponsDestroySeedlings = value
-            );
-
-            configMenu.AddNumberOption(
-                mod: this.ModManifest,
-                name: () => "Max passable growth stage",
-                getValue: () => Config.MaxPassableGrowthStage,
-                setValue: value => Config.MaxPassableGrowthStage = value,
-                min: -1,
-                max: 15
-            );
         }
 
 
