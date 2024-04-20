@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using StardewValley.TerrainFeatures;
 
 namespace Phrasefable.StardewMods.AggressiveAcorns
@@ -37,8 +38,8 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
         // ===============================================================================
         public string Info_INFO { get; private set; }
-        public Dictionary<object, object> GrowthStages_INFO { get; private set; }
-        public Dictionary<object, object> TreeTypes_INFO { get; private set; }
+        public Dictionary<string, object> GrowthStages_INFO { get; private set; }
+        public Dictionary<string, string> TreeTypes_INFO { get; private set; }
 
         // ===============================================================================
 
@@ -52,7 +53,7 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
         {
             this.Info_INFO = "All entries ending with '_INFO' will be reset each time the game is launched";
             this.ChanceGrowth_INFO = "'ChanceGrowth' will set the chance to grow for all trees, except those overriden in 'ChanceGrowth_Overrides'. 0 - 100 = 0% - 100%, set to -1 to not apply.";
-            this.GrowthStages_INFO = new Dictionary<object, object>
+            this.GrowthStages_INFO = new Dictionary<string, object>
             {
                  {"Description", "Stage ID (integer) - use in config options"},
                  {"Seed", Tree.seedStage},
@@ -72,21 +73,15 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
                 Tree.greenRainTreeBushy, Tree.greenRainTreeLeafy, Tree.greenRainTreeFern, Tree.mysticTree
             ];
 
-            this.TreeTypes_INFO = new Dictionary<object, object>
+            this.TreeTypes_INFO = new Dictionary<string, string>
             {
                 {"Tree type ID (string) - use in config options", ""},
-                {Tree.bushyTree, "Oak"},
-                {Tree.leafyTree, "Maple"},
-                {Tree.pineTree, "Pine"},
-                {Tree.palmTree, "Palm - Desert"},
-                {Tree.mushroomTree, "Mushroom"},
-                {Tree.mahoganyTree, "Mahogany"},
-                {Tree.palmTree2, "Palm - Ginger Is."},
-                {Tree.greenRainTreeBushy, "Green rain tree - transforms from Oak"},
-                {Tree.greenRainTreeLeafy, "Green rain tree - transforms from Maple"},
-                {Tree.greenRainTreeFern, "Green rain tree fern"},
-                {Tree.mysticTree, "Mystic"},
             };
+
+            foreach ((string key, string name) in  ModConfigUtils.TreeNames)
+            {
+                this.TreeTypes_INFO.Add(key, name);
+            }
 
             if (wildTreeKeys is not null)
             {
@@ -102,6 +97,22 @@ namespace Phrasefable.StardewMods.AggressiveAcorns
 
     public static class ModConfigUtils
     {
+        public static readonly ReadOnlyDictionary<string, string> TreeNames = new ReadOnlyDictionary<string, string>(
+            new Dictionary<string, string>
+            {
+                    {Tree.bushyTree, "Oak"},
+                    {Tree.leafyTree, "Maple"},
+                    {Tree.pineTree, "Pine"},
+                    {Tree.palmTree, "Desert Palm"},
+                    {Tree.mushroomTree, "Mushroom"},
+                    {Tree.mahoganyTree, "Mahogany"},
+                    {Tree.palmTree2, "Ginger Is. Palm"},
+                    {Tree.greenRainTreeBushy, "Green Rain Oak"},
+                    {Tree.greenRainTreeLeafy, "Green Rain Maple"},
+                    {Tree.greenRainTreeFern, "Green Rain Fern"},
+                    {Tree.mysticTree, "Mystic"},
+            }
+        );
 
         public static ModConfig GetVanillaDefaults()
         {
